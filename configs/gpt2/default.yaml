@@ -1,0 +1,99 @@
+defaults:
+  - _self_
+  - mode: pt
+  - task: 
+  - local_env: default
+
+# console
+port: 5678
+host: localhost
+
+# Experiment args
+device: gpu
+mixed_precision: 'bf16'
+eval_only: false
+predict_only: false
+seed: 42
+
+
+model:
+  name: openai-community/gpt2
+  hf_model: false
+  n_positions: 2048
+  ckpt_dir: ''
+  compile: true # Pytorch 2.0
+  set_lora: false
+  lora:
+    r: 16
+    alpha: 64
+    dropout: 0.03
+  set_kombo: false
+  kombo:
+    tok_type: jamo_var
+    lang: ko
+    vocab_size: 200
+    reducer: linear
+    hidden_dim: 768
+    kombo_max_length: 2048
+    do_combination: false
+    combination:
+      intermediate_size: 3072
+      num_attention_heads: 12
+      num_trans_layers: 3
+
+    add_lora: false
+    lora:
+      r: 16
+      alpha: 64
+      dropout: 0.03
+
+
+data:
+  language: ko
+  tok_type: morphemeSubword
+  vocab_size: 32k
+  raw_data_path: datasets/pretraining/concatenated.txt
+  train_data_path: datasets/pretraining/concatenated_doc.txt
+  split_by_doc: true
+  is_toyset: false
+  max_length: 512
+  num_workers: 4
+
+optim:
+  name: adamwscale
+  base_lr: 6e-4
+  batch_size: 128
+  total_steps: 1_000_000
+  epochs: -1            # If it's > 0 it overwrites total_steps
+  warmup_steps: 10_000
+  warmup_ratio: -1       # If it's > 0 it overwrites warmup_steps
+  lr_scheduler: cosine
+  weight_decay: 0.0
+  grad_clip: 1.0
+  grad_acc: 1
+  final_cosine: 1e-5
+
+eval:
+  eval_steps: 10_000 # Eval once in the end
+  steps: 500
+
+checkpoint:
+  save_steps: 50_000 # Save checkpoint once in the end (= 100000)
+  max_number: 3
+
+logging:
+#  neptune: false
+#  neptune_creds:
+#    project:
+#    api_token:
+#    tags: ''
+  log_steps: 100
+  grad_l2: true
+  weights_l2: true
+  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/pretraining/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
+  tb_dir: ${logging.log_dir}/tb
+  save_dir: ${logging.log_dir}/ckpt
+
+hydra:
+  job:
+    chdir: True

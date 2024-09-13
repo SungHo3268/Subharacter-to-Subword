@@ -1,0 +1,25 @@
+# @package _global_
+
+mode: nlu_ft
+
+data:
+  num_labels:
+  tok_type: morphemeSubword
+  vocab_size: 32k
+  #preprocess
+  remain_lang: ko_en_punc
+  do_hangeulize: True
+  data_remove: True
+
+optim:
+  name: adamwscale
+  lr_scheduler: cosine
+  dropout_prob: 0.1
+  warmup_ratio: 0.1
+  warmup_steps: -1
+  total_steps: -1
+
+logging:
+  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
+  save_dir: ${logging.log_dir}/ckpt
+  tb_dir: ${logging.log_dir}/tb

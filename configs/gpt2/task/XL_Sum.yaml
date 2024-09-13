@@ -1,0 +1,23 @@
+# @package _global_
+
+data:
+  task_name: XL_Sum
+  max_length: 512
+
+model:
+  generation_config:
+    max_length: 512
+    max_new_tokens: 128
+
+optim:
+  epochs: 5
+  train_batch_size: 16
+  grad_acc: 4
+  eval_batch_size: 16
+  base_lr: 1e-04
+  dropout_prob: 0.1
+  warmup_ratio: 0.1
+
+logging:
+  log_steps: 15
+

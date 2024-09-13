@@ -1,0 +1,17 @@
+# @package _global_
+
+data:
+  task_name: NSMC
+  max_length: 128
+
+optim:
+  epochs: 5
+  batch_size: 64
+  grad_acc: 4
+  base_lr: 5e-05
+  dropout_prob: 0.1
+  warmup_ratio: 0.1
+
+logging:
+  log_steps: 100
+

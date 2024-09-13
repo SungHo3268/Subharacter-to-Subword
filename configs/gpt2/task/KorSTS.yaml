@@ -1,0 +1,15 @@
+# @package _global_
+
+data:
+  task_name: KorSTS
+  max_length: 128
+
+optim:
+  epochs: 15
+  batch_size: 64
+  grad_acc: 8
+  base_lr: 5e-05
+
+logging:
+  log_steps: 15
+

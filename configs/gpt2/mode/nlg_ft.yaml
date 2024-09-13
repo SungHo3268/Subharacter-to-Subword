@@ -1,0 +1,32 @@
+# @package _global_
+
+mode: nlg_ft
+
+data:
+  tok_type: morphemeSubword
+  vocab_size: 32k
+
+model:
+  generation_config:
+    max_length: 128
+    repetition_penalty: 1.0
+#    no_repeat_ngram_size: 3
+    max_new_tokens:
+    pad_token_id:
+    bos_token_id:
+    eos_token_id:
+
+optim:
+  name: adamwscale
+  lr_scheduler: cosine
+  dropout_prob: 0.1
+  warmup_ratio: 0.1
+  warmup_steps: -1
+  total_steps: -1
+  train_batch_size: 64
+  eval_batch_size: 1
+
+logging:
+  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlg_tasks/${data.task_name}/${model.generation_config.max_length}t_${model.generation_config.max_new_tokens}nt_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
+  save_dir: ${logging.log_dir}/ckpt
+  tb_dir: ${logging.log_dir}/tb

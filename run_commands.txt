@@ -1,0 +1,61 @@
+##########################################
+#               NLU Tasks
+##########################################
+"""
+[ max_length ]: data.max_length 로 max_length 조절
+- morphemeSubword: 256
+- char: 512
+- jamo_var: 1024
+
+[ epochs ]: optim.epochs 로 epochs 조절
+- 5 epochs for { NSMC, KorNLI, PAWS_X }
+- 15 epochs for { KorSTS }
+"""
+CUDA_VISIBLE_DEVICES=3 python nlu_tasks/scripts/run_finetuning.py mode=nlu_ft task=NSMC \
+data.tok_type=jamo_var data.vocab_size=200 optim.grad_acc=1 \
+model.ckpt_dir=logs/jamo_var_ko_200/pretraining/256t_128b_1s_0.0006lr_42rs/ckpt/checkpoint-1000000 \
+model.n_positions=2048 optim.base_lr=1e-04 data.max_length=1024
+
+
+
+##########################################
+#               NLG Tasks
+##########################################
+"""
+[ max_length ]: model.generation_config.max_length 로 max_length 조절
+[ max_new_tokens ]: model.generation_config.max_new_tokens 로 max_new_tokens 조절
+
+            total length = max_length + max_new_tokens
+
+- morphemeSubword: 32, 64
+- char: 64, 128
+- jamo_var: 128, 256
+"""
+
+
+CUDA_VISIBLE_DEVICES=2 python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=KoCommonGen \
+data.tok_type=jamo_var data.vocab_size=200 optim.grad_acc=1 \
+model.ckpt_dir=logs/jamo_var_ko_200/pretraining/256t_128b_1s_0.0006lr_42rs/ckpt/checkpoint-1000000 model.n_positions=2048 \
+optim.base_lr=1e-04 optim.epochs=15 optim.grad_acc=2 \
+model.generation_config.max_length=128 model.generation_config.max_new_tokens=256
+
+
+CUDA_VISIBLE_DEVICES=3 python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=XL_Sum \
+data.tok_type=morphemeSubword data.vocab_size=32k optim.grad_acc=4 \
+model.ckpt_dir=logs/morphemeSubword_ko_32k/pretraining/256t_128b_1s_0.0006lr_42rs/ckpt/checkpoint-1000000 model.n_positions=2048 \
+optim.base_lr=1e-04 optim.epochs=10 optim.grad_acc=8 \
+model.generation_config.max_length=1536 model.generation_config.max_new_tokens=128
+
+
+
+
+CUDA_VISIBLE_DEVICES=4 python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=KoCommonGen \
+model.hf_model=True model.name=skt/kogpt2-base-v2 \
+optim.base_lr=1e-04 optim.epochs=15 optim.grad_acc=1 \
+model.generation_config.max_length=32 model.generation_config.max_new_tokens=64
+
+
+
+
+
+

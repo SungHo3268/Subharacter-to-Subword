@@ -1,0 +1,14 @@
+# @package _global_
+
+mode: pt
+
+data:
+  tok_type: morphemeSubword
+  vocab_size: 32k
+  raw_data_path: datasets/pretraining/concatenated.txt
+  train_data_path: datasets/pretraining/concatenated_doc.txt
+  max_length: 128
+
+optim:
+  batch_size: 128
+  grad_acc: 1
