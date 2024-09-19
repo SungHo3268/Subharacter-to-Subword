@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_sequence
-# from transformers.models.gpt2.modeling_gpt2 import GPT2Block
+from transformers.models.gpt2.modeling_gpt2 import GPT2Block
 sys.path.append(os.getcwd())
 from srcs.functions import trim_pad
 from srcs.lora import LoRA_Config, LoRA_Layer, apply_lora_to_model
@@ -15,7 +15,7 @@ from srcs.lora import LoRA_Config, LoRA_Layer, apply_lora_to_model
 
 class KOMBO_Config:
     def __init__(self, tok_type, reducer, hidden_dim, kombo_max_length, max_length,
-                 do_combination, num_attention_heads, intermediate_size, num_trans_layers,
+                 do_combination, combination_type, trans_config, num_attention_heads, intermediate_size, num_trans_layers,
                  add_lora=False, lora_config: LoRA_Config=None):
         self.tok_type = tok_type
         self.reducer = reducer
@@ -24,6 +24,8 @@ class KOMBO_Config:
         self.max_length = max_length
 
         self.do_combination = do_combination
+        self.combination_type = combination_type
+        self.trans_config = trans_config
         self.num_attention_heads = num_attention_heads
         self.intermediate_size = intermediate_size
         self.num_trans_layers = num_trans_layers
@@ -73,15 +75,29 @@ class KOMBO_Combination_Layer(nn.Module):
                                             embedding_dim=config.hidden_dim)
 
         if config.do_combination:
-            self.contextualization = nn.Sequential(
-                # *nn.ModuleList([GPT2Block(config, layer_idx=i) for i in range(config.num_trans_layers)]),
-                nn.GRU(
-                    input_size=config.hidden_dim,
-                    hidden_size=config.hidden_dim,
-                    num_layers=1,
-                    batch_first=True,
+            if config.combination_type == 'gru':
+                self.contextualization = nn.Sequential(
+                    # *nn.ModuleList([GPT2Block(config, layer_idx=i) for i in range(config.num_trans_layers)]),
+                    nn.GRU(
+                        input_size=config.hidden_dim,
+                        hidden_size=config.hidden_dim,
+                        num_layers=1,
+                        batch_first=True,
+                    )
                 )
-            )
+            elif config.combination_type == 'trans_gru':
+                self.contextualization = nn.Sequential(
+                    *nn.ModuleList([GPT2Block(config.trans_config, layer_idx=i) for i in range(config.num_trans_layers)]),
+                    nn.GRU(
+                        input_size=config.hidden_dim,
+                        hidden_size=config.hidden_dim,
+                        num_layers=1,
+                        batch_first=True,
+                    )
+                )
+            else:
+                raise NotImplementedError
+
             self.add_jongsung = nn.Sequential(
                 Rearrange('b l n d -> b d l n'),
                 nn.Conv2d(
@@ -121,10 +137,18 @@ class KOMBO_Combination_Layer(nn.Module):
             self.init_reducer()
 
     def init_combination_layer(self):
-        self.contextualization[0].weight_hh_l0.data.normal_(mean=0.0, std=0.02)
-        self.contextualization[0].weight_ih_l0.data.normal_(mean=0.0, std=0.02)
-        self.contextualization[0].bias_hh_l0.data.zero_()
-        self.contextualization[0].bias_ih_l0.data.zero_()
+        if self.config.combination_type == 'gru':
+            self.contextualization[0].weight_hh_l0.data.normal_(mean=0.0, std=0.02)
+            self.contextualization[0].weight_ih_l0.data.normal_(mean=0.0, std=0.02)
+            self.contextualization[0].bias_hh_l0.data.zero_()
+            self.contextualization[0].bias_ih_l0.data.zero_()
+        elif self.config.combination_type == 'trans_gru':
+            self.contextualization[1].weight_hh_l0.data.normal_(mean=0.0, std=0.02)
+            self.contextualization[1].weight_ih_l0.data.normal_(mean=0.0, std=0.02)
+            self.contextualization[1].bias_hh_l0.data.zero_()
+            self.contextualization[1].bias_ih_l0.data.zero_()
+        else:
+            raise NotImplementedError
         self.add_jongsung[1].weight.data.normal_(mean=0.0, std=0.02)
         self.add_jongsung[1].bias.data.zero_()
         self.get_org_shape_emb.weight_hh_l0.data.normal_(mean=0.0, std=0.02)
@@ -188,7 +212,7 @@ class KOMBO_Combination_Layer(nn.Module):
             # print(f"5) cho_joong_inputs.shape: {cho_joong_inputs.shape}")
             jong_inputs = torch.sum(kombo_embedding[:, :, -self.jong_len:], dim=2, keepdim=True)        # (B, N_char, 2, D)
             # print(f"6) jong_inputs.shape: {jong_inputs.shape}")
-            kombo_embedding = torch.concat([jong_inputs, jong_inputs], dim=2)               # (B, N_char, 2, D)
+            kombo_embedding = torch.concat([cho_joong_inputs, jong_inputs], dim=2)               # (B, N_char, 2, D)
             # print(f"7) kombo_embedding.shape: {kombo_embedding.shape}")             # (B, N_char, 2, D)
             """
             3) Addition of Jongsung (Rearrange & Conv)
@@ -242,7 +266,7 @@ class KOMBO_Combination_Layer(nn.Module):
             ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
             # print(f"11) kombo_embedding.shape: {kombo_embedding.shape}")
         else:
-            kombo_embedding = self.sequence_reducer(kombo_embedding)    # (B, max_length, D)
+            kombo_embedding = self.sequence_reducer(kombo_embedding)        # (B, max_length, D)
 
         return kombo_embedding
 
@@ -298,8 +322,8 @@ class KOMBO_LoRA_Layer(nn.Module):
 
         text_input = self.tokenizer.batch_decode(x, skip_special_tokens=True)
 
-        kombo_x = self.make_kombo_input(text_input, device)
-        kombo_embedding = self.kombo_combination(kombo_x, text_input)
+        kombo_x = self.make_kombo_input(text_input, device)                 # (B, N(=max_kombo_length), D)
+        kombo_embedding = self.kombo_combination(kombo_x, text_input)       # (B, N(=max_length), D)
 
         if self.config.add_lora:
             # Apply dropout before the matrix multiplication
@@ -403,7 +427,7 @@ def make_only_kombo_and_lora_as_trainable(model, weight: str = 'none', bias: str
 
 
 if __name__ == "__main__":
-    from transformers import AutoTokenizer, GPT2LMHeadModel
+    from transformers import AutoConfig, AutoTokenizer, GPT2LMHeadModel
     import os
     import sys
     sys.path.append(os.getcwd())
@@ -426,6 +450,9 @@ if __name__ == "__main__":
     origin_num = sum(p.numel() for p in model.parameters())
     print("Original number of parameters:", origin_num)
 
+    # Configuration for Transformer
+    trans_config = AutoConfig.from_pretrained(model_name)
+
     # Configuration for LoRA
     lora_config = LoRA_Config(
         r=16,
@@ -440,13 +467,14 @@ if __name__ == "__main__":
         kombo_max_length=kombo_max_length,
         max_length=256,
         do_combination=True,
+        combination_type='gru',
+        trans_config=trans_config,
         num_attention_heads=3,
         intermediate_size=3072,
         num_trans_layers=3,
         add_lora=True,
         lora_config=lora_config
     )
-
 
     # Apply LoRA to the model
     model = apply_kombo_to_model(model, tokenizer, kombo_tokenizer, kombo_config)

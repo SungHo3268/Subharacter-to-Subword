@@ -114,6 +114,12 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             target_modules = ['c_attn', 'c_proj']
         else:
             raise NotImplementedError
+
+        if 'trans' in args.model.kombo.combination.combination_type:
+            trans_config = config
+        else:
+            trans_config = None
+
         lora_config = LoRA_Config(
             r=args.model.kombo.lora.r,
             lora_alpha=args.model.kombo.lora.alpha,
@@ -127,6 +133,8 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             kombo_max_length=args.model.kombo.kombo_max_length,
             max_length=args.data.max_length,
             do_combination=args.model.kombo.do_combination,
+            combination_type=args.model.kombo.combination.combination_type,
+            trans_config=trans_config,
             num_attention_heads=args.model.kombo.combination.num_attention_heads,
             intermediate_size=args.model.kombo.combination.intermediate_size,
             num_trans_layers=args.model.kombo.combination.num_trans_layers,

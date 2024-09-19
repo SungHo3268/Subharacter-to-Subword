@@ -37,6 +37,7 @@ model:
     kombo_max_length: 2048
     do_combination: false
     combination:
+      combination_type: 'gru'
       intermediate_size: 3072
       num_attention_heads: 12
       num_trans_layers: 3
