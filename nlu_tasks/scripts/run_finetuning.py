@@ -279,7 +279,6 @@ def main(args):
     if args.model.set_kombo:
         logger.info(f"KOMBO Configuration")
         logger.info(f"ㄴ tok_type             : {args.model.kombo.tok_type}")
-        logger.info(f"ㄴ reducer              : {args.model.kombo.reducer}")
         logger.info(f"ㄴ hidden_dim           : {args.model.kombo.hidden_dim}")
         logger.info(f"ㄴ kombo_max_length     : {args.model.kombo.kombo_max_length}")
         logger.info(f"ㄴ do_combination       : {args.model.kombo.do_combination}")
@@ -288,11 +287,13 @@ def main(args):
             logger.info(f"  ㄴ intermediate_size  : {args.model.kombo.combination.intermediate_size}")
             logger.info(f"  ㄴ num_trans_layers   : {args.model.kombo.combination.num_trans_layers}")
             logger.info(f"  ㄴ add_lora           : {args.model.kombo.add_lora}")
-            if args.model.kombo.add_lora:
-                logger.info(f"    ㄴ LoRA in KOMBO Configuration")
-                logger.info(f"    ㄴ r                : {args.model.kombo.lora.r}")
-                logger.info(f"    ㄴ alpha            : {args.model.kombo.lora.alpha}")
-                logger.info(f"    ㄴ dropout          : {args.model.kombo.lora.dropout}\n")
+        else:
+            logger.info(f"ㄴ reducer              : {args.model.kombo.reducer}")
+        if args.model.kombo.add_lora:
+            logger.info(f"    ㄴ LoRA in KOMBO Configuration")
+            logger.info(f"    ㄴ r                : {args.model.kombo.lora.r}")
+            logger.info(f"    ㄴ alpha            : {args.model.kombo.lora.alpha}")
+            logger.info(f"    ㄴ dropout          : {args.model.kombo.lora.dropout}\n")
     logger.info('\n')
     if args.model.ckpt_dir:
         logger.info(f"ckpt dir                : {args.model.ckpt_dir}")

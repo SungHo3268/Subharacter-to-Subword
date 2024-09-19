@@ -129,7 +129,8 @@ class KOMBO_Combination_Layer(nn.Module):
                 self.sequence_reducer = nn.Sequential(
                     Rearrange('b s d -> b d s'),
                     nn.Linear(config.kombo_max_length, config.max_length),
-                    Rearrange('b d s -> b s d')
+                    Rearrange('b d s -> b s d'),
+                    nn.LayerNorm(config.hidden_dim)
                 )
             else:
                 raise NotImplementedError
@@ -137,6 +138,7 @@ class KOMBO_Combination_Layer(nn.Module):
             self.init_reducer()
 
     def init_combination_layer(self):
+        print("Init combination layer")
         if self.config.combination_type == 'gru':
             self.contextualization[0].weight_hh_l0.data.normal_(mean=0.0, std=0.02)
             self.contextualization[0].weight_ih_l0.data.normal_(mean=0.0, std=0.02)
@@ -157,8 +159,9 @@ class KOMBO_Combination_Layer(nn.Module):
         self.get_org_shape_emb.bias_ih_l0.data.zero_()
 
     def init_reducer(self):
+        print("Init reducer")
         if self.config.reducer == 'linear':
-            torch.nn.init.kaiming_uniform_(self.sequence_reducer[1].weight.data)
+            self.sequence_reducer[1].weight.data.normal_(mean=0.0, std=0.02)
             self.sequence_reducer[1].bias.data.zero_()
         else:
             raise NotImplementedError
@@ -324,7 +327,7 @@ class KOMBO_LoRA_Layer(nn.Module):
 
         kombo_x = self.make_kombo_input(text_input, device)                 # (B, N(=max_kombo_length), D)
         kombo_embedding = self.kombo_combination(kombo_x, text_input)       # (B, N(=max_length), D)
-
+        
         if self.config.add_lora:
             # Apply dropout before the matrix multiplication
             A_dropout = self.dropout(self.kombo_lora_A)

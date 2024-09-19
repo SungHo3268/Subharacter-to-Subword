@@ -44,8 +44,8 @@ model:
 
     add_lora: false
     lora:
-      r: 16
-      alpha: 64
+      r: 32
+      alpha: 128
       dropout: 0.03
 
 
