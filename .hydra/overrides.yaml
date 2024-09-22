@@ -1,0 +1,14 @@
+- mode=nlu_ft
+- task=KorNLI
+- optim.grad_acc=2
+- model.hf_model=True
+- model.name=skt/kogpt2-base-v2
+- optim.base_lr=1e-02
+- data.max_length=256
+- model.set_lora=true
+- model.lora.r=32
+- model.lora.alpha=128
+- model.set_kombo=true
+- model.kombo.do_combination=false
+- model.kombo.reducer=linear
+- model.kombo.add_lora=true

@@ -24,7 +24,7 @@ When the two sentences are given, the task assesses the gradations of semantic s
 
 def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
     task_name = 'KorSTS'
-    data_dir = f"datasets/nlu_tasks/{task_name}/"
+    data_dir = f"/data3/user21/KOMBO/datasets/nlu_tasks/{task_name}/"
     if do_hangeulize:
         data_path = os.path.join(data_dir, f'processed_data_{remain_lang}_hangeulized.json')
     else:

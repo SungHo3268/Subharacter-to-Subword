@@ -1,33 +1,22 @@
-defaults:
-  - _self_
-  - mode: pt
-  - task: 
-  - local_env: default
-
-# console
 port: 5678
 host: localhost
-
-# Experiment args
 device: gpu
-mixed_precision: 'bf16'
+mixed_precision: bf16
 eval_only: false
 predict_only: false
 seed: 42
-
-
 model:
-  name: openai-community/gpt2
-  hf_model: false
+  name: skt/kogpt2-base-v2
+  hf_model: true
   n_positions: 2048
   ckpt_dir: ''
-  compile: true # Pytorch 2.0
-  set_lora: false
+  compile: true
+  set_lora: true
   lora:
-    r: 16
-    alpha: 64
+    r: 32
+    alpha: 128
     dropout: 0.03
-  set_kombo: false
+  set_kombo: true
   kombo:
     tok_type: jamo_var
     lang: ko
@@ -40,14 +29,11 @@ model:
       intermediate_size: 3072
       num_attention_heads: 12
       num_trans_layers: 3
-
-    add_lora: false
+    add_lora: true
     lora:
       r: 16
       alpha: 64
       dropout: 0.03
-
-
 data:
   language: ko
   tok_type: morphemeSubword
@@ -56,44 +42,38 @@ data:
   train_data_path: /data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt
   split_by_doc: true
   is_toyset: false
-  max_length: 512
+  max_length: 256
   num_workers: 4
-
+  num_labels: null
+  remain_lang: ko_en_punc
+  do_hangeulize: true
+  data_remove: true
+  task_name: KorNLI
 optim:
   name: adamwscale
-  base_lr: 6e-4
-  batch_size: 128
-  total_steps: 1_000_000
-  epochs: -1            # If it's > 0 it overwrites total_steps
-  warmup_steps: 10_000
-  warmup_ratio: -1       # If it's > 0 it overwrites warmup_steps
+  base_lr: 0.01
+  batch_size: 64
+  total_steps: -1
+  epochs: 3
+  warmup_steps: -1
+  warmup_ratio: 0.1
   lr_scheduler: cosine
   weight_decay: 0.0
   grad_clip: 1.0
-  grad_acc: 1
-  final_cosine: 1e-5
-
+  grad_acc: 2
+  final_cosine: 1.0e-05
+  dropout_prob: 0.1
 eval:
-  eval_steps: 10_000 # Eval once in the end
+  eval_steps: 10000
   steps: 500
-
 checkpoint:
-  save_steps: 50_000 # Save checkpoint once in the end (= 100000)
+  save_steps: 50000
   max_number: 3
-
 logging:
-#  neptune: false
-#  neptune_creds:
-#    project:
-#    api_token:
-#    tags: ''
-  log_steps: 100
+  log_steps: 400
   grad_l2: true
   weights_l2: true
-  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/pretraining/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
+  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
   tb_dir: ${logging.log_dir}/tb
   save_dir: ${logging.log_dir}/ckpt
-
-hydra:
-  job:
-    chdir: True
+mode: nlu_ft
