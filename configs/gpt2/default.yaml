@@ -31,7 +31,7 @@ model:
   kombo:
     tok_type: jamo_var
     lang: ko
-    vocab_size: 200
+#    vocab_size: 200
     reducer: linear
     hidden_dim: 768
     kombo_max_length: 2048
