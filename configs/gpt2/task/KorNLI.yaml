@@ -5,7 +5,7 @@ data:
   max_length: 128
 
 optim:
-  epochs: 3
+  epochs: 5
   batch_size: 64
   grad_acc: 4
   base_lr: 1e-04

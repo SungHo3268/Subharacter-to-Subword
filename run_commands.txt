@@ -48,7 +48,6 @@ model.generation_config.max_length=1536 model.generation_config.max_new_tokens=1
 
 
 
-
 CUDA_VISIBLE_DEVICES=4 python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=KoCommonGen \
 model.hf_model=True model.name=skt/kogpt2-base-v2 \
 optim.base_lr=1e-04 optim.epochs=15 optim.grad_acc=1 \
@@ -56,6 +55,10 @@ model.generation_config.max_length=32 model.generation_config.max_new_tokens=64
 
 
 
-
-
-
+CUDA_VISIBLE_DEVICES=3 python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=KoCommonGen \
+model.hf_model=True model.name=skt/kogpt2-base-v2 \
+optim.base_lr=1e-04 optim.epochs=15 optim.grad_acc=1 \
+model.generation_config.max_length=32 model.generation_config.max_new_tokens=64 \
+data.max_length=256 model.set_lora=true model.lora.r=32 model.lora.alpha=128 \
+model.set_kombo=true model.kombo.do_combination=true model.kombo.combination.combination_type=gru \
+model.kombo.kombo_max_length=2048 model.kombo.add_lora=true model.kombo.lora.r=32 model.kombo.lora.alpha=128

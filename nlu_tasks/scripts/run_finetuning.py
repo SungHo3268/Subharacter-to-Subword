@@ -14,6 +14,7 @@ from srcs.gpt2_utils import text_tokenization_for_classification
 from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
+# from srcs.kombo_hidden import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config, CustomGPT2ForSequenceClassification
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -65,6 +66,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         config = AutoConfig.from_pretrained(args.model.name,
                                             num_labels=args.data.num_labels)
         model = GPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
+        # model = CustomGPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
     else:
         config = AutoConfig.from_pretrained(
             args.model.name,
@@ -93,6 +95,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         #TODO: Add the loading function for fine-tuned model, not pre-trained model
 
     if args.model.set_lora:
+        #TODO: Add other models for LoRA (e.g., Llamma-3)
         if 'gpt2' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
         else:
@@ -114,6 +117,12 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             target_modules = ['c_attn', 'c_proj']
         else:
             raise NotImplementedError
+
+        if 'trans' in args.model.kombo.combination.combination_type:
+            trans_config = config
+        else:
+            trans_config = None
+
         lora_config = LoRA_Config(
             r=args.model.kombo.lora.r,
             lora_alpha=args.model.kombo.lora.alpha,
@@ -127,32 +136,37 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             kombo_max_length=args.model.kombo.kombo_max_length,
             max_length=args.data.max_length,
             do_combination=args.model.kombo.do_combination,
+            combination_type=args.model.kombo.combination.combination_type,
+            trans_config=trans_config,
             num_attention_heads=args.model.kombo.combination.num_attention_heads,
             intermediate_size=args.model.kombo.combination.intermediate_size,
             num_trans_layers=args.model.kombo.combination.num_trans_layers,
             add_lora=args.model.kombo.add_lora,
             lora_config=lora_config
         )
+        if args.model.kombo.tok_type == "same":
+            kombo_tokenizer = tokenizer
+            args.model.kombo.kombo_max_length = args.data.max_length
+        else:
+            kombo_tokenizer = get_gpt2_tokenizer(
+                tok_type=args.model.kombo.tok_type,
+                lang=args.model.kombo.lang,
+                max_length=args.model.kombo.kombo_max_length,
+                lowercase=True,
+                clean_text=True,
+                add_bos_token=False,
+                bos_token='<|endoftext|>',
+                eos_token='<|endoftext|>',
+                unk_token='<unk>',
+                pad_token='<|endoftext|>',
+            )
+            if (hasattr(kombo_tokenizer, "trunc_num") and
+                    args.model.kombo.tok_type in ["jamo_var", "stroke_var", "cji_var", "bts_var"] and
+                    args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num != 0):
+                args.model.kombo.kombo_max_length = args.model.kombo.kombo_max_length - (args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num)
+                kombo_tokenizer.max_length = args.model.kombo.kombo_max_length
 
-        kombo_tokenizer = get_gpt2_tokenizer(
-            tok_type=args.model.kombo.tok_type,
-            lang=args.model.kombo.lang,
-            max_length=args.model.kombo.kombo_max_length,
-            lowercase=True,
-            clean_text=True,
-            add_bos_token=False,
-            bos_token='<|endoftext|>',
-            eos_token='<|endoftext|>',
-            unk_token='<unk>',
-            pad_token='<|endoftext|>',
-        )
-        if (hasattr(kombo_tokenizer, "trunc_num") and
-                args.model.kombo.tok_type in ["jamo_var", "stroke_var", "cji_var", "bts_var"] and
-                args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num != 0):
-            args.model.kombo.kombo_max_length = args.model.kombo.kombo_max_length - (args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num)
-            kombo_tokenizer.max_length = args.model.kombo.kombo_max_length
-
-            logger.info(f"Change the max_length to {args.model.kombo.kombo_max_length} for the kombo_tokenizer's truncation.")
+                logger.info(f"Change the max_length to {args.model.kombo.kombo_max_length} for the kombo_tokenizer's truncation.")
 
         model = apply_kombo_to_model(model, tokenizer, kombo_tokenizer, kombo_config, logger)
         make_only_kombo_and_lora_as_trainable(model, weight='kombo_lora_only', bias='kombo_lora_only')
@@ -163,7 +177,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name}/nlu_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 
@@ -271,7 +285,6 @@ def main(args):
     if args.model.set_kombo:
         logger.info(f"KOMBO Configuration")
         logger.info(f"ㄴ tok_type             : {args.model.kombo.tok_type}")
-        logger.info(f"ㄴ reducer              : {args.model.kombo.reducer}")
         logger.info(f"ㄴ hidden_dim           : {args.model.kombo.hidden_dim}")
         logger.info(f"ㄴ kombo_max_length     : {args.model.kombo.kombo_max_length}")
         logger.info(f"ㄴ do_combination       : {args.model.kombo.do_combination}")
@@ -279,19 +292,21 @@ def main(args):
             logger.info(f"  ㄴ num_attn_heads     : {args.model.kombo.combination.num_attention_heads}")
             logger.info(f"  ㄴ intermediate_size  : {args.model.kombo.combination.intermediate_size}")
             logger.info(f"  ㄴ num_trans_layers   : {args.model.kombo.combination.num_trans_layers}")
-            logger.info(f"  ㄴ add_lora           : {args.model.kombo.add_lora}")
-            if args.model.kombo.add_lora:
-                logger.info(f"    ㄴ LoRA in KOMBO Configuration")
-                logger.info(f"    ㄴ r                : {args.model.kombo.lora.r}")
-                logger.info(f"    ㄴ alpha            : {args.model.kombo.lora.alpha}")
-                logger.info(f"    ㄴ dropout          : {args.model.kombo.lora.dropout}\n")
+            logger.info(f"  ㄴ add_lora           : {args.model.kombo.add_lora}\n")
+        else:
+            logger.info(f"ㄴ reducer              : {args.model.kombo.reducer}\n")
+        if args.model.kombo.add_lora:
+            logger.info(f"LoRA in KOMBO Configuration")
+            logger.info(f"ㄴ r                : {args.model.kombo.lora.r}")
+            logger.info(f"ㄴ alpha            : {args.model.kombo.lora.alpha}")
+            logger.info(f"ㄴ dropout          : {args.model.kombo.lora.dropout}\n")
     logger.info('\n')
     if args.model.ckpt_dir:
-        logger.info(f"ckpt dir                : {args.model.ckpt_dir}")
-    logger.info(f"* log dir               : {args.logging.log_dir}")
-    logger.info(f"* save dir              : {args.logging.save_dir}")
-    logger.info(f"* tb dir                : {args.logging.tb_dir}")
-    logger.info(f"* tb interval           : {args.logging.log_steps}\n")
+        logger.info(f"ckpt dir        : {args.model.ckpt_dir}")
+    logger.info(f"* log dir       : {args.logging.log_dir}")
+    logger.info(f"* save dir      : {args.logging.save_dir}")
+    logger.info(f"* tb dir        : {args.logging.tb_dir}")
+    logger.info(f"* tb interval   : {args.logging.log_steps}\n")
 
 
     # Run training
