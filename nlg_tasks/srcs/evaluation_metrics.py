@@ -40,14 +40,14 @@ def coverage_score(preds, concept_sets, tokenizer):
         for token in tokenizer(p):
             lemmas.add(token)
         cov = len(lemmas & cs) / len(cs)
-        data['coverage'].append(cov)
         covs.append(cov)
+    data['coverage'].extend(covs)
     return sum(covs) / len(covs)
 
 
 def scoring(preds, concept_sets, tokenizer):
     Coverage = coverage_score(preds, concept_sets, tokenizer)
-    print(f"System level Concept Coverage: {Coverage * 100:.2f}")
+    # print(f"System level Concept Coverage: {Coverage * 100:.2f}")
 
 
 def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: List[str]):
