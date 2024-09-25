@@ -119,7 +119,7 @@ def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens,
         context = [', '.join(line.split('#')) for line in batch['morpheme_set']]
         target = batch['target']
         if mode == 'test':
-            target = [line[0] for line in target]
+            target = [' = '.join(line) for line in target]
         sep_ids = tokenizer('. ')['input_ids']
     elif task_name == 'XL_Sum':
         context = batch['text']

@@ -16,6 +16,9 @@ from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, a
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
 
 
+import transformers
+transformers.logging.set_verbosity_warning()
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def get_nlg_dataloader(args, tokenizer, logger):
@@ -30,6 +33,8 @@ def get_nlg_dataloader(args, tokenizer, logger):
 
     dataset = load_task_dataset()
     # dataset['train'] = {key: dataset['train'][key][:100] for key in dataset['train']}
+    # dataset['dev'] = {key: dataset['dev'][key][:100] for key in dataset['dev']}
+    # dataset['test'] = {key: dataset['test'][key][:100] for key in dataset['test']}
 
     total_dataloader = dict()
     for mode in ['train', 'dev', 'test']:
@@ -287,8 +292,8 @@ def main(args):
     logger.info(f"learning rate         : {args.optim.base_lr}")
     logger.info(f"max length            : {args.model.generation_config.max_length}")
     logger.info(f"max new tokens        : {args.model.generation_config.max_new_tokens}")
-    logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}\n")
-    # logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}\n")
+    # logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}\n")
+    logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}\n")
     if args.model.set_lora:
         logger.info(f"LoRA Configuration")
         logger.info(f"ㄴ r                    : {args.model.lora.r}")

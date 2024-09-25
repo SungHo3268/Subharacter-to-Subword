@@ -4,12 +4,15 @@ import time
 import evaluate
 import torch
 import torch.nn as nn
+from numpy.ma.extras import average
+from sympy.testing.tests.test_code_quality import message_eof
 from tqdm import tqdm
 from safetensors.torch import save_file
 from torch.utils.tensorboard import SummaryWriter
 
 sys.path.append(os.getcwd())
 from srcs.functions import BAR_FORMAT
+from nlg_tasks.srcs.evaluation_metrics import eval_main
 from utils.logging_utils import Averager
 
 
@@ -196,21 +199,34 @@ class GPT2NLGTrainer(nn.Module):
             averaged_stats = averager.average()     # it includes the reset status function
 
             self.logger.info(f"########################  {mode.upper()} REPORT #EP{self.current_epoch}  ########################")
-            messages = (f"Rouge2: {averaged_stats['rouge2'] * 100:.2f} [%]  |  "
-                        f"RougeL: {averaged_stats['rougeL'] * 100:.2f} [%]  |  "
-                        f"Evaluation Time: {averaged_stats['time']:.2f} [s]"
-                        )
+            messages = ""
+            for key in averaged_stats:
+                if key == 'time':
+                    messages += f"Evaluation Time: {averaged_stats[key]:.2f} [s]"
+                else:
+                    messages += f"{key.upper()}: {averaged_stats[key] * 100:.2f} [%]  |  "
+
+            # messages = (f"Rouge2: {averaged_stats['rouge2'] * 100:.2f} [%]  |  "
+            #             f"RougeL: {averaged_stats['rougeL'] * 100:.2f} [%]  |  "
+            #             f"Evaluation Time: {averaged_stats['time']:.2f} [s]"
+            #             )
 
             self.logger.info(messages)
             self.last_log = time.time()
 
-            self.tb_writer.add_scalar(f"{mode}_rouge2/step", averaged_stats['rouge2'], self.current_epoch)
-            self.tb_writer.add_scalar(f"{mode}_rougeL/step", averaged_stats['rougeL'], self.current_epoch)
-            self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats['time'], self.current_epoch)
-            self.tb_writer.flush()
-            
-            return {'rouge2': averaged_stats['rouge2'],
-                    'rougeL': averaged_stats['rougeL']}
+            for key in averaged_stats:
+                if key == 'time':
+                    self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats[key], self.current_epoch)
+                else:
+                    self.tb_writer.add_scalar(f"{mode}_{key}/step", averaged_stats[key], self.current_epoch)
+
+            # self.tb_writer.add_scalar(f"{mode}_rouge2/step", averaged_stats['rouge2'], self.current_epoch)
+            # self.tb_writer.add_scalar(f"{mode}_rougeL/step", averaged_stats['rougeL'], self.current_epoch)
+            # self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats['time'], self.current_epoch)
+            # self.tb_writer.flush()
+
+            averaged_stats.pop('time')
+            return averaged_stats
 
     def maybe_grad_clip_and_grad_calc(self, model):
         if self.hparams.optim.grad_clip > 0:
@@ -256,7 +272,7 @@ class GPT2NLGTrainer(nn.Module):
 
     def predict(self, eval_dataloader, mode):
         self.last_log = time.time()
-        metric = evaluate.load('rouge')
+        # metric = evaluate.load('rouge')
 
         def decode(preds):
             preds[preds == -100] = self.tokenizer.pad_token_id
@@ -266,14 +282,23 @@ class GPT2NLGTrainer(nn.Module):
             preds = [_pred.strip() for _pred in preds]
             return preds
 
+        preds_list = []
+        refs_list = []
+        concepts_list = []
         # for step, batch in enumerate(eval_dataloader):
         for batch in tqdm(eval_dataloader, desc=f"Evaluating {mode}...", bar_format=BAR_FORMAT):
+            given_text = self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True,
+                                                     clean_up_tokenization_spaces=True)
+            if self.hparams.data.task_name == 'KoCommonGen':
+                concepts = [[morph.strip() for morph in text.split(",")] for text in given_text]
+                concepts = ["#".join(text) for text in concepts]
+                concepts_list.extend(concepts)
+
             predictions = self.model.generate(
                 input_ids=batch['input_ids'],
                 attention_mask=batch['attention_mask'],
                 generation_config=self.model.generation_config,
             )
-            given_text = self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True, clean_up_tokenization_spaces=True)
             predictions = decode(predictions)
 
             only_predictions = []
@@ -299,32 +324,46 @@ class GPT2NLGTrainer(nn.Module):
                     raise NotImplementedError("This task is not supported. Please check the generation code in the predict function.")
 
                 only_predictions.append(only_pred)
+            preds_list.extend(only_predictions)
 
             references = decode(batch["labels"])
+            if self.hparams.data.task_name == 'KoCommonGen':
+                if mode == 'test':
+                    references = [ref.split(' = ') for ref in references]
 
-            for i in range(len(only_predictions)):
-                print("\n")
-                print(f"Prediction: {only_predictions[i]}")
-                if only_predictions[i] == '':
-                    print(f"Original_Prediction: {predictions[i]}")
-                    only_predictions[i] = predictions[i]
-                print(f"Reference: {references[i]}")
+            if type(references[0]) == str:
+                references = [[ref] for ref in references]
 
-            metric.add_batch(
-                predictions=only_predictions,
-                references=references,
-            )
+            refs_list.extend(references)
 
-        if not self.hparams.model.hf_model and self.hparams.data.tok_type in ['jamo_var', 'stroke_var', 'cji_var', 'bts_var']:
-            eval_metric = metric.compute(tokenizer=lambda x: [tok for tok in self.tokenizer.tokenize(x) if tok != self.tokenizer.custom_tokenizer.empty_jamo], use_stemmer=True, use_aggregator=False)
-        else:
-            eval_metric = metric.compute(tokenizer=lambda x: self.tokenizer.tokenize(x), use_stemmer=True, use_aggregator=False)
+
+            # metric.add_batch(
+            #     predictions=only_predictions,
+            #     references=references,
+            # )
+
+        # if not self.hparams.model.hf_model and self.hparams.data.tok_type in ['jamo_var', 'stroke_var', 'cji_var', 'bts_var']:
+        #     eval_metric = metric.compute(tokenizer=lambda x: [tok for tok in self.tokenizer.tokenize(x) if tok != self.tokenizer.custom_tokenizer.empty_jamo], use_stemmer=True, use_aggregator=False)
+        # else:
+        #     eval_metric = metric.compute(tokenizer=lambda x: self.tokenizer.tokenize(x), use_stemmer=True, use_aggregator=False)
+        # or
         # eval_metric = metric.compute(tokenizer=lambda x: x.split(), use_stemmer=True, use_aggregator=False)
-        rougeL = sum(eval_metric["rougeL"]) / len(eval_metric["rougeL"])
-        rouge2 = sum(eval_metric["rouge2"]) / len(eval_metric["rouge2"])
-        eval_stats = {"rougeL": rougeL,
-                      "rouge2": rouge2,
-                      "time": time.time() - self.last_log}
+        # rougeL = sum(eval_metric["rougeL"]) / len(eval_metric["rougeL"])
+        # rouge2 = sum(eval_metric["rouge2"]) / len(eval_metric["rouge2"])
+
+        # eval_stats = {"rougeL": rougeL,
+        #               "rouge2": rouge2,
+        #               "time": time.time() - self.last_log}
+
+        # print("")
+        # print(f"concepts_list[0]: {concepts_list[0]}")
+        # print(f"refs_list[0]: {refs_list[0]}")
+        # print(f"preds_list[0]: {preds_list[0]}")
+
+        results = eval_main(refs_list, preds_list, concepts_list)
+
+        eval_stats = results['total_avg']
+        eval_stats['time'] = time.time() - self.last_log
         return eval_stats
 
     def evaluation(self, eval_dataloader, mode='dev'):
