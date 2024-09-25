@@ -206,11 +206,6 @@ class GPT2NLGTrainer(nn.Module):
                 else:
                     messages += f"{key.upper()}: {averaged_stats[key] * 100:.2f} [%]  |  "
 
-            # messages = (f"Rouge2: {averaged_stats['rouge2'] * 100:.2f} [%]  |  "
-            #             f"RougeL: {averaged_stats['rougeL'] * 100:.2f} [%]  |  "
-            #             f"Evaluation Time: {averaged_stats['time']:.2f} [s]"
-            #             )
-
             self.logger.info(messages)
             self.last_log = time.time()
 
@@ -219,11 +214,6 @@ class GPT2NLGTrainer(nn.Module):
                     self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats[key], self.current_epoch)
                 else:
                     self.tb_writer.add_scalar(f"{mode}_{key}/step", averaged_stats[key], self.current_epoch)
-
-            # self.tb_writer.add_scalar(f"{mode}_rouge2/step", averaged_stats['rouge2'], self.current_epoch)
-            # self.tb_writer.add_scalar(f"{mode}_rougeL/step", averaged_stats['rougeL'], self.current_epoch)
-            # self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats['time'], self.current_epoch)
-            # self.tb_writer.flush()
 
             averaged_stats.pop('time')
             return averaged_stats
@@ -417,7 +407,8 @@ class GPT2NLGTrainer(nn.Module):
             dev_score = self.evaluation(self.dev_dataloader, mode='dev')
             test_score = self.evaluation(self.test_dataloader, mode='test')
 
-            if (sum(list(dev_score.values())) + sum(list(test_score.values()))) >= (sum(list(self.best_score['best_dev_score'].values())) + sum(list(self.best_score['best_test_score'].values()))):
+            # if (sum(list(dev_score.values())) + sum(list(test_score.values()))) >= (sum(list(self.best_score['best_dev_score'].values())) + sum(list(self.best_score['best_test_score'].values()))):
+            if sum(list(test_score.values())) >= sum(list(self.best_score['best_test_score'].values())):
                 self.logger.info(f"\nSave new Best Score (Epoch: {self.current_epoch})")
                 self.best_score['best_epoch'] = self.current_epoch
                 self.best_score['best_dev_score'] = dev_score
