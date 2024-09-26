@@ -57,7 +57,7 @@ def load_task_dataset():
 if __name__ == '__main__':
     dataset = load_task_dataset()
 
-    from scripts.run_pretraining import set_logger, get_gpt2_tokenizer
+    from pretraining.scripts.run_pretraining import get_gpt2_tokenizer
     tokenizer = get_gpt2_tokenizer(tok_type="morphemeSubword",
                                    lang="ko",
                                    max_length=512,
@@ -70,5 +70,8 @@ if __name__ == '__main__':
     text_lengths = [len(tokenizer.tokenize(text)) for text in tqdm(dataset['train']['text'])]
     summary_lengths = [len(tokenizer.tokenize(text)) for text in tqdm(dataset['train']['summary'])]
 
-    print(f"train data context mean length: {np.mean(text_lengths)}")
-    print(f"train data summary mean length: {np.mean(summary_lengths)}")
+    print(f"train data context mean length: {np.mean(text_lengths):.2f}")
+    print(f"train data summary mean length: {np.mean(summary_lengths):.2f}")
+
+    print(f"train data context max length: {np.max(text_lengths):.2f}")
+    print(f"train data summary max length: {np.max(summary_lengths):.2f}")

@@ -71,7 +71,7 @@ class KOMBO_Combination_Layer(nn.Module):
         else:
             pass
 
-        self.kombo_embedding = nn.Embedding(num_embeddings=kombo_tokenizer.vocab_size,
+        self.kombo_embedding = nn.Embedding(num_embeddings=len(kombo_tokenizer),
                                             embedding_dim=config.hidden_dim)
 
         if config.do_combination:

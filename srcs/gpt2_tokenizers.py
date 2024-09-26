@@ -122,10 +122,10 @@ class KoGPT2Tokenizer(PreTrainedTokenizer):
 
 
         self.special_tokens_encoder = {
-            self.pad_token: 0,
-            self.unk_token: 0,
-            self.bos_token: 0,
-            self.eos_token: 0,
+            self.pad_token: self.encoder[self.pad_token],
+            self.unk_token: self.encoder[self.unk_token],
+            self.bos_token: self.encoder[self.bos_token],
+            self.eos_token: self.encoder[self.eos_token],
         }
         self.special_tokens_decoder: Dict[str, int] = {
             v: k for k, v in self.special_tokens_encoder.items()
@@ -517,6 +517,33 @@ class KoGPT2Tokenizer(PreTrainedTokenizer):
         A simple chat template that ignores role information and just concatenates messages with EOS tokens.
         """
         return "{% for message in messages %}" "{{ message.content }}{{ eos_token }}" "{% endfor %}"
+
+    def add_special_tokens(self, added_token_dict: Dict):
+        if not added_token_dict:
+            return 0
+
+        added_tokens = 0
+        for key, value in added_token_dict.items():
+            assert key in self.SPECIAL_TOKENS_ATTRIBUTES
+            if key == "additional_special_tokens":
+                assert isinstance(value, (list, tuple)) and all(isinstance(t, str) for t in value)
+                added_tokens += self.add_tokens(value)
+            else:
+                assert isinstance(value, str)
+                added_tokens += self.add_tokens([value])
+            logger.info("Assigning %s to the %s key of the tokenizer", value, key)
+            setattr(self, key, value)
+
+        # From now on, custom code for adding special tokens
+        added_token = list(added_token_dict.values())[0]
+        added_token_id = len(self.encoder)
+
+        self.encoder[added_token] = added_token_id
+        self.decoder[added_token_id] = added_token
+        self.special_tokens_encoder.update({added_token: added_token_id})
+        self.special_tokens_decoder.update({added_token_id: added_token})
+
+        return added_tokens
 
 
 if __name__ == '__main__':

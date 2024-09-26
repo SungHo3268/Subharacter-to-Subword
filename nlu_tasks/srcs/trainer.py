@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 from scipy.stats import spearmanr
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from safetensors.torch import save_file
 from torch.utils.tensorboard import SummaryWriter
 
@@ -189,7 +189,7 @@ class GPT2NLUTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_loss/step", averaged_stats['loss'], self.current_train_step)
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_train_step)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_train_step)
             else:
                 raise NotImplementedError
@@ -220,7 +220,7 @@ class GPT2NLUTrainer(nn.Module):
 
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_epoch)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_epoch)
             else:
                 raise NotImplementedError
@@ -275,8 +275,10 @@ class GPT2NLUTrainer(nn.Module):
 
             if self.hparams.data.task_name == "KorSTS":
                 score = spearmanr(labels, predictions)[0]
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ"]:
                 score = accuracy_score(labels, predictions)
+            elif self.hparams.data.task_name == "KB_BoolQ":
+                score = f1_score(labels, predictions, average='macro')
             else:
                 raise NotImplementedError
 

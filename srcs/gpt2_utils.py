@@ -108,6 +108,21 @@ def text_tokenization_for_classification(doc, tokenizer, max_length):
     return trimmed_outputs
 
 
+def text_tokenization_for_mc(doc, tokenizer, max_length):
+    encoded_choices = [tokenizer(choice + ' ' + tokenizer.cls_token,
+                                 padding="max_length",
+                                 truncation=True,
+                                 max_length=max_length)['input_ids'] for choice in doc['choices']]
+    cls_token_location = [tokens.index(tokenizer.cls_token_id) for tokens in encoded_choices]
+
+    trimmed_outputs = {
+        'input_ids': np.array(encoded_choices),
+        'mc_token_ids': np.array(cls_token_location),
+        'label': np.array(doc["label"])
+    }
+    return trimmed_outputs
+
+
 def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens, task_name, mode):
     # if (tokenizer.custom_tokenizer.config.name in ["jamo_var_info", "bts_units_var_info"] and
     #         max_length % tokenizer.trunc_num != 0 and
