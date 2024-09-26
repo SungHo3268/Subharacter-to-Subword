@@ -1,5 +1,5 @@
 - mode=nlu_ft
-- task=KorNLI
+- task=KorSTS
 - optim.grad_acc=2
 - model.hf_model=True
 - model.name=skt/kogpt2-base-v2
@@ -8,7 +8,6 @@
 - model.set_lora=true
 - model.lora.r=32
 - model.lora.alpha=128
-- model.set_kombo=true
+- model.set_kombo=false
 - model.kombo.do_combination=false
-- model.kombo.reducer=linear
-- model.kombo.add_lora=true
+- model.kombo.add_lora=false
