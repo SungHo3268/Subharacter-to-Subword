@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from future.utils.surrogateescape import encoded
 from tqdm import tqdm
 
 
@@ -109,16 +110,26 @@ def text_tokenization_for_classification(doc, tokenizer, max_length):
 
 
 def text_tokenization_for_mc(doc, tokenizer, max_length):
-    encoded_choices = [tokenizer(choice + ' ' + tokenizer.cls_token,
-                                 padding="max_length",
-                                 truncation=True,
-                                 max_length=max_length)['input_ids'] for choice in doc['choices']]
-    cls_token_location = [tokens.index(tokenizer.cls_token_id) for tokens in encoded_choices]
+    encoded_choices = []
+    cls_token_location = []
+    for i, line in enumerate(doc['choices']):
+        line = [choice + ' ' + tokenizer.cls_token for choice in line]
+        cur_encoded = []
+        cur_cls_token = []
+        for choice in line:
+            encoded_choice = tokenizer.encode(choice, padding="max_length", truncation=True, max_length=max_length)
+            cur_encoded.append(encoded_choice)
+            cur_cls_token.append(encoded_choice.index(tokenizer.cls_token_id))
+        encoded_choices.append(cur_encoded)
+        cls_token_location.append(cur_cls_token)
+
+    encoded_choices = np.array(encoded_choices)
+    cls_token_location = np.array(cls_token_location)
 
     trimmed_outputs = {
-        'input_ids': np.array(encoded_choices),
-        'mc_token_ids': np.array(cls_token_location),
-        'label': np.array(doc["label"])
+        'input_ids': encoded_choices,
+        'mc_token_ids': cls_token_location,
+        'mc_labels': np.array(doc["label"])
     }
     return trimmed_outputs
 

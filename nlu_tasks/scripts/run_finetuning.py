@@ -1,6 +1,7 @@
 import os
 import sys
 import hydra
+import importlib
 from datasets import Dataset
 from safetensors import safe_open
 from accelerate import Accelerator
@@ -14,41 +15,23 @@ from srcs.gpt2_utils import text_tokenization_for_classification, text_tokenizat
 from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
-# from srcs.kombo_hidden import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config, CustomGPT2ForSequenceClassification
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-def get_nlu_dataloader(args, tokenizer, logger):
-    if args.data.task_name == 'KorNLI':
-        from nlu_tasks.data_utils.KorNLI.data_utils import load_task_dataset
-    elif args.data.task_name == 'KorSTS':
-        from nlu_tasks.data_utils.KorSTS.data_utils import load_task_dataset
-    elif args.data.task_name == 'NSMC':
-        from nlu_tasks.data_utils.NSMC.data_utils import load_task_dataset
-    elif args.data.task_name == 'PAWS_X':
-        from nlu_tasks.data_utils.PAWS_X.data_utils import load_task_dataset
-    elif args.data.task_name == 'KB_BoolQ':
-        from nlu_tasks.data_utils.KB_BoolQ.data_utils import load_task_dataset
-    elif args.data.task_name == 'KB_COPA':
-        from nlu_tasks.data_utils.KB_COPA.data_utils import load_task_dataset
-    elif args.data.task_name == 'KB_HellaSwag':
-        from nlu_tasks.data_utils.KB_HellaSwag.data_utils import load_task_dataset
-    else:
-        logger.info(
-            "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
-        raise ValueError
-
-    data_collator = DataCollatorWithPadding(tokenizer)
-
+def get_nlu_dataloader(args, tokenizer):
+    task_util_path = f"nlu_tasks.data_utils.{args.data.task_name}.data_utils"
+    task_util = importlib.import_module(task_util_path, package=".")
     if args.data.task_name in ['KorNLI', 'KorSTS', 'NSMC', 'PAWS_X']:
-        dataset = load_task_dataset(args.data.remain_lang, args.data.do_hangeulize, args.data.data_remove)
-    elif args.data.task_name in ['KB_BoolQ', 'KB_COPA', 'KB_HellaSwag']:
-        dataset = load_task_dataset()
+        dataset = task_util.load_task_dataset(args.data.remain_lang, args.data.do_hangeulize, args.data.data_remove)
+    elif args.data.task_name in ['KB_BoolQ', 'KB_COPA', 'KB_WiC', 'KB_HellaSwag']:
+        dataset = task_util.load_task_dataset()
     else:
         raise ValueError(f"It's a Wrong Task Name (entered '{args.data.task_name}'). Please enter the right task name among "
-                         "[KorNLI, KorSTS, NSMC, PAWS_X] or "
-                         "[KB_BoolQ, KB_COPA, KB_HellaSwag]")
+                          "[KorNLI, KorSTS, NSMC, PAWS_X] or "
+                          "[KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag]")
+
+    data_collator = DataCollatorWithPadding(tokenizer)
 
     total_dataloader = {'label_map': dataset['label_map']}
     for mode in ['train', 'dev', 'test']:
@@ -84,13 +67,15 @@ def get_nlu_dataloader(args, tokenizer, logger):
 
 def get_config_and_nlu_model(args, tokenizer, logger=None):
     if args.model.hf_model:
-        if args.data.task_name in ["KB_HellaSwag", "KB_COPA"]:
+        if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
             config = AutoConfig.from_pretrained(args.model.name)
             model = GPT2DoubleHeadsModel.from_pretrained(args.model.name, config=config)
         else:
             config = AutoConfig.from_pretrained(args.model.name, num_labels=args.data.num_labels)
             model = GPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
-            # model = CustomGPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
+
+        if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+            model.resize_token_embeddings(len(tokenizer))
     else:
         config = AutoConfig.from_pretrained(
             args.model.name,
@@ -107,6 +92,9 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             model = GPT2DoubleHeadsModel(config)
         else:
             model = GPT2ForSequenceClassification(config)
+
+        if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+            model.resize_token_embeddings(len(tokenizer))
 
         # reload the checkpoint of the pre-trained model
         if args.model.ckpt_dir:
@@ -213,12 +201,12 @@ def main(args):
 
     if args.data.task_name in ["KorSTS"]:
         args.data.num_labels = 1
-    elif args.data.task_name in ["NSMC", "PAWS_X", "KB_BoolQ"]:
+    elif args.data.task_name in ["NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC"]:
         args.data.num_labels = 2
     elif args.data.task_name in ["KorNLI"]:
         args.data.num_labels = 3
-    elif args.data.task_name in ["KorQuAD"]:
-        args.data.num_labels = -1
+    elif args.data.task_name in ["KorQuAD", "KB_COPA", "KB_HellaSwag"]:
+        pass
     else:
         raise ValueError("It's a Wrong Task Name. Please enter the right task name among [KorQuAD, KorNLI, KorSTS, NSMC, PAWS_X]")
 
@@ -266,7 +254,7 @@ def main(args):
     setup_basics(args)
 
     # Load the Dataset & DataLoader
-    dataloaders = get_nlu_dataloader(args, tokenizer, logger)
+    dataloaders = get_nlu_dataloader(args, tokenizer)
 
     batch_num = len(dataloaders['train'])
     args.optim.total_steps = int((batch_num / args.optim.grad_acc) * args.optim.epochs)
@@ -274,8 +262,6 @@ def main(args):
 
     # Set the Config and Model
     config, model = get_config_and_nlu_model(args, tokenizer, logger)
-    if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
-        model.resize_token_embeddings(len(tokenizer))
 
     # Set the Accelerator
     accelerator = Accelerator(
