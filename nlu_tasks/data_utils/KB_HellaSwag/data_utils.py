@@ -38,3 +38,30 @@ def load_task_dataset():
 
 if __name__ == "__main__":
     dataset = load_task_dataset()
+
+
+    import numpy as np
+
+    total_sentence_length = []
+    for key in dataset:
+        if 'label' not in key:
+            cur_dataset = dataset[key]
+            sentence_length = [np.mean([len(choice) for choice in choices]) for choices in cur_dataset['choices']]
+            total_sentence_length.extend(sentence_length)
+
+    print(f"Average sentence length: {sum(total_sentence_length) / len(total_sentence_length)}")
+    print(f"Max sentence length: {max(total_sentence_length)}")
+
+
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained("skt/kogpt2-base-v2")
+
+    total_sentence_length = []
+    for key in dataset:
+        if 'label' not in key:
+            cur_dataset = dataset[key]
+
+            sentence_length = [np.mean([len(tokenizer(choice)['input_ids']) for choice in choices] )for choices in cur_dataset['choices']]
+            total_sentence_length.extend(sentence_length)
+    print(f"Average 'token' length: {sum(total_sentence_length) / len(total_sentence_length)}")
+    print(f"Max 'token' length: {max(total_sentence_length)}")

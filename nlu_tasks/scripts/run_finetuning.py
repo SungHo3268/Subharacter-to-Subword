@@ -24,12 +24,12 @@ def get_nlu_dataloader(args, tokenizer):
     task_util = importlib.import_module(task_util_path, package=".")
     if args.data.task_name in ['KorNLI', 'KorSTS', 'NSMC', 'PAWS_X']:
         dataset = task_util.load_task_dataset(args.data.remain_lang, args.data.do_hangeulize, args.data.data_remove)
-    elif args.data.task_name in ['KB_BoolQ', 'KB_COPA', 'KB_WiC', 'KB_HellaSwag']:
+    elif args.data.task_name in ['KB_BoolQ', 'KB_COPA', 'KB_WiC', 'KB_HellaSwag', 'KB_SentiNeg']:
         dataset = task_util.load_task_dataset()
     else:
         raise ValueError(f"It's a Wrong Task Name (entered '{args.data.task_name}'). Please enter the right task name among "
                           "[KorNLI, KorSTS, NSMC, PAWS_X] or "
-                          "[KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag]")
+                          "[KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag, KB_SentiNeg]")
 
     data_collator = DataCollatorWithPadding(tokenizer)
 
@@ -201,7 +201,7 @@ def main(args):
 
     if args.data.task_name in ["KorSTS"]:
         args.data.num_labels = 1
-    elif args.data.task_name in ["NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC"]:
+    elif args.data.task_name in ["NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC", "KB_SentiNeg"]:
         args.data.num_labels = 2
     elif args.data.task_name in ["KorNLI"]:
         args.data.num_labels = 3

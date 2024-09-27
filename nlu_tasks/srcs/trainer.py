@@ -189,7 +189,7 @@ class GPT2NLUTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_loss/step", averaged_stats['loss'], self.current_train_step)
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_train_step)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_Hellaswag"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_train_step)
             else:
                 raise NotImplementedError
@@ -220,7 +220,7 @@ class GPT2NLUTrainer(nn.Module):
 
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_epoch)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_Hellaswag"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_epoch)
             else:
                 raise NotImplementedError
@@ -262,7 +262,7 @@ class GPT2NLUTrainer(nn.Module):
     def forward(self, batch, calc_acc=False):
         outputs = self.model(**batch, output_hidden_states=True)
 
-        if self.hparams.data.task_name in ["KB_COPA", "KB_Hellaswag"]:
+        if self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
             loss = outputs.mc_loss
         else:
             loss = outputs.loss
@@ -275,21 +275,21 @@ class GPT2NLUTrainer(nn.Module):
         if calc_acc:
             if self.hparams.data.task_name == "KorSTS":
                 predictions = outputs.logits.squeeze(-1).detach().cpu()
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC", "KB_SentiNeg"]:
                 predictions = outputs.logits.argmax(-1).detach().cpu()
-            elif self.hparams.data.task_name in ["KB_COPA", "KB_Hellaswag"]:
+            elif self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
                 predictions = outputs.mc_logits.argmax(-1).detach().cpu()
             else:
                 raise NotImplementedError
 
-            if self.hparams.data.task_name in ["KB_COPA", "KB_Hellaswag"]:
+            if self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
                 labels = batch["mc_labels"].detach().cpu()
             else:
                 labels = batch["labels"].detach().cpu()
 
             if self.hparams.data.task_name == "KorSTS":
                 score = spearmanr(labels, predictions)[0]
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_Hellaswag"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 score = accuracy_score(labels, predictions)
             else:
                 raise NotImplementedError
