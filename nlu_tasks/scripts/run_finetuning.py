@@ -195,7 +195,18 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
+        specific_model_type = ""
+        if args.model.set_lora:
+            specific_model_type += "lora_"
+        if args.model.set_kombo:
+            specific_model_type += "kombo_"
+            if args.model.kombo.do_combination:
+                specific_model_type += f"comb-{args.model.kombo.combination.combination_type}_"
+                if args.model.kombo.add_lora:
+                    specific_model_type += "k-lora_"
+            else:
+                specific_model_type += f"{args.model.kombo.tok_type}_{args.model.kombo.kombo_max_length}_red-{args.model.kombo.reducer}_"
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{specific_model_type}{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 
