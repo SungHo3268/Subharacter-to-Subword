@@ -5,7 +5,9 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 from scipy.stats import spearmanr
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import (accuracy_score,
+                             # f1_score
+                             )
 # from safetensors.torch import save_file
 from torch.utils.tensorboard import SummaryWriter
 
@@ -359,6 +361,7 @@ class GPT2NLUTrainer(nn.Module):
             test_score = self.evaluation(self.test_dataloader, mode='test')
 
             if (dev_score + test_score) >= (self.best_score['best_dev_score'] + self.best_score['best_test_score']):
+            # if test_score >= self.best_score['best_test_score']:
                 self.logger.info(f"\nSave new Best Score (Epoch: {self.current_epoch})")
                 self.best_score['best_epoch'] = self.current_epoch
                 self.best_score['best_dev_score'] = dev_score

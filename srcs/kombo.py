@@ -10,7 +10,20 @@ from torch.nn.utils.rnn import pad_sequence
 from transformers.models.gpt2.modeling_gpt2 import GPT2Block
 sys.path.append(os.getcwd())
 from srcs.functions import trim_pad
+from srcs.attn_pool import CustomGPT2Block
 from srcs.lora import LoRA_Config, LoRA_Layer, apply_lora_to_model
+
+
+class Pooling(nn.Module):
+    def __init__(self, pooling_module, pooling_size):
+        super().__init__()
+        self.pooling_module = pooling_module
+        self.pooling_size = pooling_size
+
+    def forward(self, x):
+        before_pooled_states = rearrange(x, 'b n (k d) -> b (n k) d', k=self.pooling_size)
+        after_pooled_states = self.pooling_module(x)
+        return [after_pooled_states, before_pooled_states]
 
 
 class KOMBO_Config:
@@ -22,6 +35,15 @@ class KOMBO_Config:
         self.hidden_dim = hidden_dim
         self.kombo_max_length = kombo_max_length
         self.max_length = max_length
+        try:
+            assert kombo_max_length % max_length == 0       # Ensure the kombo_max_length is divisible by max
+        except AssertionError:
+            print("\n\n\n")
+            print(f"* kombo_max_length: {kombo_max_length}")
+            print(f"* max_length: {max_length}")
+            print(f"* kombo_max_length must be divisible by max_length.")
+            print("\n\n\n")
+        self.k = kombo_max_length // max_length
 
         self.do_combination = do_combination
         self.combination_type = combination_type
@@ -132,6 +154,25 @@ class KOMBO_Combination_Layer(nn.Module):
                     Rearrange('b d s -> b s d'),
                     nn.LayerNorm(config.hidden_dim)
                 )
+            elif config.reducer == 'linear_pool':           # Hourglass Transformer
+                self.sequence_reducer = nn.Sequential(
+                    Rearrange('b (n k) d -> b n k d', k=config.k),
+                    Rearrange('b n k d -> b n (k d)'),
+                    nn.Linear(config.k * config.hidden_dim, config.hidden_dim),
+                    nn.LayerNorm(config.hidden_dim)
+                )
+            elif config.reducer == 'attention_pool':        # Funnel Transformer
+                self.sequence_reducer = nn.Sequential(
+                    Rearrange('b (n k) d -> b n k d', k=config.k),
+                    Rearrange('b n k d -> b n (k d)'),
+                    Pooling(nn.AvgPool1d(kernel_size=config.k,
+                                         stride=config.k,
+                                         count_include_pad=True
+                                         ),
+                            config.k
+                            ),
+                    CustomGPT2Block(config.trans_config, layer_idx=0),
+                )
             else:
                 raise NotImplementedError
 
@@ -163,6 +204,11 @@ class KOMBO_Combination_Layer(nn.Module):
         if self.config.reducer == 'linear':
             self.sequence_reducer[1].weight.data.normal_(mean=0.0, std=0.02)
             self.sequence_reducer[1].bias.data.zero_()
+        elif self.config.reducer == 'linear_pool':
+            self.sequence_reducer[2].weight.data.normal_(mean=0.0, std=0.02)
+            self.sequence_reducer[2].bias.data.zero_()
+        elif self.config.reducer == 'attention_pool':
+            pass
         else:
             raise NotImplementedError
 
@@ -187,7 +233,7 @@ class KOMBO_Combination_Layer(nn.Module):
             # x = repeat_interleave(x, repeats=repeat_num.detach().cpu(), dim=1)
             # kombo_embedding = repeat_interleave(kombo_embedding, repeats=repeat_num.detach().cpu(), dim=1)
             # x, kombo_embedding = trim_pad(x, kombo_embedding, pad_value=self.pad_token_id)
-            
+
             try:
                 assert x.shape[1] % self.char_len == 0
             except AssertionError:
@@ -383,6 +429,10 @@ class KOMBO_LoRA_Layer(nn.Module):
                         )
         else:
             if self.config.reducer == 'linear':
+                reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
+            elif self.config.reducer == 'linear_pool':
+                reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
+            elif self.config.reducer == 'attention_pool':
                 reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
             else:
                 raise NotImplementedError

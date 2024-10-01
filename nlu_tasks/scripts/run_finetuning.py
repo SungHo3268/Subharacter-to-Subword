@@ -16,7 +16,6 @@ from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
 
-
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def get_nlu_dataloader(args, tokenizer):
@@ -133,7 +132,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         else:
             raise NotImplementedError
 
-        if 'trans' in args.model.kombo.combination.combination_type:
+        if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
             trans_config = config
         else:
             trans_config = None
