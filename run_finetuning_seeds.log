@@ -36138,3 +36138,231 @@ Save new Best Score (Epoch: 5)
 [2024-10-02 09:38:32,658][root][INFO] - - SEEDs: 1 2 3
 [2024-10-02 09:38:32,658][root][INFO] - - DEV score: 88.92 [%] ([0.8898936170212766, 0.8899601063829787, 0.8877881205673759])
 [2024-10-02 09:38:32,658][root][INFO] - - TEST score: 88.87 [%] ([0.8883671675191815, 0.8893078029706866, 0.8884286469604564])
+[2024-10-02 17:19:16,131][root][INFO] - 
+
+[2024-10-02 17:19:16,131][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-02 17:19:16,131][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr
+[2024-10-02 17:19:16,131][root][INFO] - 
+
+[2024-10-02 17:19:16,132][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 42, 'seeds': '1 2 3', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': False, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.01, 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 400, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr', 'tb_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-02 17:19:17,651][root][INFO] - 
+
+[2024-10-02 17:19:17,651][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-02 17:19:17,651][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr
+[2024-10-02 17:19:17,651][root][INFO] - 
+
+[2024-10-02 17:19:17,652][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 42, 'seeds': '1 2 3', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': False, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 400, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr', 'tb_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-02 17:21:45,585][root][INFO] - 
+
+[2024-10-02 17:21:45,586][root][INFO] - ========== Fine-tuning on KorNLI ==========
+[2024-10-02 17:21:45,586][root][INFO] - Data Preprocessing
+[2024-10-02 17:21:45,586][root][INFO] - ㄴ remain_lang                ko_punc
+[2024-10-02 17:21:45,586][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-02 17:21:45,586][root][INFO] - ㄴ data_remove                False
+
+[2024-10-02 17:21:45,586][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-02 17:21:45,599][root][INFO] - vocab size              : 51200
+[2024-10-02 17:21:45,600][root][INFO] - device                  : gpu
+[2024-10-02 17:21:45,600][root][INFO] - random seed             : 1 2 3
+[2024-10-02 17:21:45,601][root][INFO] - train data size         : 942912
+[2024-10-02 17:21:45,601][root][INFO] - max epochs              : 5
+[2024-10-02 17:21:45,601][root][INFO] - total steps             : 73665
+[2024-10-02 17:21:45,601][root][INFO] - warmup steps            : 7366
+[2024-10-02 17:21:45,601][root][INFO] - batch size              : 64
+[2024-10-02 17:21:45,601][root][INFO] - accumulation steps      : 1
+[2024-10-02 17:21:45,601][root][INFO] - optimizer               : adamwscale
+[2024-10-02 17:21:45,601][root][INFO] - lr_scheduler            : cosine
+[2024-10-02 17:21:45,601][root][INFO] - learning rate           : 0.01
+[2024-10-02 17:21:45,601][root][INFO] - max length              : 256
+
+[2024-10-02 17:21:45,601][root][INFO] - LoRA Configuration
+[2024-10-02 17:21:45,601][root][INFO] - ㄴ r                    : 32
+[2024-10-02 17:21:45,602][root][INFO] - ㄴ alpha                : 128
+[2024-10-02 17:21:45,602][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-02 17:21:45,602][root][INFO] - 
+
+[2024-10-02 17:21:45,602][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr
+[2024-10-02 17:21:45,602][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr/ckpt
+[2024-10-02 17:21:45,602][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.01lr/tb
+[2024-10-02 17:21:45,602][root][INFO] - * tb interval   : 400
+
+[2024-10-02 17:21:45,602][root][INFO] - - SEED: 1
+[2024-10-02 17:21:46,260][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,261][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,261][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,262][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,263][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,263][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,264][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,264][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,265][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,265][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,266][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,266][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,267][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,267][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,268][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,269][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,269][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,270][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,270][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,271][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,271][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,272][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,272][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:46,273][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:46,275][root][INFO] - Trainable params: 1769472 || all params: 126935808 || trainable: 1.39 %
+[2024-10-02 17:21:46,494][root][INFO] - 
+
+[2024-10-02 17:21:46,495][root][INFO] - ========== Fine-tuning on KorNLI ==========
+[2024-10-02 17:21:46,495][root][INFO] - Data Preprocessing
+[2024-10-02 17:21:46,495][root][INFO] - ㄴ remain_lang                ko_punc
+[2024-10-02 17:21:46,495][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-02 17:21:46,495][root][INFO] - ㄴ data_remove                False
+
+[2024-10-02 17:21:46,495][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-02 17:21:46,507][root][INFO] - vocab size              : 51200
+[2024-10-02 17:21:46,508][root][INFO] - device                  : gpu
+[2024-10-02 17:21:46,508][root][INFO] - random seed             : 1 2 3
+[2024-10-02 17:21:46,509][root][INFO] - train data size         : 942912
+[2024-10-02 17:21:46,509][root][INFO] - max epochs              : 5
+[2024-10-02 17:21:46,509][root][INFO] - total steps             : 73665
+[2024-10-02 17:21:46,509][root][INFO] - warmup steps            : 7366
+[2024-10-02 17:21:46,509][root][INFO] - batch size              : 64
+[2024-10-02 17:21:46,509][root][INFO] - accumulation steps      : 1
+[2024-10-02 17:21:46,509][root][INFO] - optimizer               : adamwscale
+[2024-10-02 17:21:46,509][root][INFO] - lr_scheduler            : cosine
+[2024-10-02 17:21:46,509][root][INFO] - learning rate           : 0.02
+[2024-10-02 17:21:46,509][root][INFO] - max length              : 256
+
+[2024-10-02 17:21:46,509][root][INFO] - LoRA Configuration
+[2024-10-02 17:21:46,509][root][INFO] - ㄴ r                    : 32
+[2024-10-02 17:21:46,510][root][INFO] - ㄴ alpha                : 128
+[2024-10-02 17:21:46,510][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-02 17:21:46,510][root][INFO] - 
+
+[2024-10-02 17:21:46,510][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr
+[2024-10-02 17:21:46,510][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr/ckpt
+[2024-10-02 17:21:46,510][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/nlu_tasks/KorNLI/256t_64b_1s_0.02lr/tb
+[2024-10-02 17:21:46,510][root][INFO] - * tb interval   : 400
+
+[2024-10-02 17:21:46,510][root][INFO] - - SEED: 1
+[2024-10-02 17:21:46,622][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-02 17:21:47,148][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,148][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,149][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,149][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,150][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,150][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,151][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,151][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,151][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,152][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,152][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,153][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,153][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,154][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,154][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,154][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,155][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,155][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,156][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,156][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,157][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,157][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,158][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-02 17:21:47,158][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-02 17:21:47,160][root][INFO] - Trainable params: 1769472 || all params: 126935808 || trainable: 1.39 %
+[2024-10-02 17:21:47,659][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-02 17:21:50,707][root][INFO] - 
+
+[2024-10-02 17:21:50,707][root][INFO] - Start the Training !
+[2024-10-02 17:21:50,710][root][INFO] - 
+[1/ 5 Epoch]
+[2024-10-02 17:21:51,805][root][INFO] - 
+
+[2024-10-02 17:21:51,805][root][INFO] - Start the Training !
+[2024-10-02 17:21:51,808][root][INFO] - 
+[1/ 5 Epoch]
+[2024-10-02 17:22:48,901][root][INFO] - 
+
+[2024-10-02 17:22:48,901][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-02 17:22:48,901][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr
+[2024-10-02 17:22:48,902][root][INFO] - 
+
+[2024-10-02 17:22:48,902][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 42, 'seeds': '1 2 3', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 2, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': True, 'task_name': 'PAWS_X'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.01, 'batch_size': 64, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 75, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr', 'tb_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-02 17:22:55,075][root][INFO] - 
+
+[2024-10-02 17:22:55,076][root][INFO] - ========== Fine-tuning on PAWS_X ==========
+[2024-10-02 17:22:55,076][root][INFO] - Data Preprocessing
+[2024-10-02 17:22:55,076][root][INFO] - ㄴ remain_lang                ko_punc
+[2024-10-02 17:22:55,076][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-02 17:22:55,076][root][INFO] - ㄴ data_remove                True
+
+[2024-10-02 17:22:55,076][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-02 17:22:55,085][root][INFO] - vocab size              : 51200
+[2024-10-02 17:22:55,086][root][INFO] - device                  : gpu
+[2024-10-02 17:22:55,086][root][INFO] - random seed             : 1 2 3
+[2024-10-02 17:22:55,086][root][INFO] - train data size         : 6464
+[2024-10-02 17:22:55,086][root][INFO] - max epochs              : 10
+[2024-10-02 17:22:55,086][root][INFO] - total steps             : 1010
+[2024-10-02 17:22:55,086][root][INFO] - warmup steps            : 101
+[2024-10-02 17:22:55,086][root][INFO] - batch size              : 64
+[2024-10-02 17:22:55,086][root][INFO] - accumulation steps      : 1
+[2024-10-02 17:22:55,086][root][INFO] - optimizer               : adamwscale
+[2024-10-02 17:22:55,086][root][INFO] - lr_scheduler            : cosine
+[2024-10-02 17:22:55,086][root][INFO] - learning rate           : 0.01
+[2024-10-02 17:22:55,087][root][INFO] - max length              : 256
+
+[2024-10-02 17:22:55,087][root][INFO] - LoRA Configuration
+[2024-10-02 17:22:55,087][root][INFO] - ㄴ r                    : 32
+[2024-10-02 17:22:55,087][root][INFO] - ㄴ alpha                : 128
+[2024-10-02 17:22:55,087][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-02 17:22:55,087][root][INFO] - 
+
+[2024-10-02 17:22:55,087][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr
+[2024-10-02 17:22:55,087][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr/ckpt
+[2024-10-02 17:22:55,087][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/nlu_tasks/PAWS_X/256t_64b_1s_0.01lr/tb
+[2024-10-02 17:22:55,087][root][INFO] - * tb interval   : 75
+
+[2024-10-02 17:22:55,088][root][INFO] - - SEED: 1
+[2024-10-02 17:22:55,752][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,753][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,753][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,754][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,754][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,755][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,755][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,756][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,756][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,757][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,757][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,758][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,758][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,759][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,759][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,760][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,760][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,761][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,761][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,762][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,762][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,763][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,763][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-02 17:22:55,764][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-02 17:22:55,765][root][INFO] - Trainable params: 1769472 || all params: 126935040 || trainable: 1.39 %
+[2024-10-02 17:22:56,191][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-02 17:23:00,563][root][INFO] - 
+
+[2024-10-02 17:23:00,564][root][INFO] - Start the Training !
+[2024-10-02 17:23:00,566][root][INFO] - 
+[1/ 10 Epoch]

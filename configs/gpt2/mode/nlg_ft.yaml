@@ -9,8 +9,8 @@ data:
 model:
   generation_config:
     max_length: 128
-    repetition_penalty: 1.0
-#    no_repeat_ngram_size: 3
+#    repetition_penalty: 1.2
+    no_repeat_ngram_size: 3
     max_new_tokens:
     pad_token_id:
     bos_token_id:

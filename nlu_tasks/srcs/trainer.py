@@ -5,8 +5,10 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 from scipy.stats import spearmanr
-from sklearn.metrics import accuracy_score
-from safetensors.torch import save_file
+from sklearn.metrics import (accuracy_score,
+                             # f1_score
+                             )
+# from safetensors.torch import save_file
 from torch.utils.tensorboard import SummaryWriter
 
 sys.path.append(os.getcwd())
@@ -189,7 +191,7 @@ class GPT2NLUTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_loss/step", averaged_stats['loss'], self.current_train_step)
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_train_step)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_train_step)
             else:
                 raise NotImplementedError
@@ -220,10 +222,11 @@ class GPT2NLUTrainer(nn.Module):
 
             if self.hparams.data.task_name == "KorSTS":
                 self.tb_writer.add_scalar(f"{mode}_spearman/step", averaged_stats['score'], self.current_epoch)
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['score'], self.current_epoch)
             else:
                 raise NotImplementedError
+
             self.tb_writer.add_scalar(f"{mode}_evaluation_time", averaged_stats['evaluation_time'], self.current_epoch)
             self.tb_writer.flush()
 
@@ -261,21 +264,34 @@ class GPT2NLUTrainer(nn.Module):
     def forward(self, batch, calc_acc=False):
         outputs = self.model(**batch, output_hidden_states=True)
 
-        loss = outputs.loss
+        if self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+            loss = outputs.mc_loss
+        else:
+            loss = outputs.loss
+
         seq_len = outputs.hidden_states[-2].shape[1]
         stats = {'loss': loss.detach().float().item(),
                  'seq_len': seq_len
                  }
+
         if calc_acc:
             if self.hparams.data.task_name == "KorSTS":
                 predictions = outputs.logits.squeeze(-1).detach().cpu()
-            else:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_WiC", "KB_SentiNeg"]:
                 predictions = outputs.logits.argmax(-1).detach().cpu()
-            labels = batch["labels"].detach().cpu()
+            elif self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+                predictions = outputs.mc_logits.argmax(-1).detach().cpu()
+            else:
+                raise NotImplementedError
+
+            if self.hparams.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+                labels = batch["mc_labels"].detach().cpu()
+            else:
+                labels = batch["labels"].detach().cpu()
 
             if self.hparams.data.task_name == "KorSTS":
                 score = spearmanr(labels, predictions)[0]
-            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X"]:
+            elif self.hparams.data.task_name in ["KorNLI", "NSMC", "PAWS_X", "KB_BoolQ", "KB_COPA", "KB_WiC", "KB_HellaSwag", "KB_SentiNeg"]:
                 score = accuracy_score(labels, predictions)
             else:
                 raise NotImplementedError
@@ -345,6 +361,7 @@ class GPT2NLUTrainer(nn.Module):
             test_score = self.evaluation(self.test_dataloader, mode='test')
 
             if (dev_score + test_score) >= (self.best_score['best_dev_score'] + self.best_score['best_test_score']):
+            # if test_score >= self.best_score['best_test_score']:
                 self.logger.info(f"\nSave new Best Score (Epoch: {self.current_epoch})")
                 self.best_score['best_epoch'] = self.current_epoch
                 self.best_score['best_dev_score'] = dev_score

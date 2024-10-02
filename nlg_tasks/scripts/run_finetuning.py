@@ -16,6 +16,9 @@ from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, a
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
 
 
+import transformers
+transformers.logging.set_verbosity_warning()
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def get_nlg_dataloader(args, tokenizer, logger):
@@ -30,6 +33,8 @@ def get_nlg_dataloader(args, tokenizer, logger):
 
     dataset = load_task_dataset()
     # dataset['train'] = {key: dataset['train'][key][:100] for key in dataset['train']}
+    # dataset['dev'] = {key: dataset['dev'][key][:100] for key in dataset['dev']}
+    # dataset['test'] = {key: dataset['test'][key][:100] for key in dataset['test']}
 
     total_dataloader = dict()
     for mode in ['train', 'dev', 'test']:
@@ -176,7 +181,19 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
+        specific_model_type = ""
+        if args.model.set_lora:
+            specific_model_type += "lora_"
+        if args.model.set_kombo:
+            specific_model_type += "kombo_"
+            if args.model.kombo.do_combination:
+                specific_model_type += f"comb-{args.model.kombo.combination.combination_type}_"
+                if args.model.kombo.add_lora:
+                    specific_model_type += "k-lora_"
+            else:
+                specific_model_type += f"{args.model.kombo.tok_type}_{args.model.kombo.kombo_max_length}_red-{args.model.kombo.reducer}_"
+
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{specific_model_type}{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 
@@ -287,8 +304,8 @@ def main(args):
     logger.info(f"learning rate         : {args.optim.base_lr}")
     logger.info(f"max length            : {args.model.generation_config.max_length}")
     logger.info(f"max new tokens        : {args.model.generation_config.max_new_tokens}")
-    logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}\n")
-    # logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}\n")
+    # logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}\n")
+    logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}\n")
     if args.model.set_lora:
         logger.info(f"LoRA Configuration")
         logger.info(f"ㄴ r                    : {args.model.lora.r}")

@@ -61,7 +61,7 @@ def load_task_dataset():
 if __name__ == '__main__':
     dataset = load_task_dataset()
 
-    from scripts.run_pretraining import get_gpt2_tokenizer
+    from pretraining.scripts.run_pretraining import get_gpt2_tokenizer
 
     tokenizer = get_gpt2_tokenizer(tok_type="jamo_var",
                                    lang="ko",

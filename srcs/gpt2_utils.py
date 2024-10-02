@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from future.utils.surrogateescape import encoded
 from tqdm import tqdm
 
 
@@ -108,6 +109,31 @@ def text_tokenization_for_classification(doc, tokenizer, max_length):
     return trimmed_outputs
 
 
+def text_tokenization_for_mc(doc, tokenizer, max_length):
+    encoded_choices = []
+    cls_token_location = []
+    for i, line in enumerate(doc['choices']):
+        line = [choice + ' ' + tokenizer.cls_token for choice in line]
+        cur_encoded = []
+        cur_cls_token = []
+        for choice in line:
+            encoded_choice = tokenizer.encode(choice, padding="max_length", truncation=True, max_length=max_length)
+            cur_encoded.append(encoded_choice)
+            cur_cls_token.append(encoded_choice.index(tokenizer.cls_token_id))
+        encoded_choices.append(cur_encoded)
+        cls_token_location.append(cur_cls_token)
+
+    encoded_choices = np.array(encoded_choices)
+    cls_token_location = np.array(cls_token_location)
+
+    trimmed_outputs = {
+        'input_ids': encoded_choices,
+        'mc_token_ids': cls_token_location,
+        'mc_labels': np.array(doc["label"])
+    }
+    return trimmed_outputs
+
+
 def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens, task_name, mode):
     # if (tokenizer.custom_tokenizer.config.name in ["jamo_var_info", "bts_units_var_info"] and
     #         max_length % tokenizer.trunc_num != 0 and
@@ -119,7 +145,7 @@ def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens,
         context = [', '.join(line.split('#')) for line in batch['morpheme_set']]
         target = batch['target']
         if mode == 'test':
-            target = [line[0] for line in target]
+            target = [' = '.join(line) for line in target]
         sep_ids = tokenizer('. ')['input_ids']
     elif task_name == 'XL_Sum':
         context = batch['text']

@@ -1,10 +1,10 @@
 lr=$1
 
-for task in KorNLI
+for task in PAWS_X
 do
     ## LoRA ##
     python nlu_tasks/scripts/run_finetuning_seeds.py mode=nlu_ft task=$task \
-        seeds="1 2 3" data.remain_lang=ko_punc data.do_hangeulize=false data.data_remove=false \
+        seeds="1 2 3" data.remain_lang=ko_punc data.do_hangeulize=false data.data_remove=true \
         optim.grad_acc=1 optim.base_lr=$lr data.max_length=256 \
         model.hf_model=True model.name=skt/kogpt2-base-v2 \
         model.set_lora=true model.lora.r=32 model.lora.alpha=128 \
@@ -13,7 +13,7 @@ do
 
     ## KOMBO(+LoRA) ##
     python nlu_tasks/scripts/run_finetuning_seeds.py mode=nlu_ft task=$task \
-        seeds="1 2 3" data.remain_lang=ko_punc data.do_hangeulize=false data.data_remove=false \
+        seeds="1 2 3" data.remain_lang=ko_punc data.do_hangeulize=false data.data_remove=true \
         optim.grad_acc=1 optim.base_lr=$lr data.max_length=256 \
         model.hf_model=True model.name=skt/kogpt2-base-v2 \
         model.set_lora=true model.lora.r=32 model.lora.alpha=128 \
