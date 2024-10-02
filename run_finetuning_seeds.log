@@ -36366,3 +36366,26 @@ Save new Best Score (Epoch: 5)
 [2024-10-02 17:23:00,564][root][INFO] - Start the Training !
 [2024-10-02 17:23:00,566][root][INFO] - 
 [1/ 10 Epoch]
+[2024-10-02 17:23:30,255][root][INFO] - Step: 75/1010  |  Loss: 0.7241  |  Score: 50.83 [%]  |  Seq Length: 256.0
+[2024-10-02 17:23:39,704][root][INFO] - Step: 101/1010  |  Loss: 0.6935  |  Score: 54.35 [%]  |  Seq Length: 256.0
+[2024-10-02 17:23:40,729][root][INFO] - ########################  DEV REPORT #EP1  ########################
+[2024-10-02 17:23:40,729][root][INFO] - Score: 53.27 [%]  |  Evaluation Time: 1.02 [s]
+[2024-10-02 17:23:41,764][root][INFO] - ########################  TEST REPORT #EP1  ########################
+[2024-10-02 17:23:41,764][root][INFO] - Score: 51.43 [%]  |  Evaluation Time: 1.03 [s]
+[2024-10-02 17:23:41,765][root][INFO] - 
+Save new Best Score (Epoch: 1)
+[2024-10-02 17:23:41,766][root][INFO] - 
+[2/ 10 Epoch]
+[2024-10-02 17:23:59,955][root][INFO] - Step: 150/1010  |  Loss: 0.6909  |  Score: 53.86 [%]  |  Seq Length: 256.0
+[2024-10-02 17:24:18,991][root][INFO] - Step: 202/1010  |  Loss: 0.6916  |  Score: 55.56 [%]  |  Seq Length: 256.0
+[2024-10-02 17:24:19,954][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-02 17:24:19,954][root][INFO] - Score: 55.14 [%]  |  Evaluation Time: 0.96 [s]
+[2024-10-02 17:24:20,331][root][INFO] - Step: 400/73665  |  Loss: 0.9948  |  Score: 49.91 [%]  |  Seq Length: 256.0
+[2024-10-02 17:24:20,946][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-02 17:24:20,946][root][INFO] - Score: 50.97 [%]  |  Evaluation Time: 0.99 [s]
+[2024-10-02 17:24:20,947][root][INFO] - 
+Save new Best Score (Epoch: 2)
+[2024-10-02 17:24:20,948][root][INFO] - 
+[3/ 10 Epoch]
+[2024-10-02 17:24:22,116][root][INFO] - Step: 400/73665  |  Loss: 0.9526  |  Score: 53.66 [%]  |  Seq Length: 256.0
+[2024-10-02 17:24:29,693][root][INFO] - Step: 225/1010  |  Loss: 0.6714  |  Score: 58.70 [%]  |  Seq Length: 256.0
