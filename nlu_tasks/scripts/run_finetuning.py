@@ -339,7 +339,6 @@ def main(args):
     logger.info(f"* tb dir        : {args.logging.tb_dir}")
     logger.info(f"* tb interval   : {args.logging.log_steps}\n")
 
-
     # Run training
     print("\n")
     logger.info("\n")
