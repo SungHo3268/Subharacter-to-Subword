@@ -65,6 +65,9 @@ def clean_text(sentence, remain_lang="ko_en_punc", do_hangeulize=True, data_remo
                      'θ': 'theta', '÷': '/', 'α': 'alpha', '•': '.', 'à': 'a', '−': '-', 'β': 'beta', '∅': '', '³': '3',
                      'π': 'pi',
                      '\u200b': ' ', '…': ' ... ', '\ufeff': '', 'करना': '', 'है': '', '·': '.'}
+    if remain_lang == "all":
+        return sentence
+    
     remain_lang = remain_lang.split("_")
     remain_re = ""
     for lang in remain_lang:
@@ -87,6 +90,7 @@ def clean_text(sentence, remain_lang="ko_en_punc", do_hangeulize=True, data_remo
         if len(removed_sentence) != 0:
             sentence = None
             return sentence
+          
 
     re_sentence = re.sub(ONLY_REMAIN, "", sentence)
     re_sentence = re_sentence.strip()
@@ -101,26 +105,107 @@ def clean_text(sentence, remain_lang="ko_en_punc", do_hangeulize=True, data_remo
 
 
 if __name__ == '__main__':
+    # text = "This is the world Championship tournament"
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+    # text = "어제 밥 먹은거 really good 이었어!"
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+    # text = "'the shawshank redemption'이다. 언뜻 생각하면 'escape'를 썼을 법한데 'redemption'을 썼다. redemption의 사전적 의미는 구원, 속죄, 회복이다."
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+    # text = 'GDNTOPCLASSINTHECLUB'
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+    # text = 'GD N TOP CLASS IN THE CLUB'
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+    # text = "무기에 유치한cg남무"
+    # print(f"* Original: {text}")
+    # print(f"* Hangeulized: {to_hangeul(text)}\n")
+
+
+    def data_remove(sentence, remain_lang="ko_en_punc", version="kombo_generation"):
+        PUNCT = '\\'.join(string.punctuation)
+        PUNCT_MAPPING = {"‘": "'", "₹": "e", "´": "'", "°": "", "€": "e", "™": "tm", "√": " sqrt ", "×": "x", "²": "2",
+                        "—": "-", "–": "-", "’": "'", '”': '"', '“': '"', "£": "e", '∞': 'infinity',
+                        'θ': 'theta', '÷': '/', 'α': 'alpha', '•': '.', 'à': 'a', '−': '-', 'β': 'beta', '∅': '', '³': '3',
+                        'π': 'pi',
+                        '\u200b': ' ', '…': ' ... ', '\ufeff': '', 'करना': '', 'है': '', '·': '.'}
+        remain_lang = remain_lang.split("_")
+        remain_re = ""
+        for lang in remain_lang:
+            if lang == "ko":
+                remain_re += "ㄱ-ㅣ가-힣"
+            elif lang == "en":
+                remain_re += "A-Za-z"
+            elif lang == "punc":
+                remain_re += PUNCT
+        remain_re = "[^" + remain_re + "\s]"
+        ONLY_REMAIN = re.compile(rf"{remain_re}")
+
+        for p in PUNCT_MAPPING:
+            sentence = sentence.replace(p, PUNCT_MAPPING[p])
+        sentence = sentence.strip()
+
+        if version == "kombo_generation":
+            removed_sentence = re.sub(re.compile(rf"{remain_re.replace('[^', '[')}"), "", sentence)
+            removed_sentence = removed_sentence.strip()
+            if len(removed_sentence) != 0:
+                sentence = None
+                return sentence
+        else:
+            kor_sentence = re.sub(re.compile(rf"[^ㄱ-ㅣ가-힣\s]"), "", sentence)
+            kor_sentence_ = kor_sentence.strip()
+            if len(kor_sentence_) == 0:
+                sentence = None
+                return sentence 
+        
+        re_sentence = re.sub(ONLY_REMAIN, "", sentence)
+        re_sentence = re_sentence.strip()
+
+        if data_remove and (len(re_sentence) != len(sentence)):
+            sentence = None
+            return sentence
+        else:
+            # sentence = to_hangeul(re_sentence)
+            return sentence
+    
     text = "This is the world Championship tournament"
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")
 
     text = "어제 밥 먹은거 really good 이었어!"
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")
+
 
     text = "'the shawshank redemption'이다. 언뜻 생각하면 'escape'를 썼을 법한데 'redemption'을 썼다. redemption의 사전적 의미는 구원, 속죄, 회복이다."
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")
+
 
     text = 'GDNTOPCLASSINTHECLUB'
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")
+
 
     text = 'GD N TOP CLASS IN THE CLUB'
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")
+
 
     text = "무기에 유치한cg남무"
     print(f"* Original: {text}")
-    print(f"* Hangeulized: {to_hangeul(text)}\n")
+    print(f"* KOMBO: {data_remove(text, version='kombo')}\n")
+    print(f"* Generation: {data_remove(text, version='kombo_generation')}\n")

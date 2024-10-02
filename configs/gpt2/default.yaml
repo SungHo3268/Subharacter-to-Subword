@@ -14,7 +14,7 @@ mixed_precision: 'bf16'
 eval_only: false
 predict_only: false
 seed: 42
-
+seeds: ''
 
 model:
   name: openai-community/gpt2

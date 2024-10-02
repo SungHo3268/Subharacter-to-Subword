@@ -1,7 +1,7 @@
 import os
 import sys
 import hydra
-from datasets import Dataset
+from datasets import Dataset, load_dataset
 from safetensors import safe_open
 from accelerate import Accelerator
 from torch.utils.data import DataLoader
@@ -20,7 +20,7 @@ from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_mod
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
-def get_nlu_dataloader(args, tokenizer, logger):
+def get_kobest_dataloader(args, tokenizer, logger):
     if args.data.task_name == 'KorNLI':
         from nlu_tasks.data_utils.KorNLI.data_utils import load_task_dataset
     elif args.data.task_name == 'KorSTS':
@@ -33,6 +33,13 @@ def get_nlu_dataloader(args, tokenizer, logger):
         logger.info(
             "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
         raise ValueError
+
+    raw_dataset = load_dataset("skt/kobest_v1")
+
+
+
+
+
 
     data_collator = DataCollatorWithPadding(tokenizer)
 

@@ -25,6 +25,7 @@ When the two sentences are given, the task assesses the gradations of semantic s
 def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
     task_name = 'KorSTS'
     data_dir = f"/data3/user21/KOMBO/datasets/nlu_tasks/{task_name}/"
+    # data_dir = f"/data2/user13/workspace/KOMBO_Generation/datasets/nlu_tasks/{task_name}/"
     if do_hangeulize:
         data_path = os.path.join(data_dir, f'processed_data_{remain_lang}_hangeulized.json')
     else:
@@ -34,45 +35,45 @@ def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=
 
     print(f"\n##### Loading the {task_name} dataset #####")
     print(f"Data path: {data_path}\n")
-    if os.path.exists(data_path):
-        total_dataset = json.load(open(data_path, "r"))
-    else:
-        total_dataset = {'train': dict(),
-                         'dev': dict(),
-                         'test': dict()
-                         }
+    # if os.path.exists(data_path):
+    #     total_dataset = json.load(open(data_path, "r"))
+    # else:
+    total_dataset = {'train': dict(),
+                        'dev': dict(),
+                        'test': dict()
+                        }
 
-        for d_type in total_dataset:
-            dataset = {'sentence1': [], 'sentence2': [], 'label': []}
-            with open(os.path.join(data_dir, f'sts-{d_type}.tsv'), "r", encoding="utf8") as fr:
-                raw_dataset = fr.readlines()[1:]
-                for i, line in tqdm(enumerate(raw_dataset), desc=f"* {d_type.upper()} set...", bar_format="{l_bar}{bar:10}{r_bar}", total=len(raw_dataset)):
-                    line = line.strip().split('\t')
-                    if len(line) != 7:
-                        print(f"[ERROR] {repr(line)}, line {i}")
-                        continue
-                    sentence1 = line[5]
-                    sentence2 = line[6]
-                    score = line[4]
+    for d_type in total_dataset:
+        dataset = {'sentence1': [], 'sentence2': [], 'label': []}
+        with open(os.path.join(data_dir, f'sts-{d_type}.tsv'), "r", encoding="utf8") as fr:
+            raw_dataset = fr.readlines()[1:]
+            for i, line in tqdm(enumerate(raw_dataset), desc=f"* {d_type.upper()} set...", bar_format="{l_bar}{bar:10}{r_bar}", total=len(raw_dataset)):
+                line = line.strip().split('\t')
+                if len(line) != 7:
+                    print(f"[ERROR] {repr(line)}, line {i}")
+                    continue
+                sentence1 = line[5]
+                sentence2 = line[6]
+                score = line[4]
 
-                    sentence1 = clean_text(sentence1, remain_lang, do_hangeulize, data_remove)
-                    sentence2 = clean_text(sentence2, remain_lang, do_hangeulize, data_remove)
-                    if sentence1 is None or len(sentence1) == 0:
-                        continue
-                    if sentence2 is None or len(sentence2) == 0:
-                        continue
+                sentence1 = clean_text(sentence1, remain_lang, do_hangeulize, data_remove)
+                sentence2 = clean_text(sentence2, remain_lang, do_hangeulize, data_remove)
+                if sentence1 is None or len(sentence1) == 0:
+                    continue
+                if sentence2 is None or len(sentence2) == 0:
+                    continue
 
-                    dataset['sentence1'].append(sentence1)
-                    dataset['sentence2'].append(sentence2)
-                    dataset['label'].append(float(score))
-                total_dataset[d_type] = dataset
-                fr.close()
+                dataset['sentence1'].append(sentence1)
+                dataset['sentence2'].append(sentence2)
+                dataset['label'].append(float(score))
+            total_dataset[d_type] = dataset
+            fr.close()
 
-        for d_type in total_dataset:
-            assert len(total_dataset[d_type]['sentence1']) == len(total_dataset[d_type]['sentence2']) == len(total_dataset[d_type]['label'])
+    for d_type in total_dataset:
+        assert len(total_dataset[d_type]['sentence1']) == len(total_dataset[d_type]['sentence2']) == len(total_dataset[d_type]['label'])
 
-        total_dataset['label_map'] = None
-        json.dump(total_dataset, open(data_path, "w"))
+    total_dataset['label_map'] = None
+        # json.dump(total_dataset, open(data_path, "w"))
     return total_dataset
 
 

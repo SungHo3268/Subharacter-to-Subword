@@ -1,6 +1,7 @@
 import os
 import sys
 import hydra
+import numpy as np
 from datasets import Dataset
 from safetensors import safe_open
 from accelerate import Accelerator
@@ -177,7 +178,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.remain_lang}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 
@@ -229,32 +230,12 @@ def main(args):
 
             logger.info(f"Change the max_length to {args.data.max_length} for the tokenizer's truncation.")
 
-    # Set basic settings for training
-    setup_basics(args)
-
     # Load the Dataset & DataLoader
     dataloaders = get_nlu_dataloader(args, tokenizer, logger)
 
     batch_num = len(dataloaders['train'])
     args.optim.total_steps = int((batch_num / args.optim.grad_acc) * args.optim.epochs)
     args.optim.warmup_steps = round(args.optim.total_steps * args.optim.warmup_ratio)
-
-    # Set the Config and Model
-    config, model = get_config_and_nlu_model(args, tokenizer, logger)
-
-    # Set the Accelerator
-    accelerator = Accelerator(
-        cpu=(args.device == "cpu"),
-        mixed_precision=args.mixed_precision
-    )
-
-    trainer = GPT2NLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
-
-    # from accelerate.utils import set_seed
-    # from srcs.functions import init_random
-    # if args.seed is not None:
-    #     set_seed(args.seed)
-    #     init_random(args.seed)
 
     # ----------------------------------------
     #               Do Fine-Tuning
@@ -271,7 +252,7 @@ def main(args):
         logger.info(f"tokenizer               : {args.data.tok_type}")
     logger.info(f"vocab size              : {len(tokenizer)}")
     logger.info(f"device                  : {args.device}")
-    logger.info(f"random seed             : {args.seed}")
+    logger.info(f"random seed             : {args.seeds}")
     logger.info(f"train data size         : {args.optim.total_steps // args.optim.epochs * (args.optim.batch_size // args.optim.grad_acc)}")
     logger.info(f"max epochs              : {args.optim.epochs}")
     logger.info(f"total steps             : {args.optim.total_steps}")
@@ -313,14 +294,40 @@ def main(args):
     logger.info(f"* tb dir        : {args.logging.tb_dir}")
     logger.info(f"* tb interval   : {args.logging.log_steps}\n")
 
+    avg_score = {'dev_score': [], 'test_score': []}
+    for seed in args.seeds.split():
+        args.seed = int(seed)
+        logger.info(f"- SEED: {args.seed}")
+        
+        # Set basic settings for training
+        setup_basics(args)
 
-    # Run training
+        # Set the Config and Model
+        config, model = get_config_and_nlu_model(args, tokenizer, logger)
+
+        # Set the Accelerator
+        accelerator = Accelerator(
+            cpu=(args.device == "cpu"),
+            mixed_precision=args.mixed_precision
+        )
+
+        trainer = GPT2NLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
+    
+        # Run training
+        print("\n")
+        logger.info("\n")
+        logger.info("Start the Training !")
+        trainer.train()
+        logger.info("Fine-tuning is done!")
+
+        avg_score['dev_score'].append(trainer.best_score['best_dev_score'])
+        avg_score['test_score'].append(trainer.best_score['best_test_score'])
+    
     print("\n")
-    logger.info("\n")
-    logger.info("Start the Training !")
-    trainer.train()
-    logger.info("Fine-tuning is done!")
-
+    logger.info("########################  AVERAGE RESULT  ########################")
+    logger.info(f"- SEEDs: {args.seeds}")
+    logger.info(f"- DEV score: {np.average(avg_score['dev_score']) * 100:.2f} [%] ({avg_score['dev_score']})")
+    logger.info(f"- TEST score: {np.average(avg_score['test_score']) * 100:.2f} [%] ({avg_score['test_score']})")
 
 if __name__ == "__main__":
     main()

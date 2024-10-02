@@ -20,6 +20,6 @@ optim:
   total_steps: -1
 
 logging:
-  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
+  log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.remain_lang}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs
   save_dir: ${logging.log_dir}/ckpt
   tb_dir: ${logging.log_dir}/tb
