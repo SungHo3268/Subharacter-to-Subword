@@ -147,7 +147,7 @@ def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens,
         if mode == 'test':
             target = [' = '.join(line) for line in target]
         sep_ids = tokenizer('. ')['input_ids']
-    elif task_name == 'XL_Sum':
+    elif task_name in ['XL_Sum', 'WikiLingua']:
         context = batch['text']
         target = batch['summary']
         sep_ids = tokenizer(" 요약: ")['input_ids']
@@ -195,7 +195,10 @@ def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens,
     if mode == 'train':
         pass
     else:
-        labels = tokenizer(target, max_length=max_new_tokens, truncation=True, padding=False)['input_ids']
+        if mode == 'test':
+            labels = tokenizer(target, max_length=max_new_tokens*3, truncation=True, padding=False)['input_ids']
+        else:
+            labels = tokenizer(target, max_length=max_new_tokens, truncation=True, padding=False)['input_ids']
 
         max_batch_label_length = max([len(line) for line in labels])
         for l, tokenized_label in enumerate(labels):

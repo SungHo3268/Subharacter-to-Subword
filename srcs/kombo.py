@@ -146,6 +146,7 @@ class KOMBO_Combination_Layer(nn.Module):
                 )
 
             self.init_combination_layer()
+
         else:
             if config.reducer == 'linear':
                 self.sequence_reducer = nn.Sequential(
@@ -259,17 +260,19 @@ class KOMBO_Combination_Layer(nn.Module):
             """
             2) Fusion of Chosung and Joongsung
             """
-            cho_joong_inputs = torch.sum(kombo_embedding[:, :, :- self.jong_len], dim=2, keepdim=True)      # (B, N_char, 3, D)
+            cho_joong_inputs = torch.mean(kombo_embedding[:, :, :- self.jong_len], dim=2, keepdim=True)      # (B, N_char, 2, D)
             # print(f"5) cho_joong_inputs.shape: {cho_joong_inputs.shape}")
-            jong_inputs = torch.sum(kombo_embedding[:, :, -self.jong_len:], dim=2, keepdim=True)        # (B, N_char, 2, D)
+            jong_inputs = torch.mean(kombo_embedding[:, :, -self.jong_len:], dim=2, keepdim=True)        # (B, N_char, 1, D)
             # print(f"6) jong_inputs.shape: {jong_inputs.shape}")
             kombo_embedding = torch.concat([cho_joong_inputs, jong_inputs], dim=2)               # (B, N_char, 2, D)
             # print(f"7) kombo_embedding.shape: {kombo_embedding.shape}")             # (B, N_char, 2, D)
+
             """
             3) Addition of Jongsung (Rearrange & Conv)
             """
             kombo_embedding = rearrange(kombo_embedding, 'b n l d -> b l n d')      # (B, N_char, 2, D) -> (B, 2, N_char, D)
             kombo_embedding = self.add_jongsung(kombo_embedding).squeeze()          # (B, 2, N_char, D) -> (B, N_char, D)
+
             # print(f"8) kombo_embedding.shape: {kombo_embedding.shape}")
             if kombo_embedding.ndim == 2:           # it runs when the batch size is 1.
                 if kombo_embedding.shape[0] == batch_size:
@@ -302,16 +305,7 @@ class KOMBO_Combination_Layer(nn.Module):
                 end_indices.append(end_idx)
             try:
                 kombo_embedding = [kombo_embedding[i, end_indices[i]] for i in range(batch_size)]   # (B, N_char, D) -> (B, N_subword(not consistent), D)
-                # reduced_kombo_embedding = []
-                # for i in range(batch_size):
-                #     if len(end_indices[i]) == 0:
-                #         reduced_kombo_embedding.append([])
-                #     else:
-                #         reduced_kombo_embedding.append(kombo_embedding[i, end_indices[i]])
-                #
-                # kombo_embedding = reduced_kombo_embedding
-            # except RuntimeError or IndexError:
-            except:
+            except RuntimeError or IndexError:
                 print("\n\n\n")
                 print(f"batch_size: {batch_size}")
                 print(f"len(end_indices): {len(end_indices)}")
@@ -329,6 +323,7 @@ class KOMBO_Combination_Layer(nn.Module):
                 torch.full(size=(batch_size, self.config.max_length-kombo_embedding.shape[1], self.config.hidden_dim), fill_value=self.pad_token_id, device=x.device)
             ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
             # print(f"11) kombo_embedding.shape: {kombo_embedding.shape}")
+
         else:
             kombo_embedding = self.sequence_reducer(kombo_embedding)        # (B, max_length, D)
 
@@ -350,6 +345,9 @@ class KOMBO_LoRA_Layer(nn.Module):
             config.hidden_dim = original_layer.weight.shape[1]
 
         self.kombo_combination = KOMBO_Combination_Layer(config, kombo_tokenizer, tokenizer)
+
+        self.kombo_injection = CustomGPT2Block(config.trans_config, layer_idx=0)
+        self.kombo_norm_layer = nn.LayerNorm(config.hidden_dim)
 
         if config.add_lora:
             input_dim = config.hidden_dim                   # input dim size of lora A
@@ -403,7 +401,11 @@ class KOMBO_LoRA_Layer(nn.Module):
         if original_embedding.shape[1] != kombo_embedding.shape[1]:
             kombo_embedding = kombo_embedding[:, :original_embedding.shape[1]]
 
-        return original_embedding + kombo_embedding
+        # final_embedding = original_embedding + kombo_embedding
+
+        kombo_embedding = self.kombo_norm_layer(kombo_embedding)
+        final_embedding = self.kombo_injection([original_embedding, kombo_embedding])
+        return final_embedding
 
     def __repr__(self):
         if self.config.do_combination:

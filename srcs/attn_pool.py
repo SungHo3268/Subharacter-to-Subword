@@ -98,10 +98,11 @@ class CustomGPT2Block(GPT2Block):
         use_cache: Optional[bool] = False,
         output_attentions: Optional[bool] = False,
     ) -> Union[Tuple[torch.Tensor], Optional[Tuple[torch.Tensor, Tuple[torch.FloatTensor, ...]]]]:
+
         hidden_states, before_pooled_states = hidden_states
         residual = hidden_states
 
-        # hidden_states = self.ln_1(hidden_states)
+        hidden_states = self.ln_1(hidden_states)
         attn_outputs = self.attn(
             hidden_states,
             before_pooled_states,

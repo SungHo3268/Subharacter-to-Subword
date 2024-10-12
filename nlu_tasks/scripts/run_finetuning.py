@@ -132,7 +132,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         else:
             raise NotImplementedError
 
-        if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
+        if args.model.kombo.combination.combination_type or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
             trans_config = config
         else:
             trans_config = None

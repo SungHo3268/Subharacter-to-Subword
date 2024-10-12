@@ -26,15 +26,17 @@ def get_nlg_dataloader(args, tokenizer, logger):
         from nlg_tasks.data_utils.KoCommonGen.data_utils import load_task_dataset
     elif args.data.task_name == 'XL_Sum':
         from nlg_tasks.data_utils.XL_Sum.data_utils import load_task_dataset
+    elif args.data.task_name == 'WikiLingua':
+        from nlg_tasks.data_utils.WikiLingua.data_utils import load_task_dataset
     else:
         logger.info(
             "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
         raise ValueError
 
     dataset = load_task_dataset()
-    # dataset['train'] = {key: dataset['train'][key][:100] for key in dataset['train']}
-    # dataset['dev'] = {key: dataset['dev'][key][:100] for key in dataset['dev']}
-    # dataset['test'] = {key: dataset['test'][key][:100] for key in dataset['test']}
+    # dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
+    dataset['dev'] = {key: dataset['dev'][key][:64] for key in dataset['dev']}
+    # dataset['test'] = {key: dataset['test'][key][:50] for key in dataset['test']}
 
     total_dataloader = dict()
     for mode in ['train', 'dev', 'test']:
@@ -122,7 +124,8 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         else:
             raise NotImplementedError
 
-        if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
+        # if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
+        if args.model.kombo.combination.combination_type or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
             trans_config = config
         else:
             trans_config = None
@@ -180,6 +183,29 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
 
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
+    if args.model.generation_config.do_sample is None:
+        del args.model.generation_config.do_sample
+    if args.model.generation_config.num_beams is None:
+        del args.model.generation_config.num_beams
+    if args.model.generation_config.repetition_penalty is None:
+        del args.model.generation_config.repetition_penalty
+    if args.model.generation_config.no_repeat_ngram_size is None:
+        del args.model.generation_config.no_repeat_ngram_size
+    if args.model.generation_config.length_penalty is None:
+        del args.model.generation_config.length_penalty
+
+    if args.data.task_name == 'KoCommonGen':
+        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 2        # 3 for the sep_id tokens (e.g., '. ')
+    elif args.data.task_name in ['XL_Sum', 'WikiLingua']:
+        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., '요약: ')
+    else:
+        raise NotImplementedError
+
+    if args.model.set_kombo:
+        try: assert args.model.kombo.kombo_max_length % args.data.max_length == 0
+        except AssertionError: args.model.kombo.kombo_max_length = args.model.kombo.kombo_max_length - (args.model.kombo.kombo_max_length % args.data.max_length)
+
+
     if args.model.hf_model:
         specific_model_type = ""
         if args.model.set_lora:
@@ -193,7 +219,7 @@ def main(args):
             else:
                 specific_model_type += f"{args.model.kombo.tok_type}_{args.model.kombo.kombo_max_length}_red-{args.model.kombo.reducer}_"
 
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{specific_model_type}{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{specific_model_type}{args.model.generation_config.max_length}+{args.model.generation_config.max_new_tokens}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 
@@ -219,7 +245,7 @@ def main(args):
     else:
         tokenizer = get_gpt2_tokenizer(tok_type=args.data.tok_type,
                                        lang=args.data.language,
-                                       max_length=args.model.generation_config.max_length,
+                                       max_length=args.data.max_length,
                                        lowercase=True,
                                        clean_text=True,
                                        add_bos_token=False,
@@ -230,27 +256,30 @@ def main(args):
                                        pad_token='<|endoftext|>',
                                        )
         tokenizer.pad_token = tokenizer.eos_token
-        if (hasattr(tokenizer, "trunc_num") and
-                tokenizer.custom_tokenizer.config.name in ["jamo_var_info", "bts_units_var_info"] and
-                args.model.generation_config.max_length % tokenizer.trunc_num != 0 and
-                args.model.generation_config.max_new_tokens % tokenizer.trunc_num != 0):
+        if tokenizer.custom_tokenizer.config.name in ["jamo_var_info", "bts_units_var_info"]:
             args.model.generation_config.max_length = args.model.generation_config.max_length - (args.model.generation_config.max_length % tokenizer.trunc_num)
             args.model.generation_config.max_new_tokens = args.model.generation_config.max_new_tokens - (args.model.generation_config.max_new_tokens % tokenizer.trunc_num)
-            # tokenizer.max_length = args.model.generation_config.max_length
+            args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens
+            tokenizer.max_length = args.data.max_length
 
-    # if (args.data.tok_type in ["jamo_var", "stroke_var", "cji_var", "bts_var"] and
-    #         args.data.max_length % tokenizer.trunc_num != 0):
-    #     args.data.max_length = args.data.max_length - (args.data.max_length % tokenizer.trunc_num)
-    #     tokenizer.max_length = args.data.max_length
-
-        logger.info(f"Change the max_length for generation to {args.model.generation_config.max_length}.")
+        logger.info(f"\nChange the total max_length for generation to {args.data.max_length}.")
+        logger.info(f"Change the context max_length for generation to {args.model.generation_config.max_length}.")
         logger.info(f"Change the max_new_tokens for generation to {args.model.generation_config.max_new_tokens}.")
+        logger.info(f"Change the tokenizer_max_length to {args.model.generation_config.max_new_tokens}.\n")
 
     # Set basic settings for training
     setup_basics(args)
 
     # Load the Dataset & DataLoader
     dataloaders = get_nlg_dataloader(args, tokenizer, logger)
+
+
+    # for data in dataloaders['test']:
+    #     print("\n")
+    #     print(tokenizer.decode(data['input_ids'][0]))
+    #     print(tokenizer.decode([idx for idx in data['labels'][0] if idx != -100]))
+
+
 
     batch_num = len(dataloaders['train'])
     args.optim.total_steps = int((batch_num / args.optim.grad_acc) * args.optim.epochs)
@@ -265,13 +294,12 @@ def main(args):
     if args.model.hf_model:
         for key, value in dict(args.model.generation_config).items():
             setattr(model.generation_config, key, value)
-        setattr(model.generation_config, "use_cache", True)
     else:
         generation_config = GenerationConfig.from_pretrained(args.model.name)
+
         for key, value in dict(args.model.generation_config).items():
             setattr(generation_config, key, value)
         model.generation_config = generation_config
-
 
     # Set the Accelerator
     accelerator = Accelerator(
@@ -302,10 +330,21 @@ def main(args):
     logger.info(f"optimizer             : {args.optim.name}")
     logger.info(f"lr_scheduler          : {args.optim.lr_scheduler}")
     logger.info(f"learning rate         : {args.optim.base_lr}")
-    logger.info(f"max length            : {args.model.generation_config.max_length}")
-    logger.info(f"max new tokens        : {args.model.generation_config.max_new_tokens}")
-    # logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}\n")
-    logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}\n")
+    if "min_length" in args.model.generation_config:
+        logger.info(f"min length            : {args.model.generation_config.min_length}")
+    logger.info(f"max total length      : {args.data.max_length}")
+    logger.info(f"ㄴ max context length  : {args.model.generation_config.max_length}")
+    logger.info(f"ㄴ max new tokens      : {args.model.generation_config.max_new_tokens}")
+    if 'repetition_penalty' in args.model.generation_config:
+        logger.info(f"repetition_penalty    : {args.model.generation_config.repetition_penalty}")
+    if 'no_repeat_ngram_size' in args.model.generation_config:
+        logger.info(f"no_repeat_ngram_size  : {args.model.generation_config.no_repeat_ngram_size}")
+    if 'do_sample' in args.model.generation_config:
+        logger.info(f"do_sample       : {args.model.generation_config.do_sample}")
+    if 'num_beams' in args.model.generation_config:
+        logger.info(f"num_beams       : {args.model.generation_config.num_beams}")
+    if 'length_penalty' in args.model.generation_config:
+        logger.info(f"length_penalty  : {args.model.generation_config.length_penalty}")
     if args.model.set_lora:
         logger.info(f"LoRA Configuration")
         logger.info(f"ㄴ r                    : {args.model.lora.r}")
