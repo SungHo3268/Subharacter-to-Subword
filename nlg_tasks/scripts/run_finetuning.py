@@ -125,8 +125,9 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
             raise NotImplementedError
 
         # if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
-        if args.model.kombo.combination.combination_type or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
+        if args.model.set_kombo:
             trans_config = config
+            trans_config.update({"embedding_norm": args.model.kombo.embedding_norm})
         else:
             trans_config = None
 
@@ -355,6 +356,7 @@ def main(args):
         logger.info(f"ㄴ tok_type             : {args.model.kombo.tok_type}")
         logger.info(f"ㄴ hidden_dim           : {args.model.kombo.hidden_dim}")
         logger.info(f"ㄴ kombo_max_length     : {args.model.kombo.kombo_max_length}")
+        logger.info(f"ㄴ embedding_norm       : {args.model.kombo.embedding_norm}")
         logger.info(f"ㄴ do_combination       : {args.model.kombo.do_combination}")
         if args.model.kombo.do_combination:
             logger.info(f"  ㄴ num_attn_heads     : {args.model.kombo.combination.num_attention_heads}")

@@ -36,6 +36,7 @@ model:
     hidden_dim: 768
     kombo_max_length: 2048
     do_combination: false
+    embedding_norm: false
     combination:
       combination_type: 'gru'
       intermediate_size: 3072

@@ -279,6 +279,8 @@ class KOMBO_Combination_Layer(nn.Module):
                     kombo_embedding = kombo_embedding.unsqueeze(1)
                 else:
                     kombo_embedding = kombo_embedding.unsqueeze(0)
+
+            # '''
             """
             4) Get original token representative embeddings (e.g., subword, morpheme, etc.)
             """
@@ -316,14 +318,14 @@ class KOMBO_Combination_Layer(nn.Module):
                 exit(-111)
             kombo_embedding = pad_sequence(kombo_embedding, batch_first=True, padding_value=self.pad_token_id)   # (B, N_subword, D)
             # print(f"10) kombo_embedding.shape: {kombo_embedding.shape}")
-
+            
             # Padding
             kombo_embedding = torch.concat([
                 kombo_embedding,
                 torch.full(size=(batch_size, self.config.max_length-kombo_embedding.shape[1], self.config.hidden_dim), fill_value=self.pad_token_id, device=x.device)
             ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
             # print(f"11) kombo_embedding.shape: {kombo_embedding.shape}")
-
+            # '''
         else:
             kombo_embedding = self.sequence_reducer(kombo_embedding)        # (B, max_length, D)
 
@@ -347,7 +349,6 @@ class KOMBO_LoRA_Layer(nn.Module):
         self.kombo_combination = KOMBO_Combination_Layer(config, kombo_tokenizer, tokenizer)
 
         self.kombo_injection = CustomGPT2Block(config.trans_config, layer_idx=0)
-        self.kombo_norm_layer = nn.LayerNorm(config.hidden_dim)
 
         if config.add_lora:
             input_dim = config.hidden_dim                   # input dim size of lora A
@@ -402,9 +403,7 @@ class KOMBO_LoRA_Layer(nn.Module):
             kombo_embedding = kombo_embedding[:, :original_embedding.shape[1]]
 
         # final_embedding = original_embedding + kombo_embedding
-
-        kombo_embedding = self.kombo_norm_layer(kombo_embedding)
-        final_embedding = self.kombo_injection([original_embedding, kombo_embedding])
+        final_embedding = self.kombo_injection([original_embedding, kombo_embedding.contiguous()])
         return final_embedding
 
     def __repr__(self):
