@@ -81,17 +81,16 @@ def load_task_dataset(split_ratio="0.8_0.1_0.1"):
 if __name__ == '__main__':
     dataset = load_task_dataset()
 
-    from scripts.run_pretraining import get_gpt2_tokenizer
-    tokenizer = get_gpt2_tokenizer(tok_type="morphemeSubword",
-                                   lang="ko",
-                                   max_length=512,
-                                   lowercase=True,
-                                   clean_text=True,
-                                   add_bos_token=False
-                                   )
+    from transformers import AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained("skt/kogpt2-base-v2")
+
 
     text_lengths = [len(tokenizer.tokenize(text)) for text in tqdm(dataset['train']['text'])]
     summary_lengths = [len(tokenizer.tokenize(text)) for text in tqdm(dataset['train']['summary'])]
+
+    print(f"train data context max length: {np.max(text_lengths)}")
+    print(f"train data summary max length: {np.max(summary_lengths)}")
 
     print(f"train data context mean length: {np.mean(text_lengths)}")
     print(f"train data summary mean length: {np.mean(summary_lengths)}")

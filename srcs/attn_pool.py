@@ -12,7 +12,6 @@ transformer_logger = transformer_logging.get_logger(__name__)
 class CustomGPT2Attention(GPT2Attention):
     def __init__(self, config, is_cross_attention=False, layer_idx=None):
         super(CustomGPT2Attention, self).__init__(config, is_cross_attention, layer_idx)
-
         self.q_attn = Conv1D(self.embed_dim, self.embed_dim)
         self.cv_attn = Conv1D(2 * self.embed_dim, self.embed_dim)
         # self.k_attn = Conv1D(self.embed_dim, self.embed_dim)
@@ -84,6 +83,7 @@ class CustomGPT2Attention(GPT2Attention):
 class CustomGPT2Block(GPT2Block):
     def __init__(self, config, layer_idx):
         super(CustomGPT2Block, self).__init__(config, layer_idx)
+        self.config = config
         attention_class = CustomGPT2Attention
         self.attn = attention_class(config=config, layer_idx=layer_idx, is_cross_attention=True)
 
@@ -98,6 +98,7 @@ class CustomGPT2Block(GPT2Block):
         use_cache: Optional[bool] = False,
         output_attentions: Optional[bool] = False,
     ) -> Union[Tuple[torch.Tensor], Optional[Tuple[torch.Tensor, Tuple[torch.FloatTensor, ...]]]]:
+
         hidden_states, before_pooled_states = hidden_states
         residual = hidden_states
 
@@ -140,8 +141,10 @@ class CustomGPT2Block(GPT2Block):
             # hidden_states = residual + attn_output
             # outputs = outputs + cross_attn_outputs[2:]  # add cross attentions if we output attention weights
 
+
         # Layer Normalization
-        hidden_states = self.ln_2(hidden_states)
+        if self.config.embedding_norm:
+            hidden_states = self.ln_2(hidden_states)
 
         if use_cache:
             outputs = (hidden_states,) + outputs

@@ -296,8 +296,16 @@ class GPT2NLGTrainer(nn.Module):
                 pred = predictions[i]
                 only_pred = pred[len(given_text[i]):].strip()
 
-                if self.hparams.data.task_name == 'KoCommonGen':
-                    end_of_text = only_pred.find('.')
+                if self.hparams.data.task_name in ['KoCommonGen', 'XL_Sum']:
+                    if self.hparams.data.task_name == 'KoCommonGen':
+                        end_of_text = only_pred.find('.')
+                    elif self.hparams.data.task_name in ['XL_Sum']:
+                        end_of_text = min(only_pred.find('.'), only_pred.find('?'))
+                        if end_of_text == -1:
+                            end_of_text = only_pred.find('.')
+                    else:
+                        raise NotImplementedError
+
                     if end_of_text == 0:
                         only_pred = only_pred[1:]
                         end_of_text = only_pred.find('.')
@@ -308,7 +316,7 @@ class GPT2NLGTrainer(nn.Module):
                     else:
                         pass
                     only_pred = only_pred[: end_of_text + 1].strip()
-                elif self.hparams.data.task_name == 'XL_Sum':
+                elif self.hparams.data.task_name == 'WikiLingua':
                     pass
                 else:
                     raise NotImplementedError("This task is not supported. Please check the generation code in the predict function.")
@@ -317,14 +325,17 @@ class GPT2NLGTrainer(nn.Module):
             preds_list.extend(only_predictions)
 
             references = decode(batch["labels"])
-            if self.hparams.data.task_name == 'KoCommonGen':
-                if mode == 'test':
-                    references = [ref.split(' = ') for ref in references]
+            if self.hparams.data.task_name == 'KoCommonGen' and mode == 'test':
+                references = [ref.split(' = ') for ref in references]
 
             if type(references[0]) == str:
                 references = [[ref] for ref in references]
 
             refs_list.extend(references)
+
+            print("\n\n\n")
+            print(f"references[0]: {references[0]}")
+            print(f"only_predictions[0]: {only_predictions[0]}")
 
 
             # metric.add_batch(
@@ -350,7 +361,10 @@ class GPT2NLGTrainer(nn.Module):
         # print(f"refs_list[0]: {refs_list[0]}")
         # print(f"preds_list[0]: {preds_list[0]}")
 
-        results = eval_main(refs_list, preds_list, concepts_list)
+        if self.hparams.data.task_name == 'KoCommonGen':
+            results = eval_main(refs_list, preds_list, concepts_list)
+        else:
+            results = eval_main(refs_list, preds_list, None)
 
         eval_stats = results['total_avg']
         eval_stats['time'] = time.time() - self.last_log
@@ -379,7 +393,7 @@ class GPT2NLGTrainer(nn.Module):
             self.model.train()
             self.current_epoch += 1
             print("\n")
-            self.logger.info(f"\n[{self.current_epoch} Epoch]")
+            self.logger.info(f"\n[{self.current_epoch}/ {self.hparams.optim.epochs} Epoch]")
             for batch in tqdm(self.train_dataloader, total=len(self.train_dataloader), desc=f"Fine-Tuning...", bar_format=BAR_FORMAT):
                 loss, stats = self.forward(batch, calc_acc=True)
 
@@ -423,6 +437,7 @@ class GPT2NLGTrainer(nn.Module):
         self.logger.info("")
         for key in self.best_score['best_dev_score']:
             self.logger.info(f"DEV - {key.upper()}: {self.best_score['best_dev_score'][key] * 100:.2f} [%]")
+        self.logger.info("")
         self.logger.info("")
         for key in self.best_score['best_test_score']:
             self.logger.info(f"TEST - {key.upper()}: {self.best_score['best_test_score'][key] * 100:.2f} [%]")

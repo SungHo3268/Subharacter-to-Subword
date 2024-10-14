@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm
 from konlpy.tag import Mecab
 from transformers import *
-from typing import List
+from typing import List, Union
 import os
 import sys
 sys.path.append(os.getcwd())
@@ -46,11 +46,15 @@ def coverage_score(preds, concept_sets, tokenizer):
 
 
 def scoring(preds, concept_sets, tokenizer):
-    Coverage = coverage_score(preds, concept_sets, tokenizer)
-    # print(f"System level Concept Coverage: {Coverage * 100:.2f}")
+    if not concept_sets:
+        return
+    else:
+        Coverage = coverage_score(preds, concept_sets, tokenizer)
+        # print(f"System level Concept Coverage: {Coverage * 100:.2f}")
+        return Coverage
 
 
-def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: List[str]):
+def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: Union[List[str], None]):
     """
     :param refs_list: [[ref1, ref2, ref3], [ref1, ref2, ref3], ...]
     :param preds_list: [pred1, pred2, pred3, ...]
@@ -87,11 +91,15 @@ def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: 
 
     preds_list = [prd.strip() for prd in preds_list]
 
+    if concepts_list is None:
+        concepts_list = ['' for _ in range(len(refs_list))]
+
     for ref, prd, cpt in zip(refs_list, preds_list, concepts_list):
         ref = [r.strip() for r in ref]
 
-        concept_set = mecab_tokenizer(cpt.strip())
-        concept_sets.append(concept_set)
+        if cpt != '':
+            concept_set = mecab_tokenizer(cpt.strip())
+            concept_sets.append(concept_set)
 
         # For BLEU score
         bleu_references.extend([' '.join(mecab_tokenizer(rs)) for rs in ref])             # give 3x stride to refs index per one prediction
@@ -110,23 +118,45 @@ def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: 
         bert_prds.extend([prd for _ in range(len(ref))])
         bert_refs.extend(ref)
 
+    # print("\n\n\n")
+    # print(f"bleu_predictions: {bleu_predictions[0]}")
+    # print(f"bleu_references: {bleu_references[0]}")
+    # print(f"met_predictions: {met_predictions[0]}")
+    # print(f"met_references: {met_references[0]}")
+    # print(f"bert_prds: {bert_prds[0]}")
+    # print(f"bert_refs: {bert_refs[0]}")
+    # print(f"max_rouge_2_score: {rouge2[0]}")
+    # print(f"max_rouge_L_score: {rougeL[0]}")
+
     cur_mBS = mbertscore(bert_refs, bert_prds, batch_size=128)
     cur_kBS = kbertscore(bert_refs, bert_prds, batch_size=128)
 
 
-    # BLEU 3/4 - max
+    # BLEU 3, 4 - max
     bleu3, bleu4, meteors = [], [], []
     for i in range(len(bleu_predictions)):
         if num_label_set == 1:
             # print("")
             # print(f"bleu_predictions: {bleu_predictions[i]}")
             # print(f"bleu_references: {bleu_references[i]}")
-            bleu_ref = bleu_metric.compute(predictions=[bleu_predictions[i]], references=[bleu_references[i]], max_order=4)
+            try:
+                bleu_ref = bleu_metric.compute(predictions=[bleu_predictions[i]], references=[bleu_references[i]], max_order=4)
+                bleu3.append(round(bleu_ref['precisions'][2], 4))
+                bleu4.append(round(bleu_ref['precisions'][3], 4))
+            except ZeroDivisionError:
+                bleu3.append(0)
+                bleu4.append(0)
+                meteors.append(0)
+                print(f"BLEU: ZeroDivisionError at {i}th index")
+                continue
 
-            bleu3.append(round(bleu_ref['precisions'][2], 4))
-            bleu4.append(round(bleu_ref['precisions'][3], 4))
-            met_ref = meteor_metric.compute(predictions=[met_predictions[i]], references=[met_references[i]])
-            meteors.append(round(met_ref['meteor'], 4))
+            try:
+                met_ref = meteor_metric.compute(predictions=[met_predictions[i]], references=[met_references[i]])
+                meteors.append(round(met_ref['meteor'], 4))
+            except ZeroDivisionError:
+                meteors.append(0)
+                print(f"METEORS: ZeroDivisionError at {i}th index")
+                continue
         else:
             bleu_ref_first = bleu_metric.compute(predictions=[bleu_predictions[i]], references=[bleu_references[num_label_set*i]], max_order=4)
             bleu_ref_second = bleu_metric.compute(predictions=[bleu_predictions[i]], references=[bleu_references[num_label_set*i+1]], max_order=4)
@@ -195,6 +225,7 @@ def eval_main(refs_list: List[List[str]], preds_list: List[str], concepts_list: 
     data['total_avg']['meteor'] = round(np.mean(meteors), 4)
     data['total_avg']['mbert'] = round(np.mean(cur_mBS), 4)
     data['total_avg']['kobert'] = round(np.mean(cur_kBS), 4)
-    data['total_avg']['coverage'] = round(np.mean(data['coverage']), 4)
+    if len(concept_sets) != 0:
+        data['total_avg']['coverage'] = round(np.mean(data['coverage']), 4)
 
     return data
