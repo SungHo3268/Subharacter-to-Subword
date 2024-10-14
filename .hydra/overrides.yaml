@@ -1,9 +1,9 @@
 - mode=nlu_ft
-- task=PAWS_X
+- task=KorNLI
 - seeds=1 2 3
 - data.remain_lang=ko_punc
 - data.do_hangeulize=false
-- data.data_remove=true
+- data.data_remove=false
 - optim.grad_acc=1
 - optim.base_lr=1e-02
 - data.max_length=256

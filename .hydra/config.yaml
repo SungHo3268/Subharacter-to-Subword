@@ -48,14 +48,14 @@ data:
   num_labels: null
   remain_lang: ko_punc
   do_hangeulize: false
-  data_remove: true
-  task_name: PAWS_X
+  data_remove: false
+  task_name: KorNLI
 optim:
   name: adamwscale
   base_lr: 0.01
   batch_size: 64
   total_steps: -1
-  epochs: 10
+  epochs: 5
   warmup_steps: -1
   warmup_ratio: 0.1
   lr_scheduler: cosine
@@ -71,7 +71,7 @@ checkpoint:
   save_steps: 50000
   max_number: 3
 logging:
-  log_steps: 75
+  log_steps: 400
   grad_l2: true
   weights_l2: true
   log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.remain_lang}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs

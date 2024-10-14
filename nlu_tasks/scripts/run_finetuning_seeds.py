@@ -178,7 +178,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
 @hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
-        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr")
+        args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlu_tasks/{args.data.task_name}/{args.data.remain_lang}/{args.data.max_length}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
         args.logging.tb_dir = os.path.join(args.logging.log_dir, "tb")
 

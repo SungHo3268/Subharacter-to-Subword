@@ -113,11 +113,11 @@ hydra:
     - hydra.mode=RUN
     task:
     - mode=nlu_ft
-    - task=PAWS_X
+    - task=KorNLI
     - seeds=1 2 3
     - data.remain_lang=ko_punc
     - data.do_hangeulize=false
-    - data.data_remove=true
+    - data.data_remove=false
     - optim.grad_acc=1
     - optim.base_lr=1e-02
     - data.max_length=256
@@ -132,8 +132,8 @@ hydra:
   job:
     name: run_finetuning_seeds
     chdir: true
-    override_dirname: data.data_remove=true,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_punc,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.do_combination=false,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=false,model.set_lora=true,optim.base_lr=1e-02,optim.grad_acc=1,seeds=1
-      2 3,task=PAWS_X
+    override_dirname: data.data_remove=false,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_punc,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.do_combination=false,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=false,model.set_lora=true,optim.base_lr=1e-02,optim.grad_acc=1,seeds=1
+      2 3,task=KorNLI
     id: ???
     num: ???
     config_name: default
@@ -161,7 +161,7 @@ hydra:
     output_dir: /data3/user21/KOMBO_Generation
     choices:
       local_env: default
-      task: PAWS_X
+      task: KorNLI
       mode: nlu_ft
       hydra/env: default
       hydra/callbacks: null
