@@ -17,7 +17,7 @@ seed: 42
 
 
 model:
-  name: openai-community/gpt2
+  name: openai-community/gpt2       # skt/kogpt2-base-v2  ||  kakaobrain/kogpt
   hf_model: false
   n_positions: 2048
   ckpt_dir: ''

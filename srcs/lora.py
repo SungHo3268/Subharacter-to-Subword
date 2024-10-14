@@ -84,12 +84,13 @@ def apply_lora_to_model(model, config, logger=None):
             parent_module = model
 
             parent_names = hierarchy[:-1]
-            if parent_names[-1] in ['attn', 'self_attn']: pass
+            if parent_names[-1] in ['attn', 'self_attn', 'attention']: pass
             else: continue
             for submodule_name in parent_names:  # Navigate to the parent module
                 parent_module = getattr(parent_module, submodule_name)
 
             layer_name = hierarchy[-1]
+
             for target_module in config.target_modules:
                 if target_module == layer_name:
                     original_layer = getattr(parent_module, layer_name)

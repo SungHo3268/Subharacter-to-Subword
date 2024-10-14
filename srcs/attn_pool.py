@@ -85,7 +85,7 @@ class CustomGPT2Block(GPT2Block):
         super(CustomGPT2Block, self).__init__(config, layer_idx)
         self.config = config
         attention_class = CustomGPT2Attention
-        self.attn = attention_class(config=config, layer_idx=layer_idx, is_cross_attention=True)
+        self.attn = attention_class(config=config, layer_idx=layer_idx, is_cross_attention=False)
 
     def forward(
         self,

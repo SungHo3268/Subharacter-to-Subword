@@ -151,6 +151,10 @@ def text_tokenization_for_casuallm(batch, tokenizer, max_length, max_new_tokens,
         context = batch['text']
         target = batch['summary']
         sep_ids = tokenizer(" 요약: ")['input_ids']
+    elif 'KoreanGEC' in task_name:
+        context = batch['wrong_text']
+        target = batch['correct_text']
+        sep_ids = tokenizer(" 수정: ")['input_ids']
     else:
         raise NotImplementedError
 
