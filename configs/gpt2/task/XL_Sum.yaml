@@ -6,6 +6,7 @@ data:
 
 model:
   generation_config:
+    min_length: 64
     max_length: 512
     max_new_tokens: 64
     no_repeat_ngram_size: 3
