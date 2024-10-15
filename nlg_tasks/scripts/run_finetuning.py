@@ -42,8 +42,8 @@ def get_nlg_dataloader(args, tokenizer, logger):
     if 'KoreanGEC' in args.data.task_name:
         dataset = dataset[args.data.task_name]
 
-    dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
-    dataset['dev'] = {key: dataset['dev'][key][:32] for key in dataset['dev']}
+    # dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
+    dataset['dev'] = {key: dataset['dev'][key][:50] for key in dataset['dev']}
     # dataset['test'] = {key: dataset['test'][key][:50] for key in dataset['test']}
 
     total_dataloader = dict()
@@ -62,18 +62,21 @@ def get_nlg_dataloader(args, tokenizer, logger):
                                       )
         if mode == 'train':
             data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+            data_shuffle = True
         else:
             data_collator = DataCollatorForSeq2Seq(tokenizer)
+            data_shuffle = False
 
         dataloader = DataLoader(
             tokenized_datasets,
-            shuffle=True,
+            shuffle=data_shuffle,
             collate_fn=data_collator,
             batch_size=batch_size,
             num_workers=args.data.num_workers,
             pin_memory=True,
             drop_last=False,
         )
+
         total_dataloader[mode] = dataloader
     return total_dataloader
 
@@ -378,6 +381,8 @@ def main(args):
     logger.info(f"optimizer             : {args.optim.name}")
     logger.info(f"lr_scheduler          : {args.optim.lr_scheduler}")
     logger.info(f"learning rate         : {args.optim.base_lr}")
+    if args.optim.early_stop_patience > 0:
+        logger.info(f"early stop patience   : {args.optim.early_stop_patience}")
     if "min_length" in args.model.generation_config:
         logger.info(f"min length            : {args.model.generation_config.min_length}")
     logger.info(f"max total length      : {args.data.max_length}")

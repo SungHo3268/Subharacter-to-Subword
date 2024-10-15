@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 import evaluate
 import torch
 import torch.nn as nn
@@ -55,6 +56,9 @@ class GPT2NLGTrainer(nn.Module):
             "best_dev_score": {},
             "best_test_score": {},
         }
+
+        self.stop_cnt = 0
+        self.early_stop = False
 
     def get_optimizer(self):
         no_decay = ["bias", "LayerNorm", "layernorm", "layer_norm", "ln"]
@@ -346,6 +350,7 @@ class GPT2NLGTrainer(nn.Module):
             refs_list.extend(references)
 
             print("\n\n\n")
+            print(f"given_text[0]: {given_text[0]}")
             print(f"references[0]: {references[0]}")
             print(f"only_predictions[0]: {only_predictions[0]}")
 
@@ -360,6 +365,15 @@ class GPT2NLGTrainer(nn.Module):
             path_2 = '_'.join(paths[1:])
             if mode == 'dev':
                 mode = 'val'
+
+            json.dump({"preds": preds_list,
+                       "refs": refs_list,
+                       "srcs": given_text_list},
+                      open(os.path.join(self.hparams.logging.log_dir, f"{mode}_{self.current_epoch}.json"), "w"),
+                      ensure_ascii=True,
+                      indent=2
+                      )
+
             p, r, f1 = m2score_main(preds_list, f"datasets/nlg_tasks/{path_1}/{path_2}/{path_2}_{mode}.m2")
             # GLEU Score
             gleu_score = float(run_gleu(refs_list, given_text_list, preds_list))
@@ -427,9 +441,14 @@ class GPT2NLGTrainer(nn.Module):
                 self.best_score['best_epoch'] = self.current_epoch
                 # self.best_score['best_dev_score'] = dev_score
                 self.best_score['best_test_score'] = test_score
-
-                # self.logger.info(f"\nSave new Best Model (Epoch: {self.current_epoch})")
-                # save_file(self.model.state_dict(), os.path.join(self.hparams.logging.save_dir, "model.safetensors"))
+                self.stop_cnt = 0
+                self.logger.info(f"\nThe Best score is renewed. Stop Count Reset to 0")
+            else:
+                self.stop_cnt += 1
+                self.logger.info(f"\nStop Count: {self.stop_cnt}")
+                if self.stop_cnt == self.hparams.optim.early_stop_patience:
+                    self.early_stop = True
+                    break
 
         print("\n")
         self.logger.info("########################  BEST RESULT  ########################")
