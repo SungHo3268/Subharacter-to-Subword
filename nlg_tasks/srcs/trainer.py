@@ -437,17 +437,20 @@ class GPT2NLGTrainer(nn.Module):
 
             # if (sum(list(dev_score.values())) + sum(list(test_score.values()))) >= (sum(list(self.best_score['best_dev_score'].values())) + sum(list(self.best_score['best_test_score'].values()))):
             if sum(list(test_score.values())) >= sum(list(self.best_score['best_test_score'].values())):
-                self.logger.info(f"\nSave new Best Score (Epoch: {self.current_epoch})")
+                print("")
+                self.logger.info(f"Save new Best Score (Epoch: {self.current_epoch})")
                 self.best_score['best_epoch'] = self.current_epoch
                 # self.best_score['best_dev_score'] = dev_score
                 self.best_score['best_test_score'] = test_score
                 self.stop_cnt = 0
-                self.logger.info(f"\nThe Best score is renewed. Stop Count Reset to 0")
+                self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
             else:
                 self.stop_cnt += 1
-                self.logger.info(f"\nStop Count: {self.stop_cnt}")
+                print("")
+                self.logger.info(f"Stop Count: {self.stop_cnt}")
                 if self.stop_cnt == self.hparams.optim.early_stop_patience:
                     self.early_stop = True
+                    self.logger.info(f"Early Stop !!!! Training Done.\n")
                     break
 
         print("\n")

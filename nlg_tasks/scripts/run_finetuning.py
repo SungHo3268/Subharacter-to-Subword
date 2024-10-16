@@ -160,7 +160,6 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         elif 'kakaobrain/kogpt' in args.model.name:
             target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
             args.model.kombo.hidden_dim = 4096
-
         else:
             raise NotImplementedError
 
@@ -222,7 +221,7 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         _, _ = print_trainable_parameters(model, logger)
     return config, model
 
-@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
+@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.generation_config.do_sample is None:
         del args.model.generation_config.do_sample
@@ -290,7 +289,6 @@ def main(args):
                 revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b',
                 bos_token='[BOS]', eos_token='[EOS]', unk_token='[UNK]', pad_token='[PAD]', mask_token='[MASK]'
             )
-
         else:
             raise ValueError("It's a Wrong Model Name. Please enter the right model name.")
     else:

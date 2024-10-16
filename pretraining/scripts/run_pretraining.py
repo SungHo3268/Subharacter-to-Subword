@@ -147,7 +147,8 @@ def set_logger(args, tqdm_handler=True):
 
 
 
-@hydra.main(config_path="../../configs/gpt2", config_name="default", version_base='1.1')
+# @hydra.main(config_path="../../configs/gpt", config_name="default", version_base='1.1')
+@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt"), config_name="default", version_base='1.1')
 def main(args):
     logger = set_logger(args, tqdm_handler=False)
 

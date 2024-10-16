@@ -74,6 +74,30 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             model = GPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
 
         if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
+            MODEL = GPT2DoubleHeadsModel
+            if 'kakaobrain/kogpt' in args.model.name:
+                config = AutoConfig.from_pretrained(args.model.name, revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b')
+            else:
+                config = AutoConfig.from_pretrained(args.model.name)
+        else:
+            if 'kakaobrain/kogpt' in args.model.name:
+                config = AutoConfig.from_pretrained(args.model.name, num_labels=args.data.num_labels, revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b')
+            else:
+                config = AutoConfig.from_pretrained(args.model.name, num_labels=args.data.num_labels)
+            MODEL = GPT2ForSequenceClassification
+
+        if 'kakaobrain/kogpt' in args.model.name:
+            model = MODEL.from_pretrained(
+                args.model.name,
+                revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b',
+                pad_token_id=tokenizer.eos_token_id,
+                torch_dtype='auto', low_cpu_mem_usage=True
+            ).to(device='cuda', non_blocking=True)
+        else:
+            odel = MODEL.from_pretrained(args.model.name, config=config)
+
+
+        if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
             model.resize_token_embeddings(len(tokenizer))
     else:
         config = AutoConfig.from_pretrained(
@@ -109,9 +133,12 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         #TODO: Add the loading function for fine-tuned model, not pre-trained model
 
     if args.model.set_lora:
-        #TODO: Add other models for LoRA (e.g., Llamma-3)
-        if 'gpt2' in args.model.name:
+        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            target_modules = ['query_key_value', 'dense']
+        elif 'kakaobrain/kogpt' in args.model.name:
+            target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
         else:
             raise NotImplementedError
 
@@ -127,8 +154,18 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         _ = print_trainable_parameters(model, logger)
 
     if args.model.set_kombo:
-        if 'gpt2' in args.model.name:
+        if 'skt/kogpt2' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 768
+        elif 'skt/ko-gpt-trinity' in args.model.name:
+            target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 1920
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            target_modules = ['query_key_value', 'dense']
+            args.model.kombo.hidden_dim = 2048
+        elif 'kakaobrain/kogpt' in args.model.name:
+            target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
+            args.model.kombo.hidden_dim = 4096
         else:
             raise NotImplementedError
 
@@ -192,7 +229,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
     return config, model
 
 
-@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
+@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.hf_model:
         specific_model_type = ""
@@ -231,10 +268,20 @@ def main(args):
     # ----------------------------------------
     # Get the Tokenizer
     if args.model.hf_model:
-        if args.model.name == 'skt/kogpt2-base-v2':
+        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
             tokenizer = AutoTokenizer.from_pretrained(args.model.name,
                                                       bos_token='</s>', eos_token='</s>', unk_token='<unk>',
-                                                      pad_token='<pad>', mask_token='<mask>')
+                                                      pad_token='<pad>', mask_token='<mask>',
+                                                      padding_side='left',
+                                                      )
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            tokenizer = AutoTokenizer.from_pretrained(args.model.name)
+        elif 'kakaobrain/kogpt' in args.model.name:
+            tokenizer = AutoTokenizer.from_pretrained(
+                revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16',
+                                                                                'float16'] else 'KoGPT6B-ryan1.5b',
+                bos_token='[BOS]', eos_token='[EOS]', unk_token='[UNK]', pad_token='[PAD]', mask_token='[MASK]'
+            )
         else:
             raise ValueError("It's a Wrong Model Name. Please enter the right model name.")
     else:
