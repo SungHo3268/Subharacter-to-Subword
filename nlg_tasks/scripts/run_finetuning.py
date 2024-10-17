@@ -12,8 +12,8 @@ from transformers import (AutoConfig, AutoTokenizer, DataCollatorForLanguageMode
 
 sys.path.append(os.getcwd())
 from utils.gen_utils import setup_basics
-from nlg_tasks.srcs.trainer import GPT2NLGTrainer
-from srcs.gpt2_utils import text_tokenization_for_casuallm
+from nlg_tasks.srcs.trainer import GPTNLGTrainer
+from srcs.gpt_utils import text_tokenization_for_casuallm
 from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
@@ -356,7 +356,7 @@ def main(args):
         mixed_precision=args.mixed_precision
     )
 
-    trainer = GPT2NLGTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
+    trainer = GPTNLGTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
 
     # ----------------------------------------
     #               Do Fine-Tuning

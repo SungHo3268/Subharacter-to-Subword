@@ -10,8 +10,8 @@ from transformers import AutoConfig, DataCollatorWithPadding, GPT2ForSequenceCla
 
 sys.path.append(os.getcwd())
 from utils.gen_utils import setup_basics
-from nlu_tasks.srcs.trainer import GPT2NLUTrainer
-from srcs.gpt2_utils import text_tokenization_for_classification, text_tokenization_for_mc
+from nlu_tasks.srcs.trainer import GPTNLUTrainer
+from srcs.gpt_utils import text_tokenization_for_classification, text_tokenization_for_mc
 from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
@@ -327,7 +327,7 @@ def main(args):
         mixed_precision=args.mixed_precision
     )
 
-    trainer = GPT2NLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
+    trainer = GPTNLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
 
     # from accelerate.utils import set_seed
     # from srcs.functions import init_random

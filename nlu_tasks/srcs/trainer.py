@@ -16,9 +16,9 @@ from srcs.functions import BAR_FORMAT
 from utils.logging_utils import Averager
 
 
-class GPT2NLUTrainer(nn.Module):
+class GPTNLUTrainer(nn.Module):
     def __init__(self, hparams, accelerator, logger, tokenizer, model, dataloaders: dict):
-        super(GPT2NLUTrainer, self).__init__()
+        super(GPTNLUTrainer, self).__init__()
         self.hparams = hparams
         self.logger = logger
         self.device = torch.device('cuda' if hparams.device == 'gpu' and torch.cuda.is_available() else 'cpu')

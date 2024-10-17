@@ -14,7 +14,7 @@ from accelerate import Accelerator
 sys.path.append(os.getcwd())
 from tokenization.srcs.functions import get_tokenizer
 from srcs.gpt2_tokenizers import KoGPT2Tokenizer
-from srcs.gpt2_utils import check_pretraining_data, doc_tokenization
+from srcs.gpt_utils import check_pretraining_data, doc_tokenization
 from pretraining.srcs.trainer import GPT2Trainer
 from utils.gen_utils import setup_basics
 # from utils.logging_utils import Logger

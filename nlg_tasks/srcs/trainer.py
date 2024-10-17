@@ -19,9 +19,9 @@ from utils.gleu_scorer.gleumodule import run_gleu
 from utils.logging_utils import Averager
 
 
-class GPT2NLGTrainer(nn.Module):
+class GPTNLGTrainer(nn.Module):
     def __init__(self, hparams, accelerator, logger, tokenizer, model, dataloaders: dict):
-        super(GPT2NLGTrainer, self).__init__()
+        super(GPTNLGTrainer, self).__init__()
         self.hparams = hparams
         self.logger = logger
         self.device = torch.device('cuda' if hparams.device == 'gpu' and torch.cuda.is_available() else 'cpu')
