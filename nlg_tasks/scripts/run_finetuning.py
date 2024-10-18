@@ -42,9 +42,9 @@ def get_nlg_dataloader(args, tokenizer, logger):
     if 'KoreanGEC' in args.data.task_name:
         dataset = dataset[args.data.task_name]
 
-    # dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
-    dataset['dev'] = {key: dataset['dev'][key][:50] for key in dataset['dev']}
-    # dataset['test'] = {key: dataset['test'][key][:50] for key in dataset['test']}
+    # dataset['train'] = {key: dataset['train'][key][:10] for key in dataset['train']}
+    # dataset['dev'] = {key: dataset['dev'][key][:10] for key in dataset['dev']}
+    # dataset['test'] = {key: dataset['test'][key][:10] for key in dataset['test']}
 
     total_dataloader = dict()
     for mode in ['train', 'dev', 'test']:
@@ -86,10 +86,7 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         if 'skt/kogpt2' in args.model.name:
             config = AutoConfig.from_pretrained(args.model.name)
             model = GPT2LMHeadModel.from_pretrained(args.model.name, config=config)
-        elif 'skt/ko-gpt-trinity' in args.model.name:
-            config = AutoConfig.from_pretrained(args.model.name)
-            model = AutoModelWithLMHead.from_pretrained(args.model.name, config=config)
-        elif 'EleutherAI/polyglot-ko' in args.model.name:
+        elif ('skt/ko-gpt-trinity' in args.model.name) or ('EleutherAI/polyglot-ko' in args.model.name) or ('ai-forever/mGPT' in args.model.name):
             config = AutoConfig.from_pretrained(args.model.name)
             model = AutoModelWithLMHead.from_pretrained(args.model.name, config=config)
         elif 'kakaobrain/kogpt' in args.model.name:
@@ -129,7 +126,7 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
     # TODO: Add the loading function for fine-tuned model, not pre-trained model
 
     if args.model.set_lora:
-        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
+        if ('skt/kogpt2' in args.model.name) or ('skt/ko-gpt-trinity' in args.model.name) or ('ai-forever/mGPT' in args.model.name):        # GPT-2 src codes
             target_modules = ['c_attn', 'c_proj']
         elif 'EleutherAI/polyglot-ko' in args.model.name:
             target_modules = ['query_key_value', 'dense']
@@ -154,6 +151,9 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         elif 'skt/ko-gpt-trinity' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
             args.model.kombo.hidden_dim = 1920
+        elif 'ai-forever/mGPT' in args.model.name:
+            target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 2048
         elif 'EleutherAI/polyglot-ko' in args.model.name:
             target_modules = ['query_key_value', 'dense']
             args.model.kombo.hidden_dim = 2048
@@ -282,7 +282,7 @@ def main(args):
                                                       pad_token='<pad>', mask_token='<mask>',
                                                       padding_side='left',
                                                       )
-        elif 'EleutherAI/polyglot-ko' in args.model.name:
+        elif ('EleutherAI/polyglot-ko' in args.model.name) or ('ai-forever/mGPT' in args.model.name):
             tokenizer = AutoTokenizer.from_pretrained(args.model.name)
         elif 'kakaobrain/kogpt' in args.model.name:
             tokenizer = AutoTokenizer.from_pretrained(

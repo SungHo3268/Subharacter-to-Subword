@@ -2,6 +2,8 @@ import os
 import sys
 import time
 import json
+import shutil
+from omegaconf import OmegaConf
 import evaluate
 import torch
 import torch.nn as nn
@@ -243,6 +245,13 @@ class GPTNLGTrainer(nn.Module):
         else:
             return {}
 
+    def maybe_save_checkpoint(self):
+        output_dir = os.path.join(self.hparams.logging.save_dir, f'checkpoint-{self.current_epoch}epoch')
+
+        self.accelerator.save_state(output_dir=output_dir)
+        torch.save(self.model.state_dict(), os.path.join(output_dir, 'torch.save.pytorch_model.bin'))
+        json.dump(OmegaConf.to_container(self.hparams, resolve=True), open(os.path.join(output_dir, 'args.json'), 'w'))
+
     def extra_stats(self, model, optimizer):
         stats = {}
         if self.hparams.logging.weights_l2:
@@ -359,6 +368,13 @@ class GPTNLGTrainer(nn.Module):
             eval_stats = results['total_avg']
         elif 'KoreanGEC' in self.hparams.data.task_name:
             refs_list = [ref[0] for ref in refs_list]
+            if self.hparams.data.task_name == 'KoreanGEC_union':
+                for k in range(len(preds_list)):
+                    ref = refs_list[k]
+                    pred = preds_list[k]
+                    if len(pred) > len(ref) * 1.5:
+                        preds_list[k] = pred[:len(ref)]
+
             # M2 Score
             paths = self.hparams.data.task_name.split('_')
             path_1 = paths[0]
@@ -427,7 +443,6 @@ class GPTNLGTrainer(nn.Module):
                     current_stack = 0
 
                     self.maybe_logging(train_averager, mode='train')
-                    # self.maybe_save_checkpoint()
 
             self.epoch_done = True
             self.maybe_logging(train_averager, mode='train')
@@ -444,6 +459,7 @@ class GPTNLGTrainer(nn.Module):
                 self.best_score['best_test_score'] = test_score
                 self.stop_cnt = 0
                 self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
+                self.maybe_save_checkpoint()
             else:
                 self.stop_cnt += 1
                 print("")

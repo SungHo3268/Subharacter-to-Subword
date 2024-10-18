@@ -293,9 +293,29 @@ class KOMBO_Combination_Layer(nn.Module):
             char_seq_len = kombo_embedding.shape[1]
             # print(f"9) kombo_embedding.shape: {kombo_embedding.shape}")
             end_indices = []
-
             for text in text_input:
-                tokens = self.original_tokenizer.tokenize(text)
+                if 'mGPT' in self.original_tokenizer.name_or_path:
+                    tokens = []
+                    continuous_token = []
+                    for tok in self.original_tokenizer.encode(text):
+                        if len(continuous_token) > 0:
+                            continuous_token.append(tok)
+                            decoded = self.original_tokenizer.decode(continuous_token)
+                        else:
+                            decoded = self.original_tokenizer.decode(tok)
+
+                        if '�' in decoded:
+                            if len(continuous_token) > 0:
+                                pass
+                            else:
+                                continuous_token.append(tok)
+                            continue
+                        else:
+                            continuous_token = []
+                            tokens.append(decoded)
+                else:
+                    tokens = self.original_tokenizer.tokenize(text)
+
                 if len(tokens) != 0:
                     if (len(tokens) > 1) and (tokens[-1] == "▁"):
                         tokens = tokens[:-1]
@@ -308,25 +328,21 @@ class KOMBO_Combination_Layer(nn.Module):
                 end_idx = [idx for idx in end_idx if idx < char_seq_len]    # Remove the index which is out of the range.
 
                 end_indices.append(end_idx)
-            try:
-                kombo_embedding = [kombo_embedding[i, end_indices[i]] for i in range(batch_size)]   # (B, N_char, D) -> (B, N_subword(not consistent), D)
-            except RuntimeError or IndexError:
-                print("\n\n\n")
-                print(f"batch_size: {batch_size}")
-                print(f"len(end_indices): {len(end_indices)}")
-                print(f"kombo_embedding.shape: {kombo_embedding.shape}")
-                print(f"end_indices: {end_indices}")
-                print(f"text_input: {text_input}")
-                print("\n\n\n")
-                exit(-111)
+
+            kombo_embedding = [kombo_embedding[i, end_indices[i]] for i in range(batch_size)]   # (B, N_char, D) -> (B, N_subword(not consistent), D)
             kombo_embedding = pad_sequence(kombo_embedding, batch_first=True, padding_value=self.pad_token_id)   # (B, N_subword, D)
             # print(f"10) kombo_embedding.shape: {kombo_embedding.shape}")
-            
             # Padding
-            kombo_embedding = torch.concat([
-                kombo_embedding,
-                torch.full(size=(batch_size, self.config.max_length-kombo_embedding.shape[1], self.config.hidden_dim), fill_value=self.pad_token_id, device=x.device)
-            ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
+            try:
+                kombo_embedding = torch.concat([
+                    kombo_embedding,
+                    torch.full(size=(batch_size, self.config.max_length-kombo_embedding.shape[1], self.config.hidden_dim), fill_value=self.pad_token_id, device=x.device)
+                ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
+            except:
+                for i in range(batch_size):
+                    print(f"text_input[{i}]: {text_input[i]}")
+                    print(f"end_indices[{i}]: {end_indices[i]}")
+                exit(-111)
             # print(f"11) kombo_embedding.shape: {kombo_embedding.shape}")
             # '''
         else:
