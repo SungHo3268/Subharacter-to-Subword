@@ -64,6 +64,7 @@ data:
 optim:
   name: adamwscale
   base_lr: 6e-4
+  base_lrs: ''
   batch_size: 128
   total_steps: 1_000_000
   epochs: -1            # If it's > 0 it overwrites total_steps

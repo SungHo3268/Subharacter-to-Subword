@@ -4,8 +4,8 @@ device: gpu
 mixed_precision: bf16
 eval_only: false
 predict_only: false
-seed: 42
-seeds: 1 2 3
+seed: 1
+seeds: ''
 model:
   name: skt/kogpt2-base-v2
   hf_model: true
@@ -25,6 +25,7 @@ model:
     hidden_dim: 768
     kombo_max_length: 2048
     do_combination: false
+    embedding_norm: false
     combination:
       combination_type: gru
       intermediate_size: 3072
@@ -48,11 +49,12 @@ data:
   num_labels: null
   remain_lang: ko_punc
   do_hangeulize: false
-  data_remove: false
+  data_remove: true
   task_name: KorNLI
 optim:
   name: adamwscale
-  base_lr: 0.01
+  base_lr: 0.0001
+  base_lrs: 1e-02 2e-02
   batch_size: 64
   total_steps: -1
   epochs: 5
@@ -71,7 +73,7 @@ checkpoint:
   save_steps: 50000
   max_number: 3
 logging:
-  log_steps: 400
+  log_steps: 10000
   grad_l2: true
   weights_l2: true
   log_dir: logs/${data.tok_type}_${data.language}_${data.vocab_size}/nlu_tasks/${data.task_name}/${data.remain_lang}/${data.max_length}t_${optim.batch_size}b_${optim.grad_acc}s_${optim.base_lr}lr_${seed}rs

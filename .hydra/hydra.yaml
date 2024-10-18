@@ -114,13 +114,14 @@ hydra:
     task:
     - mode=nlu_ft
     - task=KorNLI
-    - seeds=1 2 3
+    - seed=1
     - data.remain_lang=ko_punc
     - data.do_hangeulize=false
-    - data.data_remove=false
+    - data.data_remove=true
     - optim.grad_acc=1
-    - optim.base_lr=1e-02
+    - optim.base_lrs=1e-02 2e-02
     - data.max_length=256
+    - logging.log_steps=10000
     - model.hf_model=True
     - model.name=skt/kogpt2-base-v2
     - model.set_lora=true
@@ -130,10 +131,10 @@ hydra:
     - model.kombo.do_combination=false
     - model.kombo.add_lora=false
   job:
-    name: run_finetuning_seeds
+    name: run_finetuning_lrs
     chdir: true
-    override_dirname: data.data_remove=false,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_punc,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.do_combination=false,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=false,model.set_lora=true,optim.base_lr=1e-02,optim.grad_acc=1,seeds=1
-      2 3,task=KorNLI
+    override_dirname: data.data_remove=true,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_punc,logging.log_steps=10000,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.do_combination=false,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=false,model.set_lora=true,optim.base_lrs=1e-02
+      2e-02,optim.grad_acc=1,seed=1,task=KorNLI
     id: ???
     num: ???
     config_name: default
