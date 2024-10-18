@@ -246,7 +246,7 @@ class GPTNLGTrainer(nn.Module):
             return {}
 
     def maybe_save_checkpoint(self):
-        output_dir = os.path.join(self.hparams.logging.save_dir, f'checkpoint-{self.current_epoch}epoch')
+        output_dir = os.path.join(self.hparams.logging.save_dir, f'checkpoint-best')
 
         self.accelerator.save_state(output_dir=output_dir)
         torch.save(self.model.state_dict(), os.path.join(output_dir, 'torch.save.pytorch_model.bin'))
