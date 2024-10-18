@@ -5,12 +5,15 @@ from datasets import Dataset
 from safetensors import safe_open
 from accelerate import Accelerator
 from torch.utils.data import DataLoader
-from transformers import AutoConfig, AutoTokenizer, DataCollatorForLanguageModeling, DataCollatorForSeq2Seq, GPT2LMHeadModel, GenerationConfig
+from transformers import (AutoConfig, AutoTokenizer, DataCollatorForLanguageModeling, DataCollatorForSeq2Seq,
+                          GPT2LMHeadModel, GenerationConfig,
+                          AutoModelWithLMHead
+                          )
 
 sys.path.append(os.getcwd())
 from utils.gen_utils import setup_basics
-from nlg_tasks.srcs.trainer import GPT2NLGTrainer
-from srcs.gpt2_utils import text_tokenization_for_casuallm
+from nlg_tasks.srcs.trainer import GPTNLGTrainer
+from srcs.gpt_utils import text_tokenization_for_casuallm
 from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
 from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
@@ -28,14 +31,19 @@ def get_nlg_dataloader(args, tokenizer, logger):
         from nlg_tasks.data_utils.XL_Sum.data_utils import load_task_dataset
     elif args.data.task_name == 'WikiLingua':
         from nlg_tasks.data_utils.WikiLingua.data_utils import load_task_dataset
+    elif 'KoreanGEC' in args.data.task_name:
+        from nlg_tasks.data_utils.KoreanGEC.data_utils import load_task_dataset
     else:
         logger.info(
             "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
         raise ValueError
 
     dataset = load_task_dataset()
+    if 'KoreanGEC' in args.data.task_name:
+        dataset = dataset[args.data.task_name]
+
     # dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
-    dataset['dev'] = {key: dataset['dev'][key][:64] for key in dataset['dev']}
+    dataset['dev'] = {key: dataset['dev'][key][:50] for key in dataset['dev']}
     # dataset['test'] = {key: dataset['test'][key][:50] for key in dataset['test']}
 
     total_dataloader = dict()
@@ -54,26 +62,46 @@ def get_nlg_dataloader(args, tokenizer, logger):
                                       )
         if mode == 'train':
             data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+            data_shuffle = True
         else:
             data_collator = DataCollatorForSeq2Seq(tokenizer)
+            data_shuffle = False
 
         dataloader = DataLoader(
             tokenized_datasets,
-            shuffle=True,
+            shuffle=data_shuffle,
             collate_fn=data_collator,
             batch_size=batch_size,
             num_workers=args.data.num_workers,
             pin_memory=True,
             drop_last=False,
         )
+
         total_dataloader[mode] = dataloader
     return total_dataloader
 
 
 def get_config_and_nlg_model(args, tokenizer, logger=None):
     if args.model.hf_model:
-        config = AutoConfig.from_pretrained(args.model.name)
-        model = GPT2LMHeadModel.from_pretrained(args.model.name, config=config)
+        if 'skt/kogpt2' in args.model.name:
+            config = AutoConfig.from_pretrained(args.model.name)
+            model = GPT2LMHeadModel.from_pretrained(args.model.name, config=config)
+        elif 'skt/ko-gpt-trinity' in args.model.name:
+            config = AutoConfig.from_pretrained(args.model.name)
+            model = AutoModelWithLMHead.from_pretrained(args.model.name, config=config)
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            config = AutoConfig.from_pretrained(args.model.name)
+            model = AutoModelWithLMHead.from_pretrained(args.model.name, config=config)
+        elif 'kakaobrain/kogpt' in args.model.name:
+            config = AutoConfig.from_pretrained(args.model.name, revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b')
+            model = AutoModelWithLMHead.from_pretrained(
+                args.model.name,
+                revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b',
+                pad_token_id=tokenizer.eos_token_id,
+                torch_dtype='auto', low_cpu_mem_usage=True
+            ).to(device='cuda', non_blocking=True)
+        else:
+            raise ValueError("It's a Wrong Model Name. Please enter the right model name.")
     else:
         config = AutoConfig.from_pretrained(
             args.model.name,
@@ -101,9 +129,12 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
     # TODO: Add the loading function for fine-tuned model, not pre-trained model
 
     if args.model.set_lora:
-        #TODO: Add other models for LoRA (e.g., Llamma-3)
-        if 'gpt2' in args.model.name:
+        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            target_modules = ['query_key_value', 'dense']
+        elif 'kakaobrain/kogpt' in args.model.name:
+            target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
         else:
             raise NotImplementedError
 
@@ -113,14 +144,22 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
             lora_dropout=args.model.lora.dropout,
             target_modules=target_modules,
         )
-
         model = apply_lora_to_model(model, lora_config, logger)
         make_only_lora_as_trainable(model, bias='lora_only')
         _ = print_trainable_parameters(model, logger)
-
     if args.model.set_kombo:
-        if 'gpt2' in args.model.name:
+        if 'skt/kogpt2' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 768
+        elif 'skt/ko-gpt-trinity' in args.model.name:
+            target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 1920
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            target_modules = ['query_key_value', 'dense']
+            args.model.kombo.hidden_dim = 2048
+        elif 'kakaobrain/kogpt' in args.model.name:
+            target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
+            args.model.kombo.hidden_dim = 4096
         else:
             raise NotImplementedError
 
@@ -182,7 +221,7 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         _, _ = print_trainable_parameters(model, logger)
     return config, model
 
-@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt2"), config_name="default", version_base='1.1')
+@hydra.main(config_path=os.path.join(os.getcwd(), "configs/gpt"), config_name="default", version_base='1.1')
 def main(args):
     if args.model.generation_config.do_sample is None:
         del args.model.generation_config.do_sample
@@ -198,7 +237,9 @@ def main(args):
     if args.data.task_name == 'KoCommonGen':
         args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 2        # 3 for the sep_id tokens (e.g., '. ')
     elif args.data.task_name in ['XL_Sum', 'WikiLingua']:
-        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., '요약: ')
+        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., ' 요약: ')
+    elif 'KoreanGEC' in args.data.task_name:
+        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., ' 수정: ')
     else:
         raise NotImplementedError
 
@@ -235,12 +276,19 @@ def main(args):
     # ----------------------------------------
     # Get the Tokenizer
     if args.model.hf_model:
-        if args.model.name == 'skt/kogpt2-base-v2':
+        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
             tokenizer = AutoTokenizer.from_pretrained(args.model.name,
                                                       bos_token='</s>', eos_token='</s>', unk_token='<unk>',
                                                       pad_token='<pad>', mask_token='<mask>',
                                                       padding_side='left',
                                                       )
+        elif 'EleutherAI/polyglot-ko' in args.model.name:
+            tokenizer = AutoTokenizer.from_pretrained(args.model.name)
+        elif 'kakaobrain/kogpt' in args.model.name:
+            tokenizer = AutoTokenizer.from_pretrained(
+                revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b',
+                bos_token='[BOS]', eos_token='[EOS]', unk_token='[UNK]', pad_token='[PAD]', mask_token='[MASK]'
+            )
         else:
             raise ValueError("It's a Wrong Model Name. Please enter the right model name.")
     else:
@@ -308,7 +356,7 @@ def main(args):
         mixed_precision=args.mixed_precision
     )
 
-    trainer = GPT2NLGTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
+    trainer = GPTNLGTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
 
     # ----------------------------------------
     #               Do Fine-Tuning
@@ -331,6 +379,8 @@ def main(args):
     logger.info(f"optimizer             : {args.optim.name}")
     logger.info(f"lr_scheduler          : {args.optim.lr_scheduler}")
     logger.info(f"learning rate         : {args.optim.base_lr}")
+    if args.optim.early_stop_patience > 0:
+        logger.info(f"early stop patience   : {args.optim.early_stop_patience}")
     if "min_length" in args.model.generation_config:
         logger.info(f"min length            : {args.model.generation_config.min_length}")
     logger.info(f"max total length      : {args.data.max_length}")

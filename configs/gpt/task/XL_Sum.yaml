@@ -1,0 +1,31 @@
+# @package _global_
+
+data:
+  task_name: XL_Sum
+  max_length:
+
+model:
+  generation_config:
+    min_length: 64
+    max_length: 512
+    max_new_tokens: 64
+    no_repeat_ngram_size: 3
+    do_sample: false
+    num_beams: 4
+#    length_penalty: 0.6
+  kombo:
+    tok_type: jamo_var
+    kombo_max_length: 4096
+
+optim:
+  epochs: 10
+  train_batch_size: 16
+  grad_acc: 2
+  eval_batch_size: 8
+  base_lr: 1e-02
+  dropout_prob: 0.1
+  warmup_ratio: 0.1
+
+logging:
+  log_steps: 15
+

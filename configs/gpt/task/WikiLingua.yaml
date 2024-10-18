@@ -19,8 +19,8 @@ model:
 optim:
   epochs: 5
   train_batch_size: 16
-  grad_acc: 4
-  eval_batch_size: 16
+  grad_acc: 1
+  eval_batch_size: 8
   base_lr: 1e-02
   dropout_prob: 0.1
   warmup_ratio: 0.1

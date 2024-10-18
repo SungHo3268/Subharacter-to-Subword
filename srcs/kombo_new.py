@@ -7,46 +7,31 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_sequence
-from transformers import GPT2Config, GPTJConfig, GPTNeoXConfig
 from transformers.models.gpt2.modeling_gpt2 import GPT2Block
+
 sys.path.append(os.getcwd())
 from srcs.functions import trim_pad
-from srcs.attn_pool import CustomGPT2Block
-from srcs.gptj_attn_pool import CustomGPTJBlock
-from srcs.gptneox_attn_pool import CustomGPTNeoXLayer
 from srcs.lora import LoRA_Config, LoRA_Layer, apply_lora_to_model
 
 
-class Pooling(nn.Module):
-    def __init__(self, pooling_module, pooling_size):
+class Escape_Tuple(nn.Module):
+    def __init__(self):
         super().__init__()
-        self.pooling_module = pooling_module
-        self.pooling_size = pooling_size
 
     def forward(self, x):
-        before_pooled_states = rearrange(x, 'b n (k d) -> b (n k) d', k=self.pooling_size)
-        after_pooled_states = self.pooling_module(x)
-        return [after_pooled_states, before_pooled_states]
+        return x[0]
 
 
 class KOMBO_Config:
     def __init__(self, tok_type, reducer, hidden_dim, kombo_max_length, max_length,
-                 do_combination, combination_type, trans_config, num_attention_heads, intermediate_size, num_trans_layers,
-                 add_lora=False, lora_config: LoRA_Config=None):
+                 do_combination, combination_type, trans_config, num_attention_heads, intermediate_size,
+                 num_trans_layers,
+                 add_lora=False, lora_config: LoRA_Config = None):
         self.tok_type = tok_type
         self.reducer = reducer
         self.hidden_dim = hidden_dim
         self.kombo_max_length = kombo_max_length
         self.max_length = max_length
-        try:
-            assert kombo_max_length % max_length == 0       # Ensure the kombo_max_length is divisible by max
-        except AssertionError:
-            print("\n\n\n")
-            print(f"* kombo_max_length: {kombo_max_length}")
-            print(f"* max_length: {max_length}")
-            print(f"* kombo_max_length must be divisible by max_length.")
-            print("\n\n\n")
-        self.k = kombo_max_length // max_length
 
         self.do_combination = do_combination
         self.combination_type = combination_type
@@ -59,6 +44,7 @@ class KOMBO_Config:
         if add_lora:
             assert lora_config is not None
         self.lora_config = lora_config
+
 
 class KOMBO_Combination_Layer(nn.Module):
     def __init__(self, config: KOMBO_Config, kombo_tokenizer, original_tokenizer):
@@ -94,15 +80,14 @@ class KOMBO_Combination_Layer(nn.Module):
             self.max_jamo_len = max(self.cho_len, self.joong_len, self.jong_len)
             self.char_len = self.cho_len + self.joong_len + self.jong_len
         else:
-            pass
+            raise NotImplementedError
 
-        self.kombo_embedding = nn.Embedding(num_embeddings=len(kombo_tokenizer),
+        self.kombo_embedding = nn.Embedding(num_embeddings=kombo_tokenizer.vocab_size,
                                             embedding_dim=config.hidden_dim)
 
         if config.do_combination:
             if config.combination_type == 'gru':
                 self.contextualization = nn.Sequential(
-                    # *nn.ModuleList([GPT2Block(config, layer_idx=i) for i in range(config.num_trans_layers)]),
                     nn.GRU(
                         input_size=config.hidden_dim,
                         hidden_size=config.hidden_dim,
@@ -112,7 +97,8 @@ class KOMBO_Combination_Layer(nn.Module):
                 )
             elif config.combination_type == 'trans_gru':
                 self.contextualization = nn.Sequential(
-                    *nn.ModuleList([GPT2Block(config.trans_config, layer_idx=i) for i in range(config.num_trans_layers)]),
+                    *nn.ModuleList([nn.Sequential(GPT2Block(config.trans_config, layer_idx=i), Escape_Tuple()) for i in
+                                    range(config.num_trans_layers)]),
                     nn.GRU(
                         input_size=config.hidden_dim,
                         hidden_size=config.hidden_dim,
@@ -142,40 +128,19 @@ class KOMBO_Combination_Layer(nn.Module):
                 Rearrange('b d l n -> b l n d')
             )
             self.get_org_shape_emb = nn.GRU(
-                    input_size=config.hidden_dim,
-                    hidden_size=config.hidden_dim,
-                    num_layers=1,
-                    batch_first=True,
-                )
+                input_size=config.hidden_dim,
+                hidden_size=config.hidden_dim,
+                num_layers=1,
+                batch_first=True,
+            )
 
             self.init_combination_layer()
-
         else:
             if config.reducer == 'linear':
                 self.sequence_reducer = nn.Sequential(
                     Rearrange('b s d -> b d s'),
                     nn.Linear(config.kombo_max_length, config.max_length),
-                    Rearrange('b d s -> b s d'),
-                    nn.LayerNorm(config.hidden_dim)
-                )
-            elif config.reducer == 'linear_pool':           # Hourglass Transformer
-                self.sequence_reducer = nn.Sequential(
-                    Rearrange('b (n k) d -> b n k d', k=config.k),
-                    Rearrange('b n k d -> b n (k d)'),
-                    nn.Linear(config.k * config.hidden_dim, config.hidden_dim),
-                    nn.LayerNorm(config.hidden_dim)
-                )
-            elif config.reducer == 'attention_pool':        # Funnel Transformer
-                self.sequence_reducer = nn.Sequential(
-                    Rearrange('b (n k) d -> b n k d', k=config.k),
-                    Rearrange('b n k d -> b n (k d)'),
-                    Pooling(nn.AvgPool1d(kernel_size=config.k,
-                                         stride=config.k,
-                                         count_include_pad=True
-                                         ),
-                            config.k
-                            ),
-                    CustomGPT2Block(config.trans_config, layer_idx=0),
+                    Rearrange('b d s -> b s d')
                 )
             else:
                 raise NotImplementedError
@@ -183,7 +148,6 @@ class KOMBO_Combination_Layer(nn.Module):
             self.init_reducer()
 
     def init_combination_layer(self):
-        print("Init combination layer")
         if self.config.combination_type == 'gru':
             self.contextualization[0].weight_hh_l0.data.normal_(mean=0.0, std=0.02)
             self.contextualization[0].weight_ih_l0.data.normal_(mean=0.0, std=0.02)
@@ -204,15 +168,9 @@ class KOMBO_Combination_Layer(nn.Module):
         self.get_org_shape_emb.bias_ih_l0.data.zero_()
 
     def init_reducer(self):
-        print("Init reducer")
         if self.config.reducer == 'linear':
-            self.sequence_reducer[1].weight.data.normal_(mean=0.0, std=0.02)
+            torch.nn.init.kaiming_uniform_(self.sequence_reducer[1].weight.data)
             self.sequence_reducer[1].bias.data.zero_()
-        elif self.config.reducer == 'linear_pool':
-            self.sequence_reducer[2].weight.data.normal_(mean=0.0, std=0.02)
-            self.sequence_reducer[2].bias.data.zero_()
-        elif self.config.reducer == 'attention_pool':
-            pass
         else:
             raise NotImplementedError
 
@@ -220,16 +178,15 @@ class KOMBO_Combination_Layer(nn.Module):
         """
         :param x: input for KOMBO layer which size of (batch_size, jamo_seq_len(=kombo_max_length)), this is the input_ids of jamo.
         """
-
-        kombo_embedding = self.kombo_embedding(x)       # (batch_size, jamo_seq_len(=kombo_max_length), hidden_dim) = (B, N_max_jamo, D)
+        kombo_embedding = self.kombo_embedding(
+            x)  # (batch_size, jamo_seq_len(=kombo_max_length), hidden_dim) = (B, N_max_jamo, D)
         # print("\n")
         # print(f"1) kombo_embedding.shape: {kombo_embedding.shape}")
         if self.config.do_combination:
             batch_size = kombo_embedding.shape[0]
-            x, kombo_embedding = trim_pad(x, kombo_embedding, pad_value=self.pad_token_id)      # (B, N_jamo, D)
+            x, kombo_embedding = trim_pad(x, kombo_embedding, pad_value=self.pad_token_id)  # (B, N_jamo, D)
             # print(f"2) kombo_embedding.shape: {kombo_embedding.shape}")
 
-            # TODO: Check the following code for the special token handling.
             # eos_token_idx = (x == self.eos_token_id)
             # repeat_num = torch.ones_like(x).to(x.device)
             # repeat_num[eos_token_idx] = self.char_len
@@ -256,44 +213,38 @@ class KOMBO_Combination_Layer(nn.Module):
             """
             1) Contextualization
             """
-            kombo_embedding = self.contextualization(kombo_embedding)[0]        # (B, N_jamo, D)
+            kombo_embedding = self.contextualization(kombo_embedding)[0]  # (B, N_jamo, D)
             # print(f"3) kombo_embedding.shape: {kombo_embedding.shape}")
-            kombo_embedding = kombo_embedding.reshape(batch_size, -1, self.char_len, self.config.hidden_dim)        # # (B, N_jamo, D) -> (B, N_char, 3, D)
+            kombo_embedding = kombo_embedding.reshape(batch_size, -1, self.char_len,
+                                                      self.config.hidden_dim)  # # (B, N_jamo, D) -> (B, N_char, 3, D)
             # print(f"4) kombo_embedding.shape: {kombo_embedding.shape}")
             """
             2) Fusion of Chosung and Joongsung
             """
-            cho_joong_inputs = torch.mean(kombo_embedding[:, :, :- self.jong_len], dim=2, keepdim=True)      # (B, N_char, 2, D)
+            cho_joong_inputs = torch.sum(kombo_embedding[:, :, :- self.jong_len], dim=2,
+                                         keepdim=True)  # (B, N_char, 3, D)
             # print(f"5) cho_joong_inputs.shape: {cho_joong_inputs.shape}")
-            jong_inputs = torch.mean(kombo_embedding[:, :, -self.jong_len:], dim=2, keepdim=True)        # (B, N_char, 1, D)
+            jong_inputs = torch.sum(kombo_embedding[:, :, -self.jong_len:], dim=2, keepdim=True)  # (B, N_char, 2, D)
             # print(f"6) jong_inputs.shape: {jong_inputs.shape}")
-            kombo_embedding = torch.concat([cho_joong_inputs, jong_inputs], dim=2)               # (B, N_char, 2, D)
+            kombo_embedding = torch.concat([jong_inputs, jong_inputs], dim=2)  # (B, N_char, 2, D)
             # print(f"7) kombo_embedding.shape: {kombo_embedding.shape}")             # (B, N_char, 2, D)
-
             """
             3) Addition of Jongsung (Rearrange & Conv)
             """
-            kombo_embedding = rearrange(kombo_embedding, 'b n l d -> b l n d')      # (B, N_char, 2, D) -> (B, 2, N_char, D)
-            kombo_embedding = self.add_jongsung(kombo_embedding).squeeze()          # (B, 2, N_char, D) -> (B, N_char, D)
-
+            kombo_embedding = rearrange(kombo_embedding, 'b n l d -> b l n d')  # (B, N_char, 2, D) -> (B, 2, N_char, D)
+            kombo_embedding = self.add_jongsung(kombo_embedding).squeeze()  # (B, 2, N_char, D) -> (B, N_char, D)
             # print(f"8) kombo_embedding.shape: {kombo_embedding.shape}")
-            if kombo_embedding.ndim == 2:           # it runs when the batch size is 1.
-                if kombo_embedding.shape[0] == batch_size:
-                    kombo_embedding = kombo_embedding.unsqueeze(1)
-                else:
-                    kombo_embedding = kombo_embedding.unsqueeze(0)
-
-            # '''
+            if kombo_embedding.ndim == 2:  # it runs when the batch size is 1.
+                kombo_embedding = kombo_embedding.unsqueeze(0)
             """
             4) Get original token representative embeddings (e.g., subword, morpheme, etc.)
             """
             kombo_embedding = kombo_embedding.type(torch.float32)
-            kombo_embedding = self.get_org_shape_emb(kombo_embedding)[0]        # (B, N_char, D)
+            kombo_embedding = self.get_org_shape_emb(kombo_embedding)[0]  # (B, N_char, D)
 
             char_seq_len = kombo_embedding.shape[1]
             # print(f"9) kombo_embedding.shape: {kombo_embedding.shape}")
             end_indices = []
-
             for text in text_input:
                 tokens = self.original_tokenizer.tokenize(text)
                 if len(tokens) != 0:
@@ -304,13 +255,14 @@ class KOMBO_Combination_Layer(nn.Module):
                     if len(tokens[0]) == 0:
                         tokens = tokens[1:]
 
-                end_idx = np.cumsum([len(word) for word in tokens]) - 1     # '-1' is for making index start from 0.
-                end_idx = [idx for idx in end_idx if idx < char_seq_len]    # Remove the index which is out of the range.
+                end_idx = np.cumsum([len(word) for word in tokens]) - 1  # '-1' is for making index start from 0.
+                end_idx = [idx for idx in end_idx if idx < char_seq_len]  # Remove the index which is out of the range.
 
                 end_indices.append(end_idx)
             try:
-                kombo_embedding = [kombo_embedding[i, end_indices[i]] for i in range(batch_size)]   # (B, N_char, D) -> (B, N_subword(not consistent), D)
-            except RuntimeError or IndexError:
+                kombo_embedding = [kombo_embedding[i, end_indices[i]] for i in
+                                   range(batch_size)]  # (B, N_char, D) -> (B, N_subword(not consistent), D)
+            except RuntimeError:
                 print("\n\n\n")
                 print(f"batch_size: {batch_size}")
                 print(f"len(end_indices): {len(end_indices)}")
@@ -319,26 +271,29 @@ class KOMBO_Combination_Layer(nn.Module):
                 print(f"text_input: {text_input}")
                 print("\n\n\n")
                 exit(-111)
-            kombo_embedding = pad_sequence(kombo_embedding, batch_first=True, padding_value=self.pad_token_id)   # (B, N_subword, D)
+            kombo_embedding = pad_sequence(kombo_embedding, batch_first=True,
+                                           padding_value=self.pad_token_id)  # (B, N_subword, D)
             # print(f"10) kombo_embedding.shape: {kombo_embedding.shape}")
-            
+
             # Padding
             kombo_embedding = torch.concat([
                 kombo_embedding,
-                torch.full(size=(batch_size, self.config.max_length-kombo_embedding.shape[1], self.config.hidden_dim), fill_value=self.pad_token_id, device=x.device)
-            ], dim=1)           # (B, N_subword, D) -> (B, max_length, D)
+                torch.full(size=(batch_size, self.config.max_length - kombo_embedding.shape[1], self.config.hidden_dim),
+                           fill_value=self.pad_token_id, device=x.device)
+            ], dim=1)  # (B, N_subword, D) -> (B, max_length, D)
             # print(f"11) kombo_embedding.shape: {kombo_embedding.shape}")
-            # '''
         else:
-            kombo_embedding = self.sequence_reducer(kombo_embedding)        # (B, max_length, D)
+            kombo_embedding = self.sequence_reducer(kombo_embedding)  # (B, max_length, D)
 
         return kombo_embedding
+
 
 class KOMBO_LoRA_Layer(nn.Module):
     """
     Be careful with the name of weight parameters. Only the weight of KOMBO layer should have the name 'kombo_'.
     The name which has 'kombo_' will be trained. The other weights will be frozen.
     """
+
     def __init__(self, tokenizer, kombo_tokenizer, original_layer, config: KOMBO_Config):
         super(KOMBO_LoRA_Layer, self).__init__()
         self.config = config
@@ -349,40 +304,38 @@ class KOMBO_LoRA_Layer(nn.Module):
         if config.hidden_dim is None:
             config.hidden_dim = original_layer.weight.shape[1]
 
+        input_dim = config.hidden_dim  # input dim size of lora A
+        output_dim = original_layer.weight.shape[1]  # output dim size of lora B
+
+        # Initialization
+        lora_A_org_tensor = torch.empty(input_dim, config.lora_config.r)
+        torch.nn.init.kaiming_uniform_(lora_A_org_tensor)
+        self.lora_A_org = nn.Parameter(lora_A_org_tensor)
+        
+        lora_B_org_tensor = torch.zeros(config.lora_config.r, output_dim)
+        self.lora_B_org = nn.Parameter(lora_B_org_tensor)
+
+        self.scaling = config.lora_config.lora_alpha // config.lora_config.r
+
+        if config.lora_config.lora_dropout > 0:
+            self.dropout = nn.Dropout(p=config.lora_config.lora_dropout)
+        else:
+            self.dropout = lambda x: x  # pass
+
         self.kombo_combination = KOMBO_Combination_Layer(config, kombo_tokenizer, tokenizer)
+        # Initialization
+        lora_A_tensor = torch.empty(input_dim, config.lora_config.r)
+        torch.nn.init.kaiming_uniform_(lora_A_tensor)
+        self.kombo_lora_A = nn.Parameter(lora_A_tensor)
 
-        if isinstance(config.trans_config, GPT2Config):
-            self.kombo_injection = CustomGPT2Block(config.trans_config, layer_idx=0)
-        elif isinstance(config.trans_config, GPTJConfig):
-            self.kombo_injection = CustomGPTJBlock(config.trans_config)
-        elif isinstance(config.trans_config, GPTNeoXConfig):
-            self.kombo_injection = CustomGPTNeoXLayer(config.trans_config)
-
-        if config.add_lora:
-            input_dim = config.hidden_dim                   # input dim size of lora A
-            output_dim = original_layer.weight.shape[1]     # output dim size of lora B
-
-            # Initialization
-            lora_A_tensor = torch.empty(input_dim, config.lora_config.r)
-            torch.nn.init.kaiming_uniform_(lora_A_tensor)
-            self.kombo_lora_A = nn.Parameter(lora_A_tensor)
-
-            lora_B_tensor = torch.zeros(config.lora_config.r, output_dim)
-            self.kombo_lora_B = nn.Parameter(lora_B_tensor)
-
-            self.scaling = config.lora_config.lora_alpha // config.lora_config.r
-
-            if config.lora_config.lora_dropout > 0:
-                self.dropout = nn.Dropout(p=config.lora_config.lora_dropout)
-            else:
-                self.dropout = lambda x: x  # pass
 
     def make_kombo_input(self, x, device):
         """
         :param x: original input text which is the string type.
         :return: kombo_x: input for KOMBO layer which size of (batch_size, jamo_seq_len)
         """
-        kombo_encoded = self.kombo_tokenizer(x, padding="max_length", truncation=True, max_length=self.config.kombo_max_length, return_tensors='pt')
+        kombo_encoded = self.kombo_tokenizer(x, padding="max_length", truncation=True,
+                                             max_length=self.config.kombo_max_length, return_tensors='pt')
         kombo_x = kombo_encoded['input_ids'].to(device)
         return kombo_x
 
@@ -390,80 +343,47 @@ class KOMBO_LoRA_Layer(nn.Module):
         device = x.device
 
         original_embedding = self.original_layer(x)
+        A_org_dropout = self.dropout(self.lora_A_org)
+        org_latent = F.linear(original_embedding, self.scaling * A_org_dropout.T)    # (B, N, r)
 
         text_input = self.tokenizer.batch_decode(x, skip_special_tokens=True)
+        kombo_x = self.make_kombo_input(text_input, device)
+        kombo_embedding = self.kombo_combination(kombo_x, text_input)
+        A_dropout = self.dropout(self.kombo_lora_A)
+        kombo_embedding = F.linear(kombo_embedding, self.scaling * A_dropout.T)     # (B, N, r)
 
-        kombo_x = self.make_kombo_input(text_input, device)                 # (B, N(=max_kombo_length), D)
+        latent_embedding = org_latent + kombo_embedding
+        B_org_dropout = self.dropout(self.lora_B_org)
+        output = F.linear(latent_embedding, B_org_dropout.T)
 
-        kombo_embedding = self.kombo_combination(kombo_x, text_input)       # (B, N(=max_length), D)
-
-        if self.config.add_lora:
-            # Apply dropout before the matrix multiplication
-            A_dropout = self.dropout(self.kombo_lora_A)
-            B_dropout = self.dropout(self.kombo_lora_B)
-            W = self.scaling * A_dropout @ B_dropout
-            kombo_embedding = F.linear(kombo_embedding, W.T)
-        else:
-            pass
-
-        # For NLU tasks, the output dimension of the original layer and the KOMBO layer may be different.
-        if original_embedding.shape[1] != kombo_embedding.shape[1]:
-            kombo_embedding = kombo_embedding[:, :original_embedding.shape[1]]
-
-        final_embedding = original_embedding + kombo_embedding
-        # final_embedding = self.kombo_injection([original_embedding, kombo_embedding.contiguous()])
-        return final_embedding
+        return output
 
     def __repr__(self):
-        if self.config.do_combination:
-            if self.config.add_lora:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (kombo_embedding): Embedding({self.kombo_combination.kombo_embedding.weight.shape}),\n'
-                        f'  (kombo_combination): KOMBO_Combination_Layer(\n'
-                        f'    (contextualization): {self.kombo_combination.contextualization},\n'
-                        f'  ),\n'
-                        f'  (kombo_lora_A): Parameter of size {self.kombo_lora_A.size()},\n'
-                        f'  (kombo_lora_B): Parameter of size {self.kombo_lora_B.size()}\n'
-                        f')'
-                        )
-            else:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (kombo_embedding): Embedding({self.kombo_combination.kombo_embedding.weight.shape}),\n'
-                        f'  (kombo_combination): KOMBO_Combination_Layer('
-                        f'    (contextualization): {self.kombo_combination.contextualization},\n'
-                        f'  )\n'
-                        f')'
-                        )
+        if self.config.reducer == 'linear':
+            reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer[1]}"
         else:
-            if self.config.reducer == 'linear':
-                reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
-            elif self.config.reducer == 'linear_pool':
-                reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
-            elif self.config.reducer == 'attention_pool':
-                reducer_msg = f"(sequence_reducer): {self.kombo_combination.sequence_reducer}"
-            else:
-                raise NotImplementedError
+            raise NotImplementedError
 
-            if self.config.add_lora:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (kombo_embedding): Embedding({self.kombo_combination.kombo_embedding.weight.shape}),\n'
-                        f'  {reducer_msg}\n'
-                        f'  ),\n'
-                        f'  (kombo_lora_A): Parameter of size {self.kombo_lora_A.size()},\n'
-                        f'  (kombo_lora_B): Parameter of size {self.kombo_lora_B.size()}\n'
-                        f')'
-                        )
-            else:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (kombo_embedding): Parameter of size {self.kombo_combination.kombo_embedding.size()},\n'
-                        f'  {reducer_msg}\n'
-                        f'  )\n'
-                        f')'
-                        )
+        if self.config.add_lora:
+            return (f'{self.__class__.__name__}(\n'
+                    f'  (original_layer): {self.original_layer},\n'
+                    f'  (kombo_combination): KOMBO_Combination_Layer(\n'
+                    f'    (kombo_embedding): Embedding({self.kombo_combination.kombo_embedding.weight.shape}),\n'
+                    f'    {reducer_msg}\n'
+                    f'  ),\n'
+                    f'  (kombo_lora_A): Parameter of size {self.kombo_lora_A.size()},\n'
+                    f'  (kombo_lora_B): Parameter of size {self.kombo_lora_B.size()}\n'
+                    f')'
+                    )
+        else:
+            return (f'{self.__class__.__name__}(\n'
+                    f'  (original_layer): {self.original_layer},\n'
+                    f'  (kombo_combination): KOMBO_Combination_Layer('
+                    f'    (kombo_embedding): Parameter of size {self.kombo_combination.kombo_embedding.size()},\n'
+                    f'    {reducer_msg}\n'
+                    f'  )\n'
+                    f')'
+                    )
 
 
 def apply_kombo_to_model(model, tokenizer, kombo_tokenizer, config: KOMBO_Config, logger=None):
@@ -471,7 +391,7 @@ def apply_kombo_to_model(model, tokenizer, kombo_tokenizer, config: KOMBO_Config
     for name, module in model.named_modules():
         hierarchy = name.split('.')
         layer_name = hierarchy[-1]
-        if len(hierarchy) > 1 and layer_name in ['wte', 'embed_in']:    # Ensure the module is not the top-level module
+        if len(hierarchy) > 1 and layer_name in ['wte']:  # Ensure the module is not the top-level module
             parent_module = model
 
             parent_names = hierarchy[:-1]
@@ -484,7 +404,7 @@ def apply_kombo_to_model(model, tokenizer, kombo_tokenizer, config: KOMBO_Config
                 if logger:
                     logger.info(f"Replaced {name} with KOMBO_LoRA_Layer")
                 else:
-                    print(f"Replaced {name} with KOMBO_LoRA_Layer")
+                    logger.info(f"Replaced {name} with KOMBO_LoRA_Layer")
     return model
 
 
@@ -530,9 +450,10 @@ def make_only_kombo_and_lora_as_trainable(model, weight: str = 'none', bias: str
 
 
 if __name__ == "__main__":
-    from transformers import AutoConfig, AutoTokenizer, GPT2LMHeadModel
+    from transformers import AutoTokenizer, GPT2LMHeadModel
     import os
     import sys
+
     sys.path.append(os.getcwd())
     from srcs.lora import print_trainable_parameters
     from pretraining.scripts.run_pretraining import get_gpt2_tokenizer
@@ -544,17 +465,14 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     kombo_tokenizer = get_gpt2_tokenizer(tok_type=tok_type, lang="ko", max_length=kombo_max_length,
                                          lowercase=True, clean_text=True, add_bos_token=False,
-                                         bos_token="<|endoftext|>", eos_token="<|endoftext|>", pad_token="<|endoftext|>", unk_token="<unk>")
-
+                                         bos_token="<|endoftext|>", eos_token="<|endoftext|>",
+                                         pad_token="<|endoftext|>", unk_token="<unk>")
 
     model = GPT2LMHeadModel.from_pretrained(model_name)
 
     # Check the original number of parameters
     origin_num = sum(p.numel() for p in model.parameters())
     print("Original number of parameters:", origin_num)
-
-    # Configuration for Transformer
-    trans_config = AutoConfig.from_pretrained(model_name)
 
     # Configuration for LoRA
     lora_config = LoRA_Config(
@@ -569,9 +487,7 @@ if __name__ == "__main__":
         hidden_dim=768,
         kombo_max_length=kombo_max_length,
         max_length=256,
-        do_combination=False,
-        combination_type='gru',
-        trans_config=trans_config,
+        do_combination=True,
         num_attention_heads=3,
         intermediate_size=3072,
         num_trans_layers=3,

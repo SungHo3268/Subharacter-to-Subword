@@ -5,3 +5,6 @@ datasets/
 log/
 logs/
 mecab*/
+
+__pycache__
+

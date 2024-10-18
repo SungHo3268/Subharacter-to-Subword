@@ -17,7 +17,7 @@ seed: 42
 seeds: ''
 
 model:
-  name: openai-community/gpt2
+  name: openai-community/gpt2       # skt/kogpt2-base-v2  ||  kakaobrain/kogpt  ||  skt/ko-gpt-trinity-1.2B-v0.5  || ElutherAI/polyglot-ko-1.3b
   hf_model: false
   n_positions: 2048
   ckpt_dir: ''
@@ -75,6 +75,7 @@ optim:
   grad_clip: 1.0
   grad_acc: 1
   final_cosine: 1e-5
+  early_stop_patience: 3
 
 eval:
   eval_steps: 10_000 # Eval once in the end

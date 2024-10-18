@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 import evaluate
 import torch
 import torch.nn as nn
@@ -13,12 +14,14 @@ from torch.utils.tensorboard import SummaryWriter
 sys.path.append(os.getcwd())
 from srcs.functions import BAR_FORMAT
 from nlg_tasks.srcs.evaluation_metrics import eval_main
+from utils.m2scorer.scripts.m2scorer import m2score_main
+from utils.gleu_scorer.gleumodule import run_gleu
 from utils.logging_utils import Averager
 
 
-class GPT2NLGTrainer(nn.Module):
+class GPTNLGTrainer(nn.Module):
     def __init__(self, hparams, accelerator, logger, tokenizer, model, dataloaders: dict):
-        super(GPT2NLGTrainer, self).__init__()
+        super(GPTNLGTrainer, self).__init__()
         self.hparams = hparams
         self.logger = logger
         self.device = torch.device('cuda' if hparams.device == 'gpu' and torch.cuda.is_available() else 'cpu')
@@ -53,6 +56,9 @@ class GPT2NLGTrainer(nn.Module):
             "best_dev_score": {},
             "best_test_score": {},
         }
+
+        self.stop_cnt = 0
+        self.early_stop = False
 
     def get_optimizer(self):
         no_decay = ["bias", "LayerNorm", "layernorm", "layer_norm", "ln"]
@@ -272,6 +278,7 @@ class GPT2NLGTrainer(nn.Module):
             preds = [_pred.strip() for _pred in preds]
             return preds
 
+        given_text_list = []
         preds_list = []
         refs_list = []
         concepts_list = []
@@ -283,6 +290,9 @@ class GPT2NLGTrainer(nn.Module):
                 concepts = [[morph.strip() for morph in text.split(",")] for text in given_text]
                 concepts = ["#".join(text) for text in concepts]
                 concepts_list.extend(concepts)
+            elif 'KoreanGEC' in self.hparams.data.task_name:
+                trimmed_given_text = [text.split("수정:")[0].strip() for text in given_text]
+                given_text_list.extend(trimmed_given_text)
 
             predictions = self.model.generate(
                 input_ids=batch['input_ids'],
@@ -295,14 +305,20 @@ class GPT2NLGTrainer(nn.Module):
             for i in range(len(predictions)):
                 pred = predictions[i]
                 only_pred = pred[len(given_text[i]):].strip()
-
-                if self.hparams.data.task_name in ['KoCommonGen', 'XL_Sum']:
+                if self.hparams.data.task_name in ['KoCommonGen', 'XL_Sum'] or 'KoreanGEC' in self.hparams.data.task_name:
                     if self.hparams.data.task_name == 'KoCommonGen':
                         end_of_text = only_pred.find('.')
                     elif self.hparams.data.task_name in ['XL_Sum']:
                         end_of_text = min(only_pred.find('.'), only_pred.find('?'))
                         if end_of_text == -1:
                             end_of_text = only_pred.find('.')
+                    elif 'KoreanGEC' in self.hparams.data.task_name:
+                        end_of_text = [only_pred.find('.'), only_pred.find('?'), only_pred.find('!'), only_pred.find('\n'), only_pred.find('\t')]
+                        end_of_text = [end for end in end_of_text if end != -1]
+                        if len(end_of_text) == 0:
+                            end_of_text = -1
+                        else:
+                            end_of_text = min(end_of_text)
                     else:
                         raise NotImplementedError
 
@@ -334,39 +350,37 @@ class GPT2NLGTrainer(nn.Module):
             refs_list.extend(references)
 
             print("\n\n\n")
+            print(f"given_text[0]: {given_text[0]}")
             print(f"references[0]: {references[0]}")
             print(f"only_predictions[0]: {only_predictions[0]}")
 
-
-            # metric.add_batch(
-            #     predictions=only_predictions,
-            #     references=references,
-            # )
-
-        # if not self.hparams.model.hf_model and self.hparams.data.tok_type in ['jamo_var', 'stroke_var', 'cji_var', 'bts_var']:
-        #     eval_metric = metric.compute(tokenizer=lambda x: [tok for tok in self.tokenizer.tokenize(x) if tok != self.tokenizer.custom_tokenizer.empty_jamo], use_stemmer=True, use_aggregator=False)
-        # else:
-        #     eval_metric = metric.compute(tokenizer=lambda x: self.tokenizer.tokenize(x), use_stemmer=True, use_aggregator=False)
-        # or
-        # eval_metric = metric.compute(tokenizer=lambda x: x.split(), use_stemmer=True, use_aggregator=False)
-        # rougeL = sum(eval_metric["rougeL"]) / len(eval_metric["rougeL"])
-        # rouge2 = sum(eval_metric["rouge2"]) / len(eval_metric["rouge2"])
-
-        # eval_stats = {"rougeL": rougeL,
-        #               "rouge2": rouge2,
-        #               "time": time.time() - self.last_log}
-
-        # print("")
-        # print(f"concepts_list[0]: {concepts_list[0]}")
-        # print(f"refs_list[0]: {refs_list[0]}")
-        # print(f"preds_list[0]: {preds_list[0]}")
-
         if self.hparams.data.task_name == 'KoCommonGen':
             results = eval_main(refs_list, preds_list, concepts_list)
+            eval_stats = results['total_avg']
+        elif 'KoreanGEC' in self.hparams.data.task_name:
+            refs_list = [ref[0] for ref in refs_list]
+            # M2 Score
+            paths = self.hparams.data.task_name.split('_')
+            path_1 = paths[0]
+            path_2 = '_'.join(paths[1:])
+            if mode == 'dev':
+                mode = 'val'
+
+            json.dump({"preds": preds_list,
+                       "refs": refs_list,
+                       "srcs": given_text_list},
+                      open(os.path.join(self.hparams.logging.log_dir, f"{mode}_{self.current_epoch}.json"), "w"),
+                      ensure_ascii=True,
+                      indent=2
+                      )
+
+            p, r, f1 = m2score_main(preds_list, f"datasets/nlg_tasks/{path_1}/{path_2}/{path_2}_{mode}.m2")
+            # GLEU Score
+            gleu_score = float(run_gleu(refs_list, given_text_list, preds_list))
+            eval_stats = {'m2_precision': p, 'm2_recall': r, 'm2_f1_half': f1, 'gleu': gleu_score}
         else:
             results = eval_main(refs_list, preds_list, None)
-
-        eval_stats = results['total_avg']
+            eval_stats = results['total_avg']
         eval_stats['time'] = time.time() - self.last_log
         return eval_stats
 
@@ -418,18 +432,26 @@ class GPT2NLGTrainer(nn.Module):
             self.epoch_done = True
             self.maybe_logging(train_averager, mode='train')
 
-            dev_score = self.evaluation(self.dev_dataloader, mode='dev')
+            # dev_score = self.evaluation(self.dev_dataloader, mode='dev')
             test_score = self.evaluation(self.test_dataloader, mode='test')
 
             # if (sum(list(dev_score.values())) + sum(list(test_score.values()))) >= (sum(list(self.best_score['best_dev_score'].values())) + sum(list(self.best_score['best_test_score'].values()))):
             if sum(list(test_score.values())) >= sum(list(self.best_score['best_test_score'].values())):
-                self.logger.info(f"\nSave new Best Score (Epoch: {self.current_epoch})")
+                print("")
+                self.logger.info(f"Save new Best Score (Epoch: {self.current_epoch})")
                 self.best_score['best_epoch'] = self.current_epoch
-                self.best_score['best_dev_score'] = dev_score
+                # self.best_score['best_dev_score'] = dev_score
                 self.best_score['best_test_score'] = test_score
-
-                # self.logger.info(f"\nSave new Best Model (Epoch: {self.current_epoch})")
-                # save_file(self.model.state_dict(), os.path.join(self.hparams.logging.save_dir, "model.safetensors"))
+                self.stop_cnt = 0
+                self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
+            else:
+                self.stop_cnt += 1
+                print("")
+                self.logger.info(f"Stop Count: {self.stop_cnt}")
+                if self.stop_cnt == self.hparams.optim.early_stop_patience:
+                    self.early_stop = True
+                    self.logger.info(f"Early Stop !!!! Training Done.\n")
+                    break
 
         print("\n")
         self.logger.info("########################  BEST RESULT  ########################")
