@@ -9,9 +9,9 @@ model:
     min_length:
     max_length: 32
     max_new_tokens: 32
-#    no_repeat_ngram_size: 3
-#    do_sample: false
-#    num_beams: 4
+    no_repeat_ngram_size: 3
+    do_sample: false
+    num_beams: 4
   kombo:
     tok_type: jamo_var
     kombo_max_length: 1024

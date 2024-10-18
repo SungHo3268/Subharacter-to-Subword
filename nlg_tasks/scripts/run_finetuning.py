@@ -43,7 +43,7 @@ def get_nlg_dataloader(args, tokenizer, logger):
         dataset = dataset[args.data.task_name]
 
     # dataset['train'] = {key: dataset['train'][key][:10] for key in dataset['train']}
-    # dataset['dev'] = {key: dataset['dev'][key][:10] for key in dataset['dev']}
+    dataset['dev'] = {key: dataset['dev'][key][:10] for key in dataset['dev']}
     # dataset['test'] = {key: dataset['test'][key][:10] for key in dataset['test']}
 
     total_dataloader = dict()
@@ -234,14 +234,8 @@ def main(args):
     if args.model.generation_config.length_penalty is None:
         del args.model.generation_config.length_penalty
 
-    if args.data.task_name == 'KoCommonGen':
-        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 2        # 3 for the sep_id tokens (e.g., '. ')
-    elif args.data.task_name in ['XL_Sum', 'WikiLingua']:
-        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., ' 요약: ')
-    elif 'KoreanGEC' in args.data.task_name:
-        args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 3        # 3 for the sep_id tokens (e.g., ' 수정: ')
-    else:
-        raise NotImplementedError
+    # add 5 extra tokens for the sep_id tokens (e.g., '. ' @ KoCommonGen/ ' 요약: ' @ XL_Sum/ ' 수정: ' @ KoreanGEC)
+    args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 5
 
     if args.model.set_kombo:
         try: assert args.model.kombo.kombo_max_length % args.data.max_length == 0
@@ -323,11 +317,28 @@ def main(args):
     dataloaders = get_nlg_dataloader(args, tokenizer, logger)
 
 
-    # for data in dataloaders['test']:
-    #     print("\n")
-    #     print(tokenizer.decode(data['input_ids'][0]))
-    #     print(tokenizer.decode([idx for idx in data['labels'][0] if idx != -100]))
-
+    # for i, data in enumerate(dataloaders['test']):
+    #     # print(tokenizer.decode(data['input_ids'][0]))
+    #     # print(tokenizer.decode([idx for idx in data['labels'][0] if idx != -100]))
+    #     for label in data['labels']:
+    #         text = tokenizer.decode([idx for idx in label if idx != -100]).split(' = ')
+    #         text = [t.strip() for t in text if t.strip() != '']
+    #         if len(text) != 3:
+    #             print("\n")
+    #             print(f"text: {text}")
+    #             cnt = 1
+    #             for z in range(len(data['labels'])):
+    #                 d = data['input_ids'][z]
+    #                 l = data['labels'][z]
+    #                 print(f"{cnt} input: {tokenizer.decode(d)}")
+    #                 print(f"{cnt} label: {tokenizer.decode([idx for idx in l if idx != -100]).split(' = ')}")
+    #                 cnt += 1
+    #                 print("\n")
+    #             # print(f"data['labels']: {data['labels']}")
+    #             # print(f"data: {data}")
+    #             print(f"Error in the label text number {i}")
+    #             print("\n\n\n\n")
+    # exit("Check the label text")
 
 
     batch_num = len(dataloaders['train'])

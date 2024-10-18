@@ -194,9 +194,9 @@ class GPTNLGTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_seq_len/step", averaged_stats['seq_len'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_lr/step", averaged_stats['lr'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_seconds_per_step/step", averaged_stats['seconds_per_step'], self.current_train_step)
-            if self.hparams.logging.grad_l2:
+            if 'grad_l2' in averaged_stats:
                 self.tb_writer.add_scalar(f"{mode}_grad_l2/step", averaged_stats['grad_l2'], self.current_train_step)
-            if self.hparams.logging.weights_l2:
+            if 'weights_l2' in averaged_stats:
                 self.tb_writer.add_scalar(f"{mode}_weights_l2/step", averaged_stats['weights_l2'], self.current_train_step)
             self.tb_writer.flush()
 
@@ -293,6 +293,15 @@ class GPTNLGTrainer(nn.Module):
         concepts_list = []
         # for step, batch in enumerate(eval_dataloader):
         for batch in tqdm(eval_dataloader, desc=f"Evaluating {mode}...", bar_format=BAR_FORMAT):
+            references = decode(batch["labels"])
+            if self.hparams.data.task_name == 'KoCommonGen' and mode == 'test':
+                references = [ref.split(' = ') for ref in references]
+                if len([ref for ref in references if ref.strip() != '']) != 3:
+                    continue
+            if type(references[0]) == str:
+                references = [[ref] for ref in references]
+            refs_list.extend(references)
+
             given_text = self.tokenizer.batch_decode(batch['input_ids'], skip_special_tokens=True,
                                                      clean_up_tokenization_spaces=True)
             if self.hparams.data.task_name == 'KoCommonGen':
@@ -349,16 +358,7 @@ class GPTNLGTrainer(nn.Module):
                 only_predictions.append(only_pred)
             preds_list.extend(only_predictions)
 
-            references = decode(batch["labels"])
-            if self.hparams.data.task_name == 'KoCommonGen' and mode == 'test':
-                references = [ref.split(' = ') for ref in references]
-
-            if type(references[0]) == str:
-                references = [[ref] for ref in references]
-
-            refs_list.extend(references)
-
-            print("\n\n\n")
+            print("\n\n")
             print(f"given_text[0]: {given_text[0]}")
             print(f"references[0]: {references[0]}")
             print(f"only_predictions[0]: {only_predictions[0]}")
