@@ -2,6 +2,8 @@ import os
 import sys
 import time
 import json
+import shutil
+from omegaconf import OmegaConf
 import evaluate
 import torch
 import torch.nn as nn
@@ -192,9 +194,9 @@ class GPTNLGTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_seq_len/step", averaged_stats['seq_len'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_lr/step", averaged_stats['lr'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_seconds_per_step/step", averaged_stats['seconds_per_step'], self.current_train_step)
-            if self.hparams.logging.grad_l2:
+            if 'grad_l2' in averaged_stats:
                 self.tb_writer.add_scalar(f"{mode}_grad_l2/step", averaged_stats['grad_l2'], self.current_train_step)
-            if self.hparams.logging.weights_l2:
+            if 'weights_l2' in averaged_stats:
                 self.tb_writer.add_scalar(f"{mode}_weights_l2/step", averaged_stats['weights_l2'], self.current_train_step)
             self.tb_writer.flush()
 
@@ -242,6 +244,13 @@ class GPTNLGTrainer(nn.Module):
             return {'grad_l2': grad_l2}
         else:
             return {}
+
+    def maybe_save_checkpoint(self):
+        output_dir = os.path.join(self.hparams.logging.save_dir, f'checkpoint-best')
+
+        self.accelerator.save_state(output_dir=output_dir)
+        torch.save(self.model.state_dict(), os.path.join(output_dir, 'torch.save.pytorch_model.bin'))
+        json.dump(OmegaConf.to_container(self.hparams, resolve=True), open(os.path.join(output_dir, 'args.json'), 'w'))
 
     def extra_stats(self, model, optimizer):
         stats = {}
@@ -346,10 +355,9 @@ class GPTNLGTrainer(nn.Module):
 
             if type(references[0]) == str:
                 references = [[ref] for ref in references]
-
             refs_list.extend(references)
 
-            print("\n\n\n")
+            print("\n\n")
             print(f"given_text[0]: {given_text[0]}")
             print(f"references[0]: {references[0]}")
             print(f"only_predictions[0]: {only_predictions[0]}")
@@ -357,8 +365,17 @@ class GPTNLGTrainer(nn.Module):
         if self.hparams.data.task_name == 'KoCommonGen':
             results = eval_main(refs_list, preds_list, concepts_list)
             eval_stats = results['total_avg']
+
+        # length limit
         elif 'KoreanGEC' in self.hparams.data.task_name:
             refs_list = [ref[0] for ref in refs_list]
+            if self.hparams.data.task_name == 'KoreanGEC_union':
+                for k in range(len(preds_list)):
+                    ref = refs_list[k]
+                    pred = preds_list[k]
+                    if len(pred) > len(ref) * 1.5:
+                        preds_list[k] = pred[:len(ref)]
+
             # M2 Score
             paths = self.hparams.data.task_name.split('_')
             path_1 = paths[0]
@@ -427,7 +444,6 @@ class GPTNLGTrainer(nn.Module):
                     current_stack = 0
 
                     self.maybe_logging(train_averager, mode='train')
-                    # self.maybe_save_checkpoint()
 
             self.epoch_done = True
             self.maybe_logging(train_averager, mode='train')
@@ -444,6 +460,7 @@ class GPTNLGTrainer(nn.Module):
                 self.best_score['best_test_score'] = test_score
                 self.stop_cnt = 0
                 self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
+                self.maybe_save_checkpoint()
             else:
                 self.stop_cnt += 1
                 print("")

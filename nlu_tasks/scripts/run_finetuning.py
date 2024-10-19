@@ -30,6 +30,10 @@ def get_nlu_dataloader(args, tokenizer):
                           "[KorNLI, KorSTS, NSMC, PAWS_X] or "
                           "[KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag, KB_SentiNeg]")
 
+    # dataset['train'] = {key: dataset['train'][key][:50] for key in dataset['train']}
+    # dataset['dev'] = {key: dataset['dev'][key][:50] for key in dataset['dev']}
+    # dataset['test'] = {key: dataset['test'][key][:50] for key in dataset['test']}
+
     data_collator = DataCollatorWithPadding(tokenizer)
 
     total_dataloader = {'label_map': dataset['label_map']}
@@ -67,13 +71,6 @@ def get_nlu_dataloader(args, tokenizer):
 def get_config_and_nlu_model(args, tokenizer, logger=None):
     if args.model.hf_model:
         if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
-            config = AutoConfig.from_pretrained(args.model.name)
-            model = GPT2DoubleHeadsModel.from_pretrained(args.model.name, config=config)
-        else:
-            config = AutoConfig.from_pretrained(args.model.name, num_labels=args.data.num_labels)
-            model = GPT2ForSequenceClassification.from_pretrained(args.model.name, config=config)
-
-        if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
             MODEL = GPT2DoubleHeadsModel
             if 'kakaobrain/kogpt' in args.model.name:
                 config = AutoConfig.from_pretrained(args.model.name, revision='KoGPT6B-ryan1.5b-float16' if args.mixed_precision in ['bf16', 'float16'] else 'KoGPT6B-ryan1.5b')
@@ -94,8 +91,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
                 torch_dtype='auto', low_cpu_mem_usage=True
             ).to(device='cuda', non_blocking=True)
         else:
-            odel = MODEL.from_pretrained(args.model.name, config=config)
-
+            model = MODEL.from_pretrained(args.model.name, config=config)
 
         if args.data.task_name in ["KB_COPA", "KB_HellaSwag"]:
             model.resize_token_embeddings(len(tokenizer))
@@ -133,7 +129,7 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         #TODO: Add the loading function for fine-tuned model, not pre-trained model
 
     if args.model.set_lora:
-        if 'skt/kogpt2' in args.model.name or 'skt/ko-gpt-trinity' in args.model.name:
+        if ('skt/kogpt2' in args.model.name) or ('skt/ko-gpt-trinity' in args.model.name) or ('ai-forever/mGPT' in args.model.name):
             target_modules = ['c_attn', 'c_proj']
         elif 'EleutherAI/polyglot-ko' in args.model.name:
             target_modules = ['query_key_value', 'dense']
@@ -160,6 +156,9 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
         elif 'skt/ko-gpt-trinity' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
             args.model.kombo.hidden_dim = 1920
+        elif 'ai-forever/mGPT' in args.model.name:
+            target_modules = ['c_attn', 'c_proj']
+            args.model.kombo.hidden_dim = 2048
         elif 'EleutherAI/polyglot-ko' in args.model.name:
             target_modules = ['query_key_value', 'dense']
             args.model.kombo.hidden_dim = 2048
@@ -263,7 +262,7 @@ def main(args):
                                                       pad_token='<pad>', mask_token='<mask>',
                                                       padding_side='left',
                                                       )
-        elif 'EleutherAI/polyglot-ko' in args.model.name:
+        elif 'EleutherAI/polyglot-ko' in args.model.name or 'ai-forever/mGPT' in args.model.name:
             tokenizer = AutoTokenizer.from_pretrained(args.model.name)
         elif 'kakaobrain/kogpt' in args.model.name:
             tokenizer = AutoTokenizer.from_pretrained(
