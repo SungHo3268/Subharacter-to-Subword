@@ -65,6 +65,7 @@ optim:
   grad_clip: 1.0
   grad_acc: 1
   final_cosine: 1.0e-05
+  early_stop_patience: 3
   dropout_prob: 0.1
 eval:
   eval_steps: 10000

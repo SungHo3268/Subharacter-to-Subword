@@ -153,7 +153,7 @@ hydra:
     - path: hydra.conf
       schema: pkg
       provider: hydra
-    - path: /data3/user21/KOMBO_Generation/configs/gpt2
+    - path: /data3/user21/KOMBO_Generation/configs/gpt
       schema: file
       provider: main
     - path: ''

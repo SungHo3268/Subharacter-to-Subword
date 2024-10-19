@@ -14295,3 +14295,573 @@ Save new Best Score (Epoch: 1)
 Save new Best Score (Epoch: 1)
 [2024-10-18 10:53:38,693][root][INFO] - 
 [2/ 5 Epoch]
+[2024-10-18 11:21:21,080][root][INFO] - Step: 14733/73665  |  Loss: 0.6592  |  Score: 72.33 [%]  |  Seq Length: 256.0
+[2024-10-18 11:21:31,691][root][INFO] - ########################  DEV REPORT #EP1  ########################
+[2024-10-18 11:21:31,692][root][INFO] - Score: 70.86 [%]  |  Evaluation Time: 10.61 [s]
+[2024-10-18 11:21:52,275][root][INFO] - ########################  TEST REPORT #EP1  ########################
+[2024-10-18 11:21:52,276][root][INFO] - Score: 72.20 [%]  |  Evaluation Time: 20.58 [s]
+[2024-10-18 11:21:52,277][root][INFO] - 
+Save new Best Score (Epoch: 1)
+[2024-10-18 11:21:52,278][root][INFO] - 
+[2/ 5 Epoch]
+[2024-10-18 11:35:23,702][root][INFO] - Step: 26428/66070  |  Loss: 0.6170  |  Score: 74.49 [%]  |  Seq Length: 256.0
+[2024-10-18 11:35:31,887][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-18 11:35:31,887][root][INFO] - Score: 71.53 [%]  |  Evaluation Time: 8.18 [s]
+[2024-10-18 11:35:47,354][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-18 11:35:47,354][root][INFO] - Score: 70.84 [%]  |  Evaluation Time: 15.46 [s]
+[2024-10-18 11:35:47,355][root][INFO] - 
+Save new Best Score (Epoch: 2)
+[2024-10-18 11:35:47,357][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-18 11:38:51,898][root][INFO] - Step: 20000/63000  |  Loss: 0.6252  |  Score: 74.09 [%]  |  Seq Length: 256.0
+[2024-10-18 12:07:33,896][root][INFO] - Step: 30000/66070  |  Loss: 0.5897  |  Score: 75.76 [%]  |  Seq Length: 256.0
+[2024-10-18 12:09:01,044][root][INFO] - Step: 20000/73665  |  Loss: 0.6348  |  Score: 73.69 [%]  |  Seq Length: 256.0
+[2024-10-18 12:10:37,971][root][INFO] - Step: 25200/63000  |  Loss: 0.6145  |  Score: 74.78 [%]  |  Seq Length: 256.0
+[2024-10-18 12:10:42,302][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-18 12:10:42,303][root][INFO] - Score: 72.02 [%]  |  Evaluation Time: 4.33 [s]
+[2024-10-18 12:10:50,181][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-18 12:10:50,181][root][INFO] - Score: 72.68 [%]  |  Evaluation Time: 7.88 [s]
+[2024-10-18 12:10:50,182][root][INFO] - 
+Save new Best Score (Epoch: 2)
+[2024-10-18 12:10:50,183][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-18 12:40:09,692][root][INFO] - Step: 30000/63000  |  Loss: 0.5870  |  Score: 76.00 [%]  |  Seq Length: 256.0
+[2024-10-18 13:27:51,951][root][INFO] - Step: 37800/63000  |  Loss: 0.5768  |  Score: 76.42 [%]  |  Seq Length: 256.0
+[2024-10-18 13:27:56,272][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-18 13:27:56,272][root][INFO] - Score: 73.81 [%]  |  Evaluation Time: 4.32 [s]
+[2024-10-18 13:28:04,192][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-18 13:28:04,192][root][INFO] - Score: 74.15 [%]  |  Evaluation Time: 7.92 [s]
+[2024-10-18 13:28:04,193][root][INFO] - 
+Save new Best Score (Epoch: 3)
+[2024-10-18 13:28:04,194][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-18 13:33:14,871][root][INFO] - Step: 39642/66070  |  Loss: 0.5793  |  Score: 76.31 [%]  |  Seq Length: 256.0
+[2024-10-18 13:33:23,068][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-18 13:33:23,069][root][INFO] - Score: 73.90 [%]  |  Evaluation Time: 8.19 [s]
+[2024-10-18 13:33:29,773][root][INFO] - Step: 29466/73665  |  Loss: 0.6277  |  Score: 73.96 [%]  |  Seq Length: 256.0
+[2024-10-18 13:33:38,630][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-18 13:33:38,630][root][INFO] - Score: 73.92 [%]  |  Evaluation Time: 15.56 [s]
+[2024-10-18 13:33:38,631][root][INFO] - 
+Save new Best Score (Epoch: 3)
+[2024-10-18 13:33:38,632][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-18 13:33:40,162][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-18 13:33:40,162][root][INFO] - Score: 73.23 [%]  |  Evaluation Time: 10.39 [s]
+[2024-10-18 13:34:00,523][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-18 13:34:00,523][root][INFO] - Score: 73.97 [%]  |  Evaluation Time: 20.36 [s]
+[2024-10-18 13:34:00,524][root][INFO] - 
+Save new Best Score (Epoch: 2)
+[2024-10-18 13:34:00,525][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-18 13:36:50,265][root][INFO] - Step: 40000/66070  |  Loss: 0.5400  |  Score: 78.06 [%]  |  Seq Length: 256.0
+[2024-10-18 13:38:48,551][root][INFO] - Step: 30000/73665  |  Loss: 0.5975  |  Score: 75.59 [%]  |  Seq Length: 256.0
+[2024-10-18 13:41:32,436][root][INFO] - Step: 40000/63000  |  Loss: 0.5433  |  Score: 78.04 [%]  |  Seq Length: 256.0
+[2024-10-18 14:42:41,339][root][INFO] - Step: 50000/63000  |  Loss: 0.5296  |  Score: 78.65 [%]  |  Seq Length: 256.0
+[2024-10-18 14:45:07,718][root][INFO] - Step: 50400/63000  |  Loss: 0.5262  |  Score: 78.71 [%]  |  Seq Length: 256.0
+[2024-10-18 14:45:12,001][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-18 14:45:12,001][root][INFO] - Score: 74.05 [%]  |  Evaluation Time: 4.28 [s]
+[2024-10-18 14:45:19,882][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-18 14:45:19,882][root][INFO] - Score: 75.07 [%]  |  Evaluation Time: 7.88 [s]
+[2024-10-18 14:45:19,883][root][INFO] - 
+Save new Best Score (Epoch: 4)
+[2024-10-18 14:45:19,884][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-18 15:05:25,665][root][INFO] - Step: 50000/66070  |  Loss: 0.5357  |  Score: 78.38 [%]  |  Seq Length: 256.0
+[2024-10-18 15:08:00,235][root][INFO] - Step: 40000/73665  |  Loss: 0.5971  |  Score: 75.45 [%]  |  Seq Length: 256.0
+[2024-10-18 15:30:42,963][root][INFO] - Step: 52856/66070  |  Loss: 0.5238  |  Score: 78.83 [%]  |  Seq Length: 256.0
+[2024-10-18 15:30:51,071][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-18 15:30:51,072][root][INFO] - Score: 74.36 [%]  |  Evaluation Time: 8.11 [s]
+[2024-10-18 15:31:06,369][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-18 15:31:06,369][root][INFO] - Score: 75.31 [%]  |  Evaluation Time: 15.30 [s]
+[2024-10-18 15:31:06,370][root][INFO] - 
+Save new Best Score (Epoch: 4)
+[2024-10-18 15:31:06,372][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-18 15:44:04,609][root][INFO] - Step: 60000/63000  |  Loss: 0.4953  |  Score: 80.27 [%]  |  Seq Length: 256.0
+[2024-10-18 15:45:21,356][root][INFO] - Step: 44199/73665  |  Loss: 0.5820  |  Score: 76.20 [%]  |  Seq Length: 256.0
+[2024-10-18 15:45:31,790][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-18 15:45:31,790][root][INFO] - Score: 74.93 [%]  |  Evaluation Time: 10.43 [s]
+[2024-10-18 15:45:51,949][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-18 15:45:51,949][root][INFO] - Score: 75.74 [%]  |  Evaluation Time: 20.16 [s]
+[2024-10-18 15:45:51,950][root][INFO] - 
+Save new Best Score (Epoch: 3)
+[2024-10-18 15:45:51,952][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-18 16:02:23,902][root][INFO] - Step: 63000/63000  |  Loss: 0.4937  |  Score: 80.29 [%]  |  Seq Length: 256.0
+[2024-10-18 16:02:28,203][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-18 16:02:28,203][root][INFO] - Score: 74.72 [%]  |  Evaluation Time: 4.30 [s]
+[2024-10-18 16:02:36,088][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-18 16:02:36,088][root][INFO] - Score: 75.88 [%]  |  Evaluation Time: 7.88 [s]
+[2024-10-18 16:02:36,089][root][INFO] - 
+Save new Best Score (Epoch: 5)
+[2024-10-18 16:02:36,089][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-18 16:02:36,090][root][INFO] - - Epoch: 5
+[2024-10-18 16:02:36,090][root][INFO] - - DEV score: 74.72 [%]
+[2024-10-18 16:02:36,090][root][INFO] - - TEST score: 75.88 [%]
+[2024-10-18 16:02:36,090][root][INFO] - Fine-tuning is done!
+[2024-10-18 16:04:12,101][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,102][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,102][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,103][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,103][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,104][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,104][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,105][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,105][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,106][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,107][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,107][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,108][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,108][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,109][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,109][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,110][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,110][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,111][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,112][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,112][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,113][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,113][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-18 16:04:12,114][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-18 16:04:12,116][root][INFO] - Trainable params: 1769472 || all params: 126935808 || trainable: 1.39 %
+[2024-10-18 16:04:12,117][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-18 16:04:12,286][root][INFO] - 
+
+[2024-10-18 16:04:12,286][root][INFO] - ========== Fine-tuning on KorNLI ==========
+[2024-10-18 16:04:12,286][root][INFO] - Data Preprocessing
+[2024-10-18 16:04:12,286][root][INFO] - ㄴ remain_lang                ko_punc
+[2024-10-18 16:04:12,286][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-18 16:04:12,286][root][INFO] - ㄴ data_remove                True
+
+[2024-10-18 16:04:12,286][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-18 16:04:12,297][root][INFO] - vocab size              : 51200
+[2024-10-18 16:04:12,298][root][INFO] - device                  : gpu
+[2024-10-18 16:04:12,298][root][INFO] - random seed             : 1
+[2024-10-18 16:04:12,298][root][INFO] - train data size         : 806400
+[2024-10-18 16:04:12,298][root][INFO] - max epochs              : 5
+[2024-10-18 16:04:12,298][root][INFO] - total steps             : 63000
+[2024-10-18 16:04:12,298][root][INFO] - warmup steps            : 6300
+[2024-10-18 16:04:12,299][root][INFO] - batch size              : 64
+[2024-10-18 16:04:12,299][root][INFO] - accumulation steps      : 1
+[2024-10-18 16:04:12,299][root][INFO] - optimizer               : adamwscale
+[2024-10-18 16:04:12,299][root][INFO] - lr_scheduler            : cosine
+[2024-10-18 16:04:12,299][root][INFO] - learning rate           : 0.02
+[2024-10-18 16:04:12,299][root][INFO] - max length              : 256
+
+[2024-10-18 16:04:12,299][root][INFO] - LoRA Configuration
+[2024-10-18 16:04:12,299][root][INFO] - ㄴ r                    : 32
+[2024-10-18 16:04:12,299][root][INFO] - ㄴ alpha                : 128
+[2024-10-18 16:04:12,299][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-18 16:04:12,299][root][INFO] - 
+
+[2024-10-18 16:04:12,300][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs
+[2024-10-18 16:04:12,300][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/ckpt
+[2024-10-18 16:04:12,300][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/tb
+[2024-10-18 16:04:12,300][root][INFO] - * tb interval   : 10000
+
+[2024-10-18 16:04:12,300][root][INFO] - 
+
+[2024-10-18 16:04:12,300][root][INFO] - Start the Training !
+[2024-10-18 16:04:12,302][root][INFO] - 
+[1/ 5 Epoch]
+[2024-10-18 16:34:30,391][root][INFO] - Step: 60000/66070  |  Loss: 0.4965  |  Score: 80.24 [%]  |  Seq Length: 256.0
+[2024-10-18 16:37:28,310][root][INFO] - Step: 50000/73665  |  Loss: 0.5498  |  Score: 77.61 [%]  |  Seq Length: 256.0
+[2024-10-18 17:05:21,789][root][INFO] - Step: 10000/63000  |  Loss: 0.7534  |  Score: 67.20 [%]  |  Seq Length: 256.0
+[2024-10-18 17:21:16,234][root][INFO] - Step: 12600/63000  |  Loss: 0.8022  |  Score: 64.24 [%]  |  Seq Length: 256.0
+[2024-10-18 17:21:20,636][root][INFO] - ########################  DEV REPORT #EP1  ########################
+[2024-10-18 17:21:20,637][root][INFO] - Score: 61.22 [%]  |  Evaluation Time: 4.40 [s]
+[2024-10-18 17:21:28,602][root][INFO] - ########################  TEST REPORT #EP1  ########################
+[2024-10-18 17:21:28,602][root][INFO] - Score: 59.99 [%]  |  Evaluation Time: 7.96 [s]
+[2024-10-18 17:21:28,603][root][INFO] - 
+Save new Best Score (Epoch: 1)
+[2024-10-18 17:21:28,604][root][INFO] - 
+[2/ 5 Epoch]
+[2024-10-18 17:28:12,379][root][INFO] - Step: 66070/66070  |  Loss: 0.4945  |  Score: 80.27 [%]  |  Seq Length: 256.0
+[2024-10-18 17:28:20,484][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-18 17:28:20,484][root][INFO] - Score: 75.53 [%]  |  Evaluation Time: 8.10 [s]
+[2024-10-18 17:28:35,792][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-18 17:28:35,792][root][INFO] - Score: 75.81 [%]  |  Evaluation Time: 15.31 [s]
+[2024-10-18 17:28:35,793][root][INFO] - 
+Save new Best Score (Epoch: 5)
+[2024-10-18 17:28:35,793][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-18 17:28:35,793][root][INFO] - - Epoch: 5
+[2024-10-18 17:28:35,793][root][INFO] - - DEV score: 75.53 [%]
+[2024-10-18 17:28:35,793][root][INFO] - - TEST score: 75.81 [%]
+[2024-10-18 17:28:35,794][root][INFO] - Fine-tuning is done!
+[2024-10-18 17:30:21,975][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,976][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,977][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,977][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,978][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,978][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,979][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,979][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,980][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,980][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,981][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,981][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,982][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,982][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,982][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,983][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,983][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,984][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,984][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,985][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,986][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,986][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,987][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-18 17:30:21,987][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-18 17:30:21,989][root][INFO] - Trainable params: 1769472 || all params: 126935808 || trainable: 1.39 %
+[2024-10-18 17:30:22,189][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-18 17:30:22,191][root][INFO] - Trainable params: 17254656 || all params: 142420992 || trainable: 12.12 %
+[2024-10-18 17:30:22,192][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-18 17:30:22,377][root][INFO] - 
+
+[2024-10-18 17:30:22,378][root][INFO] - ========== Fine-tuning on KorNLI ==========
+[2024-10-18 17:30:22,378][root][INFO] - Data Preprocessing
+[2024-10-18 17:30:22,378][root][INFO] - ㄴ remain_lang                ko_en_punc
+[2024-10-18 17:30:22,378][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-18 17:30:22,378][root][INFO] - ㄴ data_remove                True
+
+[2024-10-18 17:30:22,378][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-18 17:30:22,389][root][INFO] - vocab size              : 51200
+[2024-10-18 17:30:22,390][root][INFO] - device                  : gpu
+[2024-10-18 17:30:22,390][root][INFO] - random seed             : 1
+[2024-10-18 17:30:22,390][root][INFO] - train data size         : 845696
+[2024-10-18 17:30:22,390][root][INFO] - max epochs              : 5
+[2024-10-18 17:30:22,390][root][INFO] - total steps             : 66070
+[2024-10-18 17:30:22,390][root][INFO] - warmup steps            : 6607
+[2024-10-18 17:30:22,390][root][INFO] - batch size              : 64
+[2024-10-18 17:30:22,390][root][INFO] - accumulation steps      : 1
+[2024-10-18 17:30:22,390][root][INFO] - optimizer               : adamwscale
+[2024-10-18 17:30:22,391][root][INFO] - lr_scheduler            : cosine
+[2024-10-18 17:30:22,391][root][INFO] - learning rate           : 0.02
+[2024-10-18 17:30:22,391][root][INFO] - max length              : 256
+
+[2024-10-18 17:30:22,391][root][INFO] - LoRA Configuration
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ r                    : 32
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ alpha                : 128
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-18 17:30:22,391][root][INFO] - KOMBO Configuration
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ tok_type             : jamo_var
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ hidden_dim           : 768
+[2024-10-18 17:30:22,391][root][INFO] - ㄴ kombo_max_length     : 2046
+[2024-10-18 17:30:22,392][root][INFO] - ㄴ embedding_norm       : False
+[2024-10-18 17:30:22,392][root][INFO] - ㄴ do_combination       : True
+[2024-10-18 17:30:22,392][root][INFO] -   ㄴ num_attn_heads     : 12
+[2024-10-18 17:30:22,392][root][INFO] -   ㄴ intermediate_size  : 3072
+[2024-10-18 17:30:22,392][root][INFO] -   ㄴ num_trans_layers   : 3
+[2024-10-18 17:30:22,392][root][INFO] -   ㄴ add_lora           : False
+
+[2024-10-18 17:30:22,392][root][INFO] - 
+
+[2024-10-18 17:30:22,392][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs
+[2024-10-18 17:30:22,392][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs/ckpt
+[2024-10-18 17:30:22,392][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs/tb
+[2024-10-18 17:30:22,392][root][INFO] - * tb interval   : 10000
+
+[2024-10-18 17:30:22,393][root][INFO] - 
+
+[2024-10-18 17:30:22,393][root][INFO] - Start the Training !
+[2024-10-18 17:30:22,395][root][INFO] - 
+[1/ 5 Epoch]
+[2024-10-18 17:57:15,410][root][INFO] - Step: 58932/73665  |  Loss: 0.5401  |  Score: 78.25 [%]  |  Seq Length: 256.0
+[2024-10-18 17:57:25,812][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-18 17:57:25,812][root][INFO] - Score: 74.43 [%]  |  Evaluation Time: 10.40 [s]
+[2024-10-18 17:57:46,136][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-18 17:57:46,136][root][INFO] - Score: 76.33 [%]  |  Evaluation Time: 20.32 [s]
+[2024-10-18 17:57:46,137][root][INFO] - 
+Save new Best Score (Epoch: 4)
+[2024-10-18 17:57:46,138][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-18 18:06:52,816][root][INFO] - Step: 20000/63000  |  Loss: 0.9975  |  Score: 48.04 [%]  |  Seq Length: 256.0
+[2024-10-18 18:07:17,563][root][INFO] - Step: 60000/73665  |  Loss: 0.5116  |  Score: 79.42 [%]  |  Seq Length: 256.0
+[2024-10-18 18:38:44,573][root][INFO] - Step: 25200/63000  |  Loss: 1.1402  |  Score: 33.54 [%]  |  Seq Length: 256.0
+[2024-10-18 18:38:49,088][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-18 18:38:49,088][root][INFO] - Score: 32.58 [%]  |  Evaluation Time: 4.51 [s]
+[2024-10-18 18:38:57,092][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-18 18:38:57,092][root][INFO] - Score: 31.22 [%]  |  Evaluation Time: 8.00 [s]
+[2024-10-18 18:38:57,095][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-18 18:59:50,105][root][INFO] - Step: 10000/66070  |  Loss: 0.7526  |  Score: 67.26 [%]  |  Seq Length: 256.0
+[2024-10-18 19:08:22,209][root][INFO] - Step: 30000/63000  |  Loss: 1.1617  |  Score: 33.20 [%]  |  Seq Length: 256.0
+[2024-10-18 19:28:22,968][root][INFO] - Step: 13214/66070  |  Loss: 0.8030  |  Score: 64.31 [%]  |  Seq Length: 256.0
+[2024-10-18 19:28:31,444][root][INFO] - ########################  DEV REPORT #EP1  ########################
+[2024-10-18 19:28:31,444][root][INFO] - Score: 59.61 [%]  |  Evaluation Time: 8.47 [s]
+[2024-10-18 19:28:47,232][root][INFO] - ########################  TEST REPORT #EP1  ########################
+[2024-10-18 19:28:47,233][root][INFO] - Score: 59.62 [%]  |  Evaluation Time: 15.79 [s]
+[2024-10-18 19:28:47,234][root][INFO] - 
+Save new Best Score (Epoch: 1)
+[2024-10-18 19:28:47,235][root][INFO] - 
+[2/ 5 Epoch]
+[2024-10-18 19:36:22,547][root][INFO] - Step: 70000/73665  |  Loss: 0.5054  |  Score: 79.74 [%]  |  Seq Length: 256.0
+[2024-10-18 19:56:10,618][root][INFO] - Step: 37800/63000  |  Loss: 1.1919  |  Score: 33.39 [%]  |  Seq Length: 256.0
+[2024-10-18 19:56:15,012][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-18 19:56:15,013][root][INFO] - Score: 34.53 [%]  |  Evaluation Time: 4.39 [s]
+[2024-10-18 19:56:23,035][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-18 19:56:23,035][root][INFO] - Score: 33.24 [%]  |  Evaluation Time: 8.02 [s]
+[2024-10-18 19:56:23,037][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-18 20:09:07,536][root][INFO] - Step: 73665/73665  |  Loss: 0.5026  |  Score: 79.99 [%]  |  Seq Length: 256.0
+[2024-10-18 20:09:17,970][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-18 20:09:17,970][root][INFO] - Score: 74.99 [%]  |  Evaluation Time: 10.43 [s]
+[2024-10-18 20:09:38,252][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-18 20:09:38,252][root][INFO] - Score: 76.27 [%]  |  Evaluation Time: 20.28 [s]
+[2024-10-18 20:09:38,253][root][INFO] - 
+Save new Best Score (Epoch: 5)
+[2024-10-18 20:09:38,253][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-18 20:09:38,254][root][INFO] - - Epoch: 5
+[2024-10-18 20:09:38,254][root][INFO] - - DEV score: 74.99 [%]
+[2024-10-18 20:09:38,254][root][INFO] - - TEST score: 76.27 [%]
+[2024-10-18 20:09:38,254][root][INFO] - Fine-tuning is done!
+[2024-10-18 20:09:52,211][root][INFO] - Step: 40000/63000  |  Loss: 1.3049  |  Score: 33.71 [%]  |  Seq Length: 256.0
+[2024-10-18 20:11:42,975][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,976][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,977][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,977][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,978][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,978][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,979][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,979][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,980][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,980][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,981][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,982][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,982][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,983][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,989][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,989][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,990][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,990][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,991][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,991][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,992][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,993][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,993][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-18 20:11:42,994][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-18 20:11:42,996][root][INFO] - Trainable params: 1769472 || all params: 126935808 || trainable: 1.39 %
+[2024-10-18 20:11:43,204][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-18 20:11:43,207][root][INFO] - Trainable params: 17254656 || all params: 142420992 || trainable: 12.12 %
+[2024-10-18 20:11:43,208][accelerate.utils.other][WARNING] - Detected kernel version 4.15.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[2024-10-18 20:11:43,408][root][INFO] - 
+
+[2024-10-18 20:11:43,408][root][INFO] - ========== Fine-tuning on KorNLI ==========
+[2024-10-18 20:11:43,408][root][INFO] - Data Preprocessing
+[2024-10-18 20:11:43,408][root][INFO] - ㄴ remain_lang                ko_en_punc
+[2024-10-18 20:11:43,409][root][INFO] - ㄴ do_hangeulize              False
+[2024-10-18 20:11:43,409][root][INFO] - ㄴ data_remove                False
+
+[2024-10-18 20:11:43,409][root][INFO] - model                   : skt/kogpt2-base-v2
+[2024-10-18 20:11:43,425][root][INFO] - vocab size              : 51200
+[2024-10-18 20:11:43,426][root][INFO] - device                  : gpu
+[2024-10-18 20:11:43,426][root][INFO] - random seed             : 1
+[2024-10-18 20:11:43,427][root][INFO] - train data size         : 942912
+[2024-10-18 20:11:43,427][root][INFO] - max epochs              : 5
+[2024-10-18 20:11:43,427][root][INFO] - total steps             : 73665
+[2024-10-18 20:11:43,427][root][INFO] - warmup steps            : 7366
+[2024-10-18 20:11:43,427][root][INFO] - batch size              : 64
+[2024-10-18 20:11:43,427][root][INFO] - accumulation steps      : 1
+[2024-10-18 20:11:43,427][root][INFO] - optimizer               : adamwscale
+[2024-10-18 20:11:43,427][root][INFO] - lr_scheduler            : cosine
+[2024-10-18 20:11:43,427][root][INFO] - learning rate           : 0.02
+[2024-10-18 20:11:43,427][root][INFO] - max length              : 256
+
+[2024-10-18 20:11:43,427][root][INFO] - LoRA Configuration
+[2024-10-18 20:11:43,427][root][INFO] - ㄴ r                    : 32
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ alpha                : 128
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ dropout              : 0.03
+
+[2024-10-18 20:11:43,428][root][INFO] - KOMBO Configuration
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ tok_type             : jamo_var
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ hidden_dim           : 768
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ kombo_max_length     : 2046
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ embedding_norm       : False
+[2024-10-18 20:11:43,428][root][INFO] - ㄴ do_combination       : True
+[2024-10-18 20:11:43,428][root][INFO] -   ㄴ num_attn_heads     : 12
+[2024-10-18 20:11:43,428][root][INFO] -   ㄴ intermediate_size  : 3072
+[2024-10-18 20:11:43,429][root][INFO] -   ㄴ num_trans_layers   : 3
+[2024-10-18 20:11:43,429][root][INFO] -   ㄴ add_lora           : False
+
+[2024-10-18 20:11:43,429][root][INFO] - 
+
+[2024-10-18 20:11:43,429][root][INFO] - * log dir       : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs
+[2024-10-18 20:11:43,429][root][INFO] - * save dir      : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs/ckpt
+[2024-10-18 20:11:43,429][root][INFO] - * tb dir        : logs/skt_kogpt2-base-v2/kombo/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs/tb
+[2024-10-18 20:11:43,429][root][INFO] - * tb interval   : 10000
+
+[2024-10-18 20:11:43,429][root][INFO] - 
+
+[2024-10-18 20:11:43,429][root][INFO] - Start the Training !
+[2024-10-18 20:11:43,432][root][INFO] - 
+[1/ 5 Epoch]
+[2024-10-18 20:29:23,128][root][INFO] - Step: 20000/66070  |  Loss: 0.9842  |  Score: 49.33 [%]  |  Seq Length: 256.0
+[2024-10-18 21:11:09,152][root][INFO] - Step: 50000/63000  |  Loss: 1.2927  |  Score: 33.24 [%]  |  Seq Length: 256.0
+[2024-10-18 21:13:36,203][root][INFO] - Step: 50400/63000  |  Loss: 1.3330  |  Score: 33.27 [%]  |  Seq Length: 256.0
+[2024-10-18 21:13:40,705][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-18 21:13:40,705][root][INFO] - Score: 30.60 [%]  |  Evaluation Time: 4.50 [s]
+[2024-10-18 21:13:48,759][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-18 21:13:48,760][root][INFO] - Score: 31.27 [%]  |  Evaluation Time: 8.05 [s]
+[2024-10-18 21:13:48,762][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-18 21:26:08,051][root][INFO] - Step: 26428/66070  |  Loss: nan  |  Score: 33.62 [%]  |  Seq Length: 256.0
+[2024-10-18 21:26:16,447][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-18 21:26:16,448][root][INFO] - Score: 34.57 [%]  |  Evaluation Time: 8.39 [s]
+[2024-10-18 21:26:32,435][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-18 21:26:32,435][root][INFO] - Score: 34.86 [%]  |  Evaluation Time: 15.98 [s]
+[2024-10-18 21:26:32,437][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-18 21:41:02,746][root][INFO] - Step: 10000/73665  |  Loss: 0.7559  |  Score: 67.09 [%]  |  Seq Length: 256.0
+[2024-10-18 21:57:55,738][root][INFO] - Step: 30000/66070  |  Loss: nan  |  Score: 33.60 [%]  |  Seq Length: 256.0
+[2024-10-18 22:12:40,327][root][INFO] - Step: 60000/63000  |  Loss: 1.3151  |  Score: 33.36 [%]  |  Seq Length: 256.0
+[2024-10-18 22:23:19,333][root][INFO] - Step: 14733/73665  |  Loss: 0.8257  |  Score: 62.91 [%]  |  Seq Length: 256.0
+[2024-10-18 22:23:30,019][root][INFO] - ########################  DEV REPORT #EP1  ########################
+[2024-10-18 22:23:30,019][root][INFO] - Score: 56.10 [%]  |  Evaluation Time: 10.68 [s]
+[2024-10-18 22:23:50,469][root][INFO] - ########################  TEST REPORT #EP1  ########################
+[2024-10-18 22:23:50,469][root][INFO] - Score: 56.93 [%]  |  Evaluation Time: 20.45 [s]
+[2024-10-18 22:23:50,470][root][INFO] - 
+Save new Best Score (Epoch: 1)
+[2024-10-18 22:23:50,471][root][INFO] - 
+[2/ 5 Epoch]
+[2024-10-18 22:31:03,620][root][INFO] - Step: 63000/63000  |  Loss: 1.2929  |  Score: 33.21 [%]  |  Seq Length: 256.0
+[2024-10-18 22:31:08,067][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-18 22:31:08,067][root][INFO] - Score: 31.57 [%]  |  Evaluation Time: 4.44 [s]
+[2024-10-18 22:31:16,092][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-18 22:31:16,092][root][INFO] - Score: 31.13 [%]  |  Evaluation Time: 8.02 [s]
+[2024-10-18 22:31:16,093][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-18 22:31:16,094][root][INFO] - - Epoch: 1
+[2024-10-18 22:31:16,094][root][INFO] - - DEV score: 61.22 [%]
+[2024-10-18 22:31:16,094][root][INFO] - - TEST score: 59.99 [%]
+[2024-10-18 22:31:16,095][root][INFO] - Fine-tuning is done!
+[2024-10-18 22:31:16,096][root][INFO] - ########################  BEST LR RESULT  ########################
+[2024-10-18 22:31:16,096][root][INFO] - - BEST LR: 0.01
+[2024-10-18 22:31:16,096][root][INFO] - - DEV score: 74.72 [%]
+[2024-10-18 22:31:16,096][root][INFO] - - TEST score: 75.88 [%]
+[2024-10-18 23:10:53,322][root][INFO] - Step: 20000/73665  |  Loss: 1.0698  |  Score: 41.69 [%]  |  Seq Length: 256.0
+[2024-10-18 23:22:56,894][root][INFO] - Step: 39642/66070  |  Loss: nan  |  Score: 33.64 [%]  |  Seq Length: 256.0
+[2024-10-18 23:23:05,588][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-18 23:23:05,588][root][INFO] - Score: 34.91 [%]  |  Evaluation Time: 8.69 [s]
+[2024-10-18 23:23:21,572][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-18 23:23:21,572][root][INFO] - Score: 34.91 [%]  |  Evaluation Time: 15.98 [s]
+[2024-10-18 23:23:21,578][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-18 23:26:32,827][root][INFO] - Step: 40000/66070  |  Loss: nan  |  Score: 34.24 [%]  |  Seq Length: 256.0
+[2024-10-19 00:34:39,137][root][INFO] - Step: 29466/73665  |  Loss: nan  |  Score: 33.31 [%]  |  Seq Length: 256.0
+[2024-10-19 00:34:49,668][root][INFO] - ########################  DEV REPORT #EP2  ########################
+[2024-10-19 00:34:49,668][root][INFO] - Score: 33.32 [%]  |  Evaluation Time: 10.53 [s]
+[2024-10-19 00:35:09,962][root][INFO] - ########################  TEST REPORT #EP2  ########################
+[2024-10-19 00:35:09,963][root][INFO] - Score: 33.59 [%]  |  Evaluation Time: 20.29 [s]
+[2024-10-19 00:35:09,965][root][INFO] - 
+[3/ 5 Epoch]
+[2024-10-19 00:39:54,012][root][INFO] - Step: 30000/73665  |  Loss: nan  |  Score: 33.68 [%]  |  Seq Length: 256.0
+[2024-10-19 00:54:30,349][root][INFO] - Step: 50000/66070  |  Loss: nan  |  Score: 33.59 [%]  |  Seq Length: 256.0
+[2024-10-19 01:19:28,653][root][INFO] - Step: 52856/66070  |  Loss: nan  |  Score: 33.68 [%]  |  Seq Length: 256.0
+[2024-10-19 01:19:36,943][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-19 01:19:36,944][root][INFO] - Score: 34.97 [%]  |  Evaluation Time: 8.29 [s]
+[2024-10-19 01:19:52,445][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-19 01:19:52,446][root][INFO] - Score: 34.86 [%]  |  Evaluation Time: 15.50 [s]
+[2024-10-19 01:19:52,448][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-19 02:08:05,412][root][INFO] - Step: 40000/73665  |  Loss: nan  |  Score: 33.33 [%]  |  Seq Length: 256.0
+[2024-10-19 02:22:42,506][root][INFO] - Step: 60000/66070  |  Loss: nan  |  Score: 33.60 [%]  |  Seq Length: 256.0
+[2024-10-19 02:45:02,898][root][INFO] - Step: 44199/73665  |  Loss: nan  |  Score: 33.30 [%]  |  Seq Length: 256.0
+[2024-10-19 02:45:13,333][root][INFO] - ########################  DEV REPORT #EP3  ########################
+[2024-10-19 02:45:13,333][root][INFO] - Score: 33.34 [%]  |  Evaluation Time: 10.43 [s]
+[2024-10-19 02:45:33,782][root][INFO] - ########################  TEST REPORT #EP3  ########################
+[2024-10-19 02:45:33,782][root][INFO] - Score: 33.28 [%]  |  Evaluation Time: 20.45 [s]
+[2024-10-19 02:45:33,784][root][INFO] - 
+[4/ 5 Epoch]
+[2024-10-19 03:15:49,993][root][INFO] - Step: 66070/66070  |  Loss: nan  |  Score: 33.67 [%]  |  Seq Length: 256.0
+[2024-10-19 03:15:58,317][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-19 03:15:58,317][root][INFO] - Score: 34.68 [%]  |  Evaluation Time: 8.32 [s]
+[2024-10-19 03:16:13,830][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-19 03:16:13,830][root][INFO] - Score: 34.74 [%]  |  Evaluation Time: 15.51 [s]
+[2024-10-19 03:16:13,831][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-19 03:16:13,831][root][INFO] - - Epoch: 1
+[2024-10-19 03:16:13,831][root][INFO] - - DEV score: 59.61 [%]
+[2024-10-19 03:16:13,831][root][INFO] - - TEST score: 59.62 [%]
+[2024-10-19 03:16:13,832][root][INFO] - Fine-tuning is done!
+[2024-10-19 03:16:13,833][root][INFO] - ########################  BEST LR RESULT  ########################
+[2024-10-19 03:16:13,833][root][INFO] - - BEST LR: 0.01
+[2024-10-19 03:16:13,833][root][INFO] - - DEV score: 75.53 [%]
+[2024-10-19 03:16:13,833][root][INFO] - - TEST score: 75.81 [%]
+[2024-10-19 03:36:47,095][root][INFO] - Step: 50000/73665  |  Loss: nan  |  Score: 33.34 [%]  |  Seq Length: 256.0
+[2024-10-19 04:55:31,987][root][INFO] - Step: 58932/73665  |  Loss: nan  |  Score: 33.33 [%]  |  Seq Length: 256.0
+[2024-10-19 04:55:42,464][root][INFO] - ########################  DEV REPORT #EP4  ########################
+[2024-10-19 04:55:42,464][root][INFO] - Score: 33.34 [%]  |  Evaluation Time: 10.47 [s]
+[2024-10-19 04:56:02,923][root][INFO] - ########################  TEST REPORT #EP4  ########################
+[2024-10-19 04:56:02,923][root][INFO] - Score: 33.28 [%]  |  Evaluation Time: 20.46 [s]
+[2024-10-19 04:56:02,925][root][INFO] - 
+[5/ 5 Epoch]
+[2024-10-19 05:05:20,139][root][INFO] - Step: 60000/73665  |  Loss: nan  |  Score: 33.62 [%]  |  Seq Length: 256.0
+[2024-10-19 06:33:16,518][root][INFO] - Step: 70000/73665  |  Loss: nan  |  Score: 33.26 [%]  |  Seq Length: 256.0
+[2024-10-19 07:05:19,028][root][INFO] - Step: 73665/73665  |  Loss: nan  |  Score: 33.45 [%]  |  Seq Length: 256.0
+[2024-10-19 07:05:29,351][root][INFO] - ########################  DEV REPORT #EP5  ########################
+[2024-10-19 07:05:29,351][root][INFO] - Score: 33.33 [%]  |  Evaluation Time: 10.32 [s]
+[2024-10-19 07:05:49,359][root][INFO] - ########################  TEST REPORT #EP5  ########################
+[2024-10-19 07:05:49,359][root][INFO] - Score: 33.33 [%]  |  Evaluation Time: 20.01 [s]
+[2024-10-19 07:05:49,360][root][INFO] - ########################  BEST RESULT  ########################
+[2024-10-19 07:05:49,360][root][INFO] - - Epoch: 1
+[2024-10-19 07:05:49,360][root][INFO] - - DEV score: 56.10 [%]
+[2024-10-19 07:05:49,360][root][INFO] - - TEST score: 56.93 [%]
+[2024-10-19 07:05:49,361][root][INFO] - Fine-tuning is done!
+[2024-10-19 07:05:49,362][root][INFO] - ########################  BEST LR RESULT  ########################
+[2024-10-19 07:05:49,362][root][INFO] - - BEST LR: 0.01
+[2024-10-19 07:05:49,362][root][INFO] - - DEV score: 74.99 [%]
+[2024-10-19 07:05:49,362][root][INFO] - - TEST score: 76.27 [%]
+[2024-10-20 06:19:13,631][root][INFO] - 
+
+[2024-10-20 06:19:13,632][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:19:13,632][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs
+[2024-10-20 06:19:13,632][root][INFO] - 
+
+[2024-10-20 06:19:13,632][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': True, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-20 06:19:16,496][root][INFO] - 
+
+[2024-10-20 06:19:16,496][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:19:16,496][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc/256t_64b_1s_1rs
+[2024-10-20 06:19:16,496][root][INFO] - 
+
+[2024-10-20 06:19:16,496][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': False, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-20 06:19:31,428][root][INFO] - 
+
+[2024-10-20 06:19:31,428][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:19:31,428][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs
+[2024-10-20 06:19:31,428][root][INFO] - 
+
+[2024-10-20 06:19:31,428][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': True, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-20 06:20:06,856][root][INFO] - 
+
+[2024-10-20 06:20:06,856][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:20:06,856][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs
+[2024-10-20 06:20:06,856][root][INFO] - 
+
+[2024-10-20 06:20:06,856][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_en_punc', 'do_hangeulize': False, 'data_remove': True, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc_dr/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-20 06:20:10,920][root][INFO] - 
+
+[2024-10-20 06:20:10,920][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:20:10,920][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs
+[2024-10-20 06:20:10,920][root][INFO] - 
+
+[2024-10-20 06:20:10,920][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_en_punc', 'do_hangeulize': False, 'data_remove': False, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_en_punc/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
+[2024-10-20 06:20:29,449][root][INFO] - 
+
+[2024-10-20 06:20:29,449][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 06:20:29,449][root][INFO] - Save the parser information to logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs
+[2024-10-20 06:20:29,449][root][INFO] - 
+
+[2024-10-20 06:20:29,449][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 2048, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 256, 'num_workers': 4, 'num_labels': 3, 'remain_lang': 'ko_punc', 'do_hangeulize': False, 'data_remove': True, 'task_name': 'KorNLI'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.0001, 'base_lrs': '1e-02 2e-02', 'batch_size': 64, 'total_steps': -1, 'epochs': 5, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs', 'tb_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/tb', 'save_dir': 'logs/skt_kogpt2-base-v2/lora/nlu_tasks_lrs/KorNLI/ko_punc_dr/256t_64b_1s_1rs/ckpt'}, 'mode': 'nlu_ft'}
+
