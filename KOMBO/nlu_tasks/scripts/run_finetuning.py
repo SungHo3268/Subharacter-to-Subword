@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import logging
 import torch
 from argparse import Namespace
 sys.path.append(os.getcwd())
@@ -15,20 +14,17 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 parser = ArgsBase().add_nlu_task_args()
 temp_args = parser.parse_args()
 temp = vars(temp_args)
-# config = json.load(open(f"KOMBO/nlu_tasks/data_configs/{temp['task_name']}/config.json"))
-# for arg in config:
-#     temp[arg] = config[arg]
+config = json.load(open(f"KOMBO/nlu_tasks/data_configs/{temp['task_name']}/config.json"))
+for arg in config:
+    temp[arg] = config[arg]
 
 
 if temp['tok_type'] in ['jamo', 'stroke', 'cji', 'bts']:
     temp['max_seq_len'] = 256
-    # temp['learning_rate'] = 5e-05
 elif temp['tok_type'] in ['jamo_distinct']:
     temp['max_seq_len'] = 512
-    # temp['learning_rate'] = 5e-05
 elif temp['tok_type'] in ['stroke_var', 'cji_var', 'bts_var']:
     temp['max_seq_len'] = 1024
-    # temp['learning_rate'] = 5e-05
 else:
     pass
 

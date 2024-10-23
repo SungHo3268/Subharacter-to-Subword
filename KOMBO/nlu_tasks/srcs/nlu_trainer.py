@@ -54,6 +54,7 @@ class Trainer(nn.Module):
             self.model = apply_lora_to_model(self.model, lora_config, logger)
             make_only_lora_as_trainable(self.model, bias='lora_only')
             _ = print_trainable_parameters(self.model, logger)
+        _ = print_trainable_parameters(self.model, logger)
         if hparams.set_sub2:
             if hparams.sub2_tok_type in ['subword', 'morphemeSubword']:
                 hparams.sub2_tok_name = f"{hparams.sub2_tok_type}_{hparams.sub2_lang}_{hparams.sub2_bpe_corpus}_{hparams.sub2_tok_vocab_size}"
@@ -66,8 +67,9 @@ class Trainer(nn.Module):
                 self.sub2_tokenizer = get_bert_sub2_tokenizer(hparams.sub2_tok_type, hparams.sub2_tok_name, hparams.sub2_max_length)
             target_modules = ['query', 'key', 'value']
 
-            from transformers import AutoConfig
-            trans_config = get_config(self.hparams)
+            # from transformers import AutoConfig
+            # trans_config = get_config(self.hparams)
+            trans_config = self.model.config
 
             lora_config = LoRA_Config(
                 r=hparams.lora_r,
@@ -99,7 +101,7 @@ class Trainer(nn.Module):
             logger.info(f"Change the max_length to {hparams.sub2_max_length} for the sub2_tokenizer's truncation.")
 
             self.model = apply_sub2_to_model(self.model, self.tokenizer, self.sub2_tokenizer, sub2_config, logger)
-            make_only_sub2_and_lora_as_trainable(self.model, weight='sub2_lora_only', bias='sub2_lora_only')
+            # make_only_sub2_and_lora_as_trainable(self.model, weight='sub2_lora_only', bias='sub2_lora_only')
             _, _ = print_trainable_parameters(self.model, logger)
             
         self.model.to(self.device)
@@ -378,6 +380,7 @@ class Trainer(nn.Module):
                 self.best_ckpt['best_dev_score'] = dev_acc
                 self.best_ckpt['best_test_score'] = test_acc
 
+                print("Save the Best Result")
                 # print("Save the Best Model")
                 # torch.save(self.model.state_dict(), os.path.join(self.hparams.ckpt_dir, "pytorch_model.bin"))
 

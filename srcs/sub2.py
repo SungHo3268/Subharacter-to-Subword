@@ -216,6 +216,7 @@ class SUB2_Combination_Layer(nn.Module):
             batch_size = sub2_embedding.shape[0]
             if self.config.is_bert:
                 x = x[:, 1:]                                    # Remove the [CLS] token
+                sub2_cls_embedding = sub2_embedding[:, :1, :]
                 sub2_embedding = sub2_embedding[:, 1:, :]       # Remove the [CLS] token
                 # print(f"1.1) sub2_embedding.shape: {sub2_embedding.shape}")
 
@@ -348,6 +349,8 @@ class SUB2_Combination_Layer(nn.Module):
             # '''
         else:
             sub2_embedding = self.sequence_reducer(sub2_embedding)        # (B, max_length, D)
+        if self.config.is_bert:
+            sub2_embedding = torch.cat([sub2_cls_embedding, sub2_embedding], dim=1)
         return sub2_embedding
 
 class SUB2_LoRA_Layer(nn.Module):
@@ -408,9 +411,9 @@ class SUB2_LoRA_Layer(nn.Module):
         device = x.device
 
         original_embedding = self.original_layer(x)
-        if self.config.is_bert:
-            cls_embedding = original_embedding[:, :1, :]
-            original_embedding = original_embedding[:, 1:, :]
+        # if self.config.is_bert:
+        #     cls_embedding = original_embedding[:, :1, :]
+        #     original_embedding = original_embedding[:, 1:, :]
 
         if self.config.is_bert:
             text_input = self.tokenizer.batch_decode(x, skip_special_tokens=False)
@@ -437,11 +440,13 @@ class SUB2_LoRA_Layer(nn.Module):
         if original_embedding.shape[1] != sub2_embedding.shape[1]:
             sub2_embedding = sub2_embedding[:, :original_embedding.shape[1]]
 
-        # final_embedding = original_embedding + sub2_embedding
-        final_embedding = self.sub2_injection([original_embedding, sub2_embedding.contiguous()])
-
         if self.config.is_bert:
-            final_embedding = torch.cat([cls_embedding, final_embedding], dim=1)
+            final_embedding = original_embedding + sub2_embedding
+        else:
+            final_embedding = self.sub2_injection([original_embedding, sub2_embedding.contiguous()])
+
+        # if self.config.is_bert:
+        #     final_embedding = torch.cat([cls_embedding, final_embedding], dim=1)
         return final_embedding
 
     def __repr__(self):
