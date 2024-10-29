@@ -426,8 +426,8 @@ class KOMBO_LoRA_Layer(nn.Module):
         if original_embedding.shape[1] != kombo_embedding.shape[1]:
             kombo_embedding = kombo_embedding[:, :original_embedding.shape[1]]
 
-        final_embedding = original_embedding + kombo_embedding
-        # final_embedding = self.kombo_injection([original_embedding, kombo_embedding.contiguous()])
+        # final_embedding = original_embedding + kombo_embedding
+        final_embedding = self.kombo_injection([original_embedding, kombo_embedding.contiguous()])
         return final_embedding
 
     def __repr__(self):

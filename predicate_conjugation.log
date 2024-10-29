@@ -1,0 +1,914 @@
+[2024-10-20 17:24:53,221][root][INFO] - 
+
+[2024-10-20 17:24:53,221][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:24:53,221][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:24:53,221][root][INFO] - 
+
+[2024-10-20 17:24:53,221][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:24:55,384][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,385][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,385][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,386][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,386][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,387][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,387][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,388][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,388][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,389][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,389][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,390][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,391][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,391][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,392][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,392][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,393][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,393][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,394][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,394][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,395][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,395][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,396][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:24:55,396][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:24:55,398][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:24:55,603][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:24:55,606][root][INFO] - Trainable params: 17845248 || all params: 143009280 || trainable: 12.48 %
+[2024-10-20 17:24:55,606][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:25:40,808][root][INFO] - 
+
+[2024-10-20 17:25:40,809][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:25:40,809][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:25:40,809][root][INFO] - 
+
+[2024-10-20 17:25:40,809][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:25:42,961][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,962][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,963][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,963][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,964][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,965][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,965][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,966][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,967][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,967][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,968][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,968][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,969][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,969][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,970][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,970][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,971][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,971][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,972][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,972][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,973][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,973][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,974][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:25:42,974][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:25:42,976][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:25:43,181][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:25:43,183][root][INFO] - Trainable params: 17845248 || all params: 143009280 || trainable: 12.48 %
+[2024-10-20 17:25:43,183][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:28:54,954][root][INFO] - 
+
+[2024-10-20 17:28:54,954][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:28:54,954][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:28:54,955][root][INFO] - 
+
+[2024-10-20 17:28:54,955][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:28:57,161][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,163][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,165][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,166][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,167][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,169][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,170][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,171][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,173][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,174][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,176][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,177][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,177][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,178][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,179][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,180][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,181][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,182][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,183][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,184][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,186][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,186][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,188][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:28:57,189][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:28:57,191][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:28:57,404][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:28:57,407][root][INFO] - Trainable params: 17845248 || all params: 143009280 || trainable: 12.48 %
+[2024-10-20 17:28:57,407][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:29:00,253][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:29:15,704][root][INFO] - 
+
+[2024-10-20 17:29:15,704][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:29:15,704][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:29:15,704][root][INFO] - 
+
+[2024-10-20 17:29:15,705][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:29:17,860][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,861][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,862][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,863][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,864][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,864][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,865][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,866][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,866][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,867][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,867][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,868][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,869][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,869][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,870][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,871][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,871][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,872][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,872][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,873][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,874][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,874][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,875][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:29:17,875][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:29:17,877][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:29:18,086][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:29:18,088][root][INFO] - Trainable params: 17845248 || all params: 143009280 || trainable: 12.48 %
+[2024-10-20 17:29:18,088][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:29:20,693][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:35:51,950][root][INFO] - 
+
+[2024-10-20 17:35:51,950][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:35:51,950][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:35:51,951][root][INFO] - 
+
+[2024-10-20 17:35:51,951][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:35:54,459][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,460][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,461][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,462][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,462][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,463][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,464][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,464][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,465][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,466][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,466][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,467][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,468][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,469][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,469][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,470][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,470][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,471][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,471][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,472][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,472][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,473][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,473][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:35:54,474][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:35:54,476][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:35:54,707][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:35:54,708][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:35:57,383][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:37:42,066][root][INFO] - 
+
+[2024-10-20 17:37:42,066][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:37:42,066][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:37:42,066][root][INFO] - 
+
+[2024-10-20 17:37:42,066][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:37:44,162][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,163][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,164][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,164][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,165][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,165][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,166][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,166][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,167][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,167][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,168][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,169][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,169][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,170][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,170][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,171][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,171][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,172][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,172][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,173][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,173][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,174][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,174][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:37:44,175][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:37:44,176][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:37:44,383][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:37:44,384][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:37:46,970][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:39:43,346][root][INFO] - 
+
+[2024-10-20 17:39:43,347][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:39:43,347][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:39:43,347][root][INFO] - 
+
+[2024-10-20 17:39:43,347][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:39:45,557][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,558][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,559][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,559][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,560][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,561][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,561][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,562][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,563][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,563][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,564][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,564][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,565][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,566][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,566][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,567][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,568][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,568][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,569][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,569][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,570][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,570][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,571][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:39:45,571][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:39:45,573][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:39:45,793][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:39:45,794][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:39:48,432][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:45:00,500][root][INFO] - 
+
+[2024-10-20 17:45:00,500][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:45:00,500][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:45:00,500][root][INFO] - 
+
+[2024-10-20 17:45:00,500][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:45:02,645][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,646][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,647][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,647][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,648][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,649][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,649][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,650][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,651][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,651][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,652][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,652][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,653][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,654][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,654][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,655][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,656][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,656][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,657][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,658][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,658][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,659][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,660][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:02,660][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:02,663][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:45:02,904][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:45:02,904][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:45:05,525][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:45:19,150][root][INFO] - 
+
+[2024-10-20 17:45:19,150][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:45:19,150][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:45:19,150][root][INFO] - 
+
+[2024-10-20 17:45:19,150][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:45:21,254][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,255][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,256][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,256][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,257][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,257][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,258][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,259][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,259][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,260][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,261][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,261][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,262][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,263][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,264][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,264][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,265][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,265][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,266][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,267][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,268][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,269][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,269][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:45:21,270][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:45:21,273][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:45:21,512][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:45:21,513][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:45:24,061][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:48:44,898][root][INFO] - 
+
+[2024-10-20 17:48:44,898][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:48:44,898][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:48:44,898][root][INFO] - 
+
+[2024-10-20 17:48:44,898][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:48:47,108][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,109][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,110][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,110][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,111][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,112][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,112][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,113][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,113][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,114][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,115][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,115][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,116][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,116][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,117][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,118][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,118][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,119][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,119][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,120][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,121][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,121][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,122][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:48:47,122][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:48:47,124][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:48:47,331][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:48:47,332][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:48:49,894][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:58:28,281][root][INFO] - 
+
+[2024-10-20 17:58:28,281][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:58:28,281][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:58:28,281][root][INFO] - 
+
+[2024-10-20 17:58:28,281][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:58:30,423][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,424][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,425][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,425][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,426][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,427][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,427][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,428][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,429][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,429][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,430][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,431][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,432][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,432][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,433][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,434][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,434][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,435][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,435][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,436][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,436][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,437][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,437][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:30,438][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:30,440][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:58:30,649][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:58:30,650][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:58:33,458][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:58:50,001][root][INFO] - 
+
+[2024-10-20 17:58:50,001][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:58:50,002][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:58:50,002][root][INFO] - 
+
+[2024-10-20 17:58:50,002][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:58:52,295][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,297][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,298][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,298][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,299][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,300][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,300][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,301][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,302][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,302][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,303][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,303][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,304][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,305][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,305][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,306][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,307][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,307][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,308][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,309][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,309][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,310][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,310][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:58:52,311][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:58:52,313][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:58:52,524][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:58:52,525][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:58:55,139][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 17:59:17,000][root][INFO] - 
+
+[2024-10-20 17:59:17,000][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 17:59:17,000][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:59:17,000][root][INFO] - 
+
+[2024-10-20 17:59:17,000][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 17:59:19,238][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,238][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,239][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,240][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,240][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,241][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,241][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,242][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,242][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,243][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,244][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,244][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,245][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,245][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,246][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,246][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,247][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,247][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,248][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,249][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,249][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,250][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,250][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 17:59:19,250][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 17:59:19,252][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 17:59:19,465][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 17:59:19,466][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 17:59:22,360][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:01:30,348][root][INFO] - 
+
+[2024-10-20 18:01:30,348][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:01:30,348][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:01:30,348][root][INFO] - 
+
+[2024-10-20 18:01:30,348][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:01:32,493][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,495][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,496][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,498][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,499][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,500][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,502][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,503][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,505][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,506][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,507][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,508][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,508][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,509][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,510][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,511][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,512][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,513][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,515][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,516][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,517][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,518][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,519][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:01:32,520][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:01:32,523][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:01:32,736][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:01:32,737][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:01:35,600][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:07:17,961][root][INFO] - 
+
+[2024-10-20 18:07:17,961][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:07:17,961][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:07:17,962][root][INFO] - 
+
+[2024-10-20 18:07:17,962][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:07:20,309][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,310][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,311][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,311][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,312][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,313][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,313][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,314][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,314][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,315][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,315][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,316][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,317][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,317][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,318][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,318][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,318][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,319][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,319][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,320][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,320][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,321][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,321][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:07:20,322][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:07:20,323][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:07:20,532][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:07:20,533][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:07:23,123][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:08:39,681][root][INFO] - 
+
+[2024-10-20 18:08:39,681][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:08:39,681][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:08:39,681][root][INFO] - 
+
+[2024-10-20 18:08:39,681][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:08:41,763][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,764][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,765][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,765][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,766][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,766][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,767][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,767][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,768][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,768][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,769][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,769][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,770][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,770][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,771][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,771][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,772][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,772][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,773][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,773][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,774][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,774][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,775][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:08:41,775][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:08:41,777][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:08:41,986][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:08:41,987][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:08:44,565][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:09:29,511][root][INFO] - 
+
+[2024-10-20 18:09:29,511][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:09:29,512][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:09:29,512][root][INFO] - 
+
+[2024-10-20 18:09:29,512][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:09:32,038][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,039][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,039][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,040][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,041][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,041][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,041][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,042][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,042][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,043][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,043][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,044][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,044][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,045][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,046][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,046][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,047][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,047][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,047][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,048][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,049][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,049][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,050][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:32,050][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:32,052][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:09:32,259][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:09:32,259][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:09:34,846][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:09:42,690][root][INFO] - 
+
+[2024-10-20 18:09:42,690][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:09:42,690][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:09:42,691][root][INFO] - 
+
+[2024-10-20 18:09:42,691][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:09:44,985][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,986][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,987][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,988][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,988][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,989][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,989][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,990][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,990][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,991][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,991][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,991][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,992][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,993][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,993][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,994][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,994][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,995][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,995][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,996][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,996][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,997][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,997][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:09:44,998][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:09:44,999][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:09:45,206][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:09:45,207][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:09:47,738][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:15:19,223][root][INFO] - 
+
+[2024-10-20 18:15:19,223][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:15:19,223][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:15:19,223][root][INFO] - 
+
+[2024-10-20 18:15:19,223][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:15:21,794][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,796][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,797][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,797][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,798][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,799][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,799][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,800][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,800][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,801][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,802][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,802][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,803][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,803][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,804][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,805][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,805][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,806][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,806][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,807][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,808][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,808][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,809][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:21,809][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:21,811][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:15:22,021][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:15:22,021][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:15:24,596][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:15:49,352][root][INFO] - 
+
+[2024-10-20 18:15:49,352][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:15:49,353][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:15:49,353][root][INFO] - 
+
+[2024-10-20 18:15:49,353][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:15:51,520][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,522][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,522][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,523][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,523][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,524][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,525][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,525][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,526][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,526][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,527][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,528][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,528][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,529][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,530][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,530][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,531][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,532][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,533][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,533][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,534][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,535][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,536][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:15:51,537][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:15:51,539][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:15:51,749][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:15:51,750][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:15:54,542][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:16:12,020][root][INFO] - 
+
+[2024-10-20 18:16:12,020][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:16:12,020][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:16:12,020][root][INFO] - 
+
+[2024-10-20 18:16:12,020][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:16:14,166][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,168][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,169][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,169][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,170][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,171][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,172][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,172][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,173][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,173][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,174][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,175][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,175][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,176][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,177][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,177][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,178][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,179][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,179][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,180][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,181][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,181][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,182][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:14,182][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:14,185][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:16:14,397][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:16:14,398][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:16:16,989][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:16:43,289][root][INFO] - 
+
+[2024-10-20 18:16:43,289][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:16:43,290][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:16:43,290][root][INFO] - 
+
+[2024-10-20 18:16:43,290][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:16:45,395][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,396][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,397][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,397][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,398][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,398][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,399][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,399][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,400][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,400][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,401][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,401][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,402][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,402][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,403][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,403][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,404][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,404][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,405][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,405][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,406][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,406][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,407][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:16:45,407][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:16:45,409][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:16:45,614][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:16:45,615][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:16:48,167][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:17:23,779][root][INFO] - 
+
+[2024-10-20 18:17:23,779][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:17:23,779][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:17:23,779][root][INFO] - 
+
+[2024-10-20 18:17:23,779][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:17:25,922][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,923][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,924][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,925][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,926][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,927][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,927][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,928][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,929][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,929][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,930][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,930][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,931][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,931][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,932][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,933][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,933][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,934][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,934][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,935][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,935][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,936][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,937][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:17:25,937][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:17:25,939][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:17:26,150][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:17:26,151][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:17:28,713][root][INFO] - Complete to reload the checkpoint of the model from above save directory.
+[2024-10-20 18:18:54,254][root][INFO] - 
+
+[2024-10-20 18:18:54,254][root][INFO] - This train_log.txt inform the Running Progress.
+
+[2024-10-20 18:18:54,255][root][INFO] - Save the parser information to analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:18:54,255][root][INFO] - 
+
+[2024-10-20 18:18:54,255][root][INFO] - Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': True, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 1956, 'do_combination': True, 'embedding_norm': True, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 10, 'max_length': 128, 'max_new_tokens': 30, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 5, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 163, 'num_workers': 4, 'task_name': 'KoCommonGen'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.04, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 15, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 1, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 64, 'eval_batch_size': 16}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/attention_map/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+[2024-10-20 18:18:56,422][root][INFO] - Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,423][root][INFO] - Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,424][root][INFO] - Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,424][root][INFO] - Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,425][root][INFO] - Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,426][root][INFO] - Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,426][root][INFO] - Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,427][root][INFO] - Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,428][root][INFO] - Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,428][root][INFO] - Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,429][root][INFO] - Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,430][root][INFO] - Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,430][root][INFO] - Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,431][root][INFO] - Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,432][root][INFO] - Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,432][root][INFO] - Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,433][root][INFO] - Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,434][root][INFO] - Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,434][root][INFO] - Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,435][root][INFO] - Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,435][root][INFO] - Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,436][root][INFO] - Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,437][root][INFO] - Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+[2024-10-20 18:18:56,437][root][INFO] - Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+[2024-10-20 18:18:56,440][root][INFO] - Trainable params: 1769472 || all params: 126933504 || trainable: 1.39 %
+[2024-10-20 18:18:56,647][root][INFO] - Replaced transformer.wte with KOMBO_LoRA_Layer
+[2024-10-20 18:18:56,648][root][INFO] - 
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+[2024-10-20 18:18:59,502][root][INFO] - Complete to reload the checkpoint of the model from above save directory.

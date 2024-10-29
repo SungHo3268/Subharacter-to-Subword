@@ -62,3 +62,10 @@ model.generation_config.max_length=32 model.generation_config.max_new_tokens=64 
 data.max_length=256 model.set_lora=true model.lora.r=32 model.lora.alpha=128 \
 model.set_kombo=true model.kombo.do_combination=true model.kombo.combination.combination_type=gru \
 model.kombo.kombo_max_length=2048 model.kombo.add_lora=true model.kombo.lora.r=32 model.kombo.lora.alpha=128
+
+python nlu_tasks/scripts/run_finetuning_lrs.py mode=nlu_ft task=KorSTS \
+        seed=1 data.remain_lang=ko_punc data.do_hangeulize=false data.data_remove=false \
+        optim.grad_acc=1 optim.base_lrs=1e-02 data.max_length=256 logging.log_steps=10000 \
+        model.hf_model=True model.name=skt/kogpt2-base-v2 \
+        model.set_lora=true model.lora.r=32 model.lora.alpha=128 \
+        model.set_kombo=true model.kombo.do_combination=false model.kombo.add_lora=false

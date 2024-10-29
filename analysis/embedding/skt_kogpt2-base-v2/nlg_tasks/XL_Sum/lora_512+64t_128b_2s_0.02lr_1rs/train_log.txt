@@ -1,0 +1,502 @@
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/KoCommonGen/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_kombo_comb-gru_128+30t_128b_1s_0.04lr_1rs
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.
+
+
+This train_log.txt inform the Running Progress.
+
+Save the parser information to analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs
+
+
+Arguments: {'port': 5678, 'host': 'localhost', 'device': 'gpu', 'mixed_precision': 'bf16', 'eval_only': False, 'predict_only': False, 'seed': 1, 'seeds': '', 'model': {'name': 'skt/kogpt2-base-v2', 'hf_model': True, 'n_positions': 2048, 'ckpt_dir': '/data3/user21/KOMBO_Generation/logs/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.01lr_1rs/ckpt', 'compile': True, 'set_lora': True, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}, 'set_kombo': False, 'kombo': {'tok_type': 'jamo_var', 'lang': 'ko', 'reducer': 'linear', 'hidden_dim': 768, 'kombo_max_length': 4096, 'do_combination': False, 'embedding_norm': False, 'combination': {'combination_type': 'gru', 'intermediate_size': 3072, 'num_attention_heads': 12, 'num_trans_layers': 3}, 'add_lora': False, 'lora': {'r': 32, 'alpha': 128, 'dropout': 0.03}}, 'generation_config': {'min_length': 64, 'max_length': 512, 'max_new_tokens': 64, 'no_repeat_ngram_size': 3, 'do_sample': False, 'num_beams': 4, 'pad_token_id': None, 'bos_token_id': None, 'eos_token_id': None}}, 'data': {'language': 'ko', 'tok_type': 'morphemeSubword', 'vocab_size': '32k', 'raw_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated.txt', 'train_data_path': '/data3/user21/KOMBO/datasets/pretraining/concatenated_doc.txt', 'split_by_doc': True, 'is_toyset': False, 'max_length': 581, 'num_workers': 4, 'task_name': 'XL_Sum'}, 'optim': {'name': 'adamwscale', 'base_lr': 0.02, 'base_lrs': '', 'batch_size': 128, 'total_steps': -1, 'epochs': 10, 'warmup_steps': -1, 'warmup_ratio': 0.1, 'lr_scheduler': 'cosine', 'weight_decay': 0.0, 'grad_clip': 1.0, 'grad_acc': 2, 'final_cosine': 1e-05, 'early_stop_patience': 3, 'dropout_prob': 0.1, 'train_batch_size': 16, 'eval_batch_size': 8}, 'eval': {'eval_steps': 10000, 'steps': 500}, 'checkpoint': {'save_steps': 50000, 'max_number': 3}, 'logging': {'log_steps': 10000, 'grad_l2': True, 'weights_l2': True, 'log_dir': 'analysis/embedding/skt_kogpt2-base-v2/nlg_tasks/XL_Sum/lora_512+64t_128b_2s_0.02lr_1rs', 'tb_dir': '${logging.log_dir}/tb', 'save_dir': '${logging.log_dir}/ckpt'}, 'mode': 'nlg_ft'}
+
+Replaced transformer.h.0.attn.c_attn with LoRA_Layer
+Replaced transformer.h.0.attn.c_proj with LoRA_Layer
+Replaced transformer.h.1.attn.c_attn with LoRA_Layer
+Replaced transformer.h.1.attn.c_proj with LoRA_Layer
+Replaced transformer.h.2.attn.c_attn with LoRA_Layer
+Replaced transformer.h.2.attn.c_proj with LoRA_Layer
+Replaced transformer.h.3.attn.c_attn with LoRA_Layer
+Replaced transformer.h.3.attn.c_proj with LoRA_Layer
+Replaced transformer.h.4.attn.c_attn with LoRA_Layer
+Replaced transformer.h.4.attn.c_proj with LoRA_Layer
+Replaced transformer.h.5.attn.c_attn with LoRA_Layer
+Replaced transformer.h.5.attn.c_proj with LoRA_Layer
+Replaced transformer.h.6.attn.c_attn with LoRA_Layer
+Replaced transformer.h.6.attn.c_proj with LoRA_Layer
+Replaced transformer.h.7.attn.c_attn with LoRA_Layer
+Replaced transformer.h.7.attn.c_proj with LoRA_Layer
+Replaced transformer.h.8.attn.c_attn with LoRA_Layer
+Replaced transformer.h.8.attn.c_proj with LoRA_Layer
+Replaced transformer.h.9.attn.c_attn with LoRA_Layer
+Replaced transformer.h.9.attn.c_proj with LoRA_Layer
+Replaced transformer.h.10.attn.c_attn with LoRA_Layer
+Replaced transformer.h.10.attn.c_proj with LoRA_Layer
+Replaced transformer.h.11.attn.c_attn with LoRA_Layer
+Replaced transformer.h.11.attn.c_proj with LoRA_Layer
+
+Save directory: lora_512+64t_128b_2s_0.01lr_1rs
+Complete to reload the checkpoint of the model from above save directory.

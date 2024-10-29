@@ -113,13 +113,13 @@ hydra:
     - hydra.mode=RUN
     task:
     - mode=nlu_ft
-    - task=KorNLI
-    - seed=1
-    - data.remain_lang=ko_punc
+    - task=NSMC
+    - seed=3
+    - data.remain_lang=ko_en_punc
     - data.do_hangeulize=false
-    - data.data_remove=true
+    - data.data_remove=false
     - optim.grad_acc=1
-    - optim.base_lrs=1e-02 2e-02
+    - optim.base_lrs=5e-03_3e-03
     - data.max_length=256
     - logging.log_steps=10000
     - model.hf_model=True
@@ -127,14 +127,16 @@ hydra:
     - model.set_lora=true
     - model.lora.r=32
     - model.lora.alpha=128
-    - model.set_kombo=false
-    - model.kombo.do_combination=false
+    - model.set_kombo=true
+    - model.kombo.do_combination=true
+    - model.kombo.combination.combination_type=gru
+    - model.kombo.tok_type=jamo_var
+    - model.kombo.kombo_max_length=2048
     - model.kombo.add_lora=false
   job:
-    name: run_finetuning_lrs
+    name: run_finetuning_lrs2
     chdir: true
-    override_dirname: data.data_remove=true,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_punc,logging.log_steps=10000,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.do_combination=false,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=false,model.set_lora=true,optim.base_lrs=1e-02
-      2e-02,optim.grad_acc=1,seed=1,task=KorNLI
+    override_dirname: data.data_remove=false,data.do_hangeulize=false,data.max_length=256,data.remain_lang=ko_en_punc,logging.log_steps=10000,mode=nlu_ft,model.hf_model=True,model.kombo.add_lora=false,model.kombo.combination.combination_type=gru,model.kombo.do_combination=true,model.kombo.kombo_max_length=2048,model.kombo.tok_type=jamo_var,model.lora.alpha=128,model.lora.r=32,model.name=skt/kogpt2-base-v2,model.set_kombo=true,model.set_lora=true,optim.base_lrs=5e-03_3e-03,optim.grad_acc=1,seed=3,task=NSMC
     id: ???
     num: ???
     config_name: default
@@ -162,7 +164,7 @@ hydra:
     output_dir: /data3/user21/KOMBO_Generation
     choices:
       local_env: default
-      task: KorNLI
+      task: NSMC
       mode: nlu_ft
       hydra/env: default
       hydra/callbacks: null

@@ -1,7 +1,6 @@
 task=$1
-data_remove=$2
-
-remain_lang=ko_punc
+remain_lang=$2
+data_remove=$3
 do_hangeulize=false
 
 for seed in 1 2 3

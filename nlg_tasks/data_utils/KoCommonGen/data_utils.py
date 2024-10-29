@@ -30,7 +30,7 @@ Decoder: [ sentence ]
 
 def load_task_dataset():
     task_name = 'KoCommonGen'
-    data_dir = f"datasets/nlg_tasks/{task_name}/"
+    data_dir = f"/data3/user21/KOMBO/datasets/nlg_tasks/{task_name}/"
 
     print(f"\n##### Loading the {task_name} dataset #####")
     print(f"Data path: {data_dir}\n")

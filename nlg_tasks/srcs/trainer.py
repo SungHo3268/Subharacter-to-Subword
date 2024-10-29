@@ -357,10 +357,10 @@ class GPTNLGTrainer(nn.Module):
                 references = [[ref] for ref in references]
             refs_list.extend(references)
 
-            print("\n\n")
-            print(f"given_text[0]: {given_text[0]}")
-            print(f"references[0]: {references[0]}")
-            print(f"only_predictions[0]: {only_predictions[0]}")
+            # print("\n\n")
+            # print(f"given_text[0]: {given_text[0]}")
+            # print(f"references[0]: {references[0]}")
+            # print(f"only_predictions[0]: {only_predictions[0]}")
 
         if self.hparams.data.task_name == 'KoCommonGen':
             results = eval_main(refs_list, preds_list, concepts_list)

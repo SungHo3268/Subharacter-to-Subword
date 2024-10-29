@@ -1,9 +1,12 @@
 import os
 import sys
 import time
+import json
 import torch
 import torch.nn as nn
 from tqdm import tqdm
+from omegaconf import OmegaConf
+
 from scipy.stats import spearmanr
 from sklearn.metrics import (accuracy_score,
                              # f1_score
@@ -166,6 +169,14 @@ class GPTNLUTrainer(nn.Module):
             raise NotImplementedError
 
         return lr_scheduler
+    
+    def maybe_save_checkpoint(self):
+        output_dir = os.path.join(self.hparams.logging.save_dir, f'checkpoint-best')
+
+        self.accelerator.save_state(output_dir=output_dir)
+        torch.save(self.model.state_dict(), os.path.join(output_dir, 'torch.save.pytorch_model.bin'))
+        json.dump(OmegaConf.to_container(self.hparams, resolve=True), open(os.path.join(output_dir, 'args.json'), 'w'))
+
 
     def maybe_logging(self, averager, mode='train'):
         if (mode == 'train') and (len(averager.total) != 0) and ((self.current_train_step % self.hparams.logging.log_steps == 0) or self.epoch_done):
@@ -369,6 +380,7 @@ class GPTNLUTrainer(nn.Module):
 
                 # self.logger.info(f"\nSave new Best Model (Epoch: {self.current_epoch})")
                 # save_file(self.model.state_dict(), os.path.join(self.hparams.logging.save_dir, "model.safetensors"))
+                self.maybe_save_checkpoint()
 
         print("\n")
         self.logger.info("########################  BEST RESULT  ########################")

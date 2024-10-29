@@ -4,7 +4,7 @@ device: gpu
 mixed_precision: bf16
 eval_only: false
 predict_only: false
-seed: 1
+seed: 3
 seeds: ''
 model:
   name: skt/kogpt2-base-v2
@@ -17,14 +17,14 @@ model:
     r: 32
     alpha: 128
     dropout: 0.03
-  set_kombo: false
+  set_kombo: true
   kombo:
     tok_type: jamo_var
     lang: ko
     reducer: linear
     hidden_dim: 768
     kombo_max_length: 2048
-    do_combination: false
+    do_combination: true
     embedding_norm: false
     combination:
       combination_type: gru
@@ -47,14 +47,14 @@ data:
   max_length: 256
   num_workers: 4
   num_labels: null
-  remain_lang: ko_punc
+  remain_lang: ko_en_punc
   do_hangeulize: false
-  data_remove: true
-  task_name: KorNLI
+  data_remove: false
+  task_name: NSMC
 optim:
   name: adamwscale
-  base_lr: 0.0001
-  base_lrs: 1e-02 2e-02
+  base_lr: 5.0e-05
+  base_lrs: 5e-03_3e-03
   batch_size: 64
   total_steps: -1
   epochs: 5

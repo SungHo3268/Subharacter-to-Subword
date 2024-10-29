@@ -1,0 +1,4 @@
+#KOMBO
+python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=XL_Sum model.hf_model=True model.name=skt/kogpt2-base-v2 optim.base_lr=4e-02 model.set_lora=true model.lora.r=32 model.lora.alpha=128 model.set_kombo=true model.kombo.do_combination=true model.kombo.combination.combination_type=gru model.kombo.tok_type=jamo_var model.kombo.add_lora=false logging.log_steps=10000 seed=1
+#LoRA
+python nlg_tasks/scripts/run_finetuning.py mode=nlg_ft task=XL_Sum model.hf_model=True model.name=skt/kogpt2-base-v2 optim.base_lr=1e-02 model.set_lora=true model.lora.r=32 model.lora.alpha=128 model.set_kombo=false model.kombo.do_combination=false model.kombo.combination.combination_type=gru model.kombo.tok_type=jamo_var model.kombo.add_lora=false logging.log_steps=10000 seed=1

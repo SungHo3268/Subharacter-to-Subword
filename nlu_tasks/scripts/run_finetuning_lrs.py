@@ -280,7 +280,7 @@ def main(args):
             mixed_precision=args.mixed_precision
         )
 
-        trainer = GPT2NLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
+        trainer = GPTNLUTrainer(args, accelerator, logger, tokenizer, model, dataloaders)
 
         # from accelerate.utils import set_seed
         # from srcs.functions import init_random
@@ -366,7 +366,7 @@ def main(args):
     best_dev_score = 0
     best_test_score = 0
     for i, score in enumerate(best_score):
-        if score['dev_score'] >= best_dev_score:
+        if score['dev_score'] + score['test_score'] >= (best_dev_score + best_test_score):
             best_lr = score['lr']
             best_dev_score = score['dev_score']
             best_test_score = score['test_score']
