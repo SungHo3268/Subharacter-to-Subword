@@ -156,7 +156,7 @@ class SUB2_Combination_Layer(nn.Module):
                     Rearrange('b (n k) d -> b n k d', k=config.k),
                     Rearrange('b n k d -> b n (k d)'),
                     nn.Linear(config.k * config.hidden_dim, config.hidden_dim),
-                    # nn.LayerNorm(config.hidden_dim)
+                    nn.LayerNorm(config.hidden_dim)
                 )
             elif config.reducer == 'attention_pool':        # Funnel Transformer
                 self.sequence_reducer = nn.Sequential(
@@ -402,8 +402,6 @@ class SUB2_LoRA_Layer(nn.Module):
             else:
                 self.dropout = lambda x: x  # pass
 
-        self.original_norm = nn.LayerNorm(config.hidden_dim)
-
     def make_sub2_input(self, x, device):
         """
         :param x: original input text which is the string type.
@@ -443,17 +441,11 @@ class SUB2_LoRA_Layer(nn.Module):
         if original_embedding.shape[1] != sub2_embedding.shape[1]:
             sub2_embedding = sub2_embedding[:, :original_embedding.shape[1]]
 
-        if hasattr(self.sub2_combination, "sequence_reducer"):
-            original_embedding = self.original_norm(original_embedding)
-            sub2_embedding = self.original_norm(sub2_embedding)
-
         if self.config.is_bert:
             final_embedding = original_embedding + sub2_embedding
         else:
             final_embedding = self.sub2_injection([original_embedding, sub2_embedding.contiguous()])
 
-        if hasattr(self.sub2_combination, "sequence_reducer"):
-            final_embedding = self.original_norm(final_embedding)
         return final_embedding
 
     def __repr__(self):
