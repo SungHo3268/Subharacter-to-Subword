@@ -1,7 +1,7 @@
 import os
 import sys
 import torch.nn as nn
-from transformers import BertModel, BertPreTrainedModel
+from transformers import BertModel, BertPreTrainedModel, BertForMultipleChoice
 
 sys.path.append(os.getcwd())
 from KOMBO.pretraining.srcs.models import CustomBertModel, CustomBertForPreTraining
@@ -180,8 +180,8 @@ class NSMCModel(nn.Module):
                                     output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
         pooled_output = outputs['pooler_output']
 
-        outputs_drop = self.dropout(pooled_output)
-        logits = self.classifier(outputs_drop)
+        output_drop = self.dropout(pooled_output)
+        logits = self.classifier(output_drop)
 
         return outputs, logits
 
@@ -211,3 +211,138 @@ class PAWS_XModel(nn.Module):
         return outputs, logits
 
 
+class KB_BoolQModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+
+        if hasattr(self.config, "embedding_type"):
+            self.bert = CustomBertModel(config)
+        elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+            self.bert = BertModel.from_pretrained(config._name_or_path)
+        else:
+            self.bert = BertModel(config)
+        self.dropout = nn.Dropout(self.config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, 2)  # positive or negative
+
+    def forward(self, inputs):
+        outputs = self.bert.forward(**inputs,
+                                    output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
+        pooled_output = outputs['pooler_output']
+
+        output_drop = self.dropout(pooled_output)
+        logits = self.classifier(output_drop)
+
+        return outputs, logits
+
+
+class KB_COPAModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+
+        if hasattr(self.config, "embedding_type"):
+            self.bert = CustomBertModel(config)
+        elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+            self.bert = BertModel.from_pretrained(config._name_or_path)
+        else:
+            self.bert = BertModel(config)
+        self.dropout = nn.Dropout(self.config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, 2)  # positive or negative
+
+    def forward(self, inputs):
+        outputs = self.bert.forward(**inputs,
+                                    output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
+        pooled_output = outputs['pooler_output']
+
+        output_drop = self.dropout(pooled_output)
+        logits = self.classifier(output_drop)
+
+        return outputs, logits
+
+
+class KB_WiCModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+
+        if hasattr(self.config, "embedding_type"):
+            self.bert = CustomBertModel(config)
+        elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+            self.bert = BertModel.from_pretrained(config._name_or_path)
+        else:
+            self.bert = BertModel(config)
+        self.dropout = nn.Dropout(self.config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, 2)  # positive or negative
+
+    def forward(self, inputs):
+        outputs = self.bert.forward(**inputs,
+                                    output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
+        pooled_output = outputs['pooler_output']
+
+        output_drop = self.dropout(pooled_output)
+        logits = self.classifier(output_drop)
+
+        return outputs, logits
+
+
+class KB_HellaSwagModel(BertForMultipleChoice):
+    def __init__(self, config):
+        super(KB_HellaSwagModel, self).__init__(config)
+        self.config = config
+
+        if hasattr(self.config, "embedding_type"):
+            self.bert = CustomBertModel(config)
+        elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+            self.bert = BertModel.from_pretrained(config._name_or_path)
+        else:
+            self.bert = BertModel(config)
+
+# class KB_HellaSwagModel(nn.Module):
+#     def __init__(self, config):
+#         super().__init__()
+#         self.config = config
+#
+#         if hasattr(self.config, "embedding_type"):
+#             self.bert = CustomBertModel(config)
+#         elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+#             self.bert = BertModel.from_pretrained(config._name_or_path)
+#         else:
+#             self.bert = BertModel(config)
+#         self.dropout = nn.Dropout(self.config.hidden_dropout_prob)
+#         self.classifier = nn.Linear(config.hidden_size, 1)  # positive or negative
+#
+#     def forward(self, inputs):
+#         outputs = self.bert.forward(**inputs,
+#                                     output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
+#         pooled_output = outputs['pooler_output']
+#
+#         output_drop = self.dropout(pooled_output)
+#         logits = self.classifier(output_drop)
+#
+#         return outputs, logits
+
+
+class KB_SentiNegModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+
+        if hasattr(self.config, "embedding_type"):
+            self.bert = CustomBertModel(config)
+        elif hasattr(config, "_name_or_path") and config._name_or_path == "klue/bert-base":
+            self.bert = BertModel.from_pretrained(config._name_or_path)
+        else:
+            self.bert = BertModel(config)
+        self.dropout = nn.Dropout(self.config.hidden_dropout_prob)
+        self.classifier = nn.Linear(config.hidden_size, 2)  # positive or negative
+
+    def forward(self, inputs):
+        outputs = self.bert.forward(**inputs,
+                                    output_hidden_states=True)  # input_ids, attention_mask, token_type_ids
+        pooled_output = outputs['pooler_output']
+
+        output_drop = self.dropout(pooled_output)
+        logits = self.classifier(output_drop)
+
+        return outputs, logits

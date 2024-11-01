@@ -64,7 +64,7 @@ Each sample is labeled with 0 (negative) or 1 (positive).
 #     return sentence
 
 
-def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
+def load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False):
     task_name = 'NSMC'
     data_dir = f"datasets/nlu_tasks/{task_name}/"
 
@@ -152,4 +152,4 @@ def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=
 
 
 if __name__ == '__main__':
-    processed = load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True)
+    processed = load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False)

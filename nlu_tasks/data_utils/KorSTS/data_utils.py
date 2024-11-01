@@ -22,7 +22,7 @@ When the two sentences are given, the task assesses the gradations of semantic s
 """
 
 
-def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
+def load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False):
     task_name = 'KorSTS'
     data_dir = f"datasets/nlu_tasks/{task_name}/"
     if do_hangeulize:
@@ -77,4 +77,4 @@ def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=
 
 
 if __name__ == '__main__':
-    data = load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True)
+    data = load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False)

@@ -23,7 +23,7 @@ Each sample is labeled with 0 (different meaning) or 1 (paraphrased).
 """
 
 
-def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
+def load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False):
     task_name = 'PAWS_X'
     data_dir = f"datasets/nlu_tasks/{task_name}/ko/"
 
@@ -84,4 +84,4 @@ def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=
 
 
 if __name__ == '__main__':
-    data = load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True)
+    data = load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False)

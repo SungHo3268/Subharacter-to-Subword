@@ -1,0 +1,12 @@
+{
+  "max_epochs": 15,
+  "batch_size": 16,
+  "gradient_accumulation_steps": 1,
+  "tb_interval": 50,
+  "weight_decay": 0.01,
+  "learning_rate": 5e-05,
+  "max_seq_len": 128,
+  "lr_scheduler": "linear",
+  "dropout_rate": 0,
+  "warmup_ratio": 0
+}

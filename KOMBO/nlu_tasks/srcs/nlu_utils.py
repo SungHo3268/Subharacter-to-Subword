@@ -9,6 +9,7 @@ from transformers import BertConfig
 sys.path.append(os.getcwd())
 
 from KOMBO.nlu_tasks.srcs.models import (KorNLIModel, KorSTSModel, NSMCModel, PAWS_XModel,
+                                         KB_BoolQModel, KB_COPAModel, KB_WiCModel, KB_HellaSwagModel, KB_SentiNegModel,
                                          # KorQuADModel
                                          )
 from KOMBO.pretraining.srcs.models import CustomBertForPreTraining
@@ -79,11 +80,26 @@ def get_task_model(args, tokenizer):
     elif args.task_name == 'PAWS_X':
         model = PAWS_XModel(config)
         criterion = nn.CrossEntropyLoss()
+    elif args.task_name == 'KB_BoolQ':
+        model = KB_BoolQModel(config)
+        criterion = nn.CrossEntropyLoss()
+    elif args.task_name == 'KB_COPA':
+        model = KB_COPAModel(config)
+        criterion = nn.CrossEntropyLoss()
+    elif args.task_name == 'KB_WiC':
+        model = KB_WiCModel(config)
+        criterion = nn.CrossEntropyLoss()
+    elif args.task_name == 'KB_HellaSwag':
+        model = KB_HellaSwagModel(config)
+        criterion = nn.CrossEntropyLoss()
+    elif args.task_name == 'KB_SentiNeg':
+        model = KB_SentiNegModel(config)
+        criterion = nn.CrossEntropyLoss()
     # elif args.task_name == 'KorQuAD':
     #     model = KorQuADModel(config)
     #     criterion = None  # nn.CrossEntropyLoss() is already embedded in the KorQuADModel
     else:
-        print("It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
+        print("It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X] + [KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag, KB_SentiNeg]")
         raise ValueError
 
     # reload the checkpoint of the model

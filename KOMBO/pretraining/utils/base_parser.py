@@ -121,9 +121,9 @@ class ArgsBase:
         parser.add_argument('--max_query_len', type=int, default=64)
         parser.add_argument('--max_answer_len', type=int, default=30)
         # for data preprocessing (KorNLI, KorSTS, NSMC, PAWS_X)
-        parser.add_argument('--remain_lang', type=str, default="ko_en_punc")
-        parser.add_argument('--do_hangeulize', type=_bool, default=True)
-        parser.add_argument('--data_remove', type=_bool, default=True)
+        parser.add_argument('--remain_lang', type=str, default="ko_punc")
+        parser.add_argument('--do_hangeulize', type=_bool, default=False)
+        parser.add_argument('--data_remove', type=_bool, default=False)
         return parser
 
     def add_typo_task_args(self, description="Fine_tuning Typo Tasks"):

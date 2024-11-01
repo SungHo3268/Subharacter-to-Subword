@@ -27,7 +27,7 @@ When a pair of sentences-a premise and a hypothesis-are given, the model classif
 """
 
 
-def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True):
+def load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False):
     task_name = 'KorNLI'
     data_dir = f"datasets/nlu_tasks/{task_name}/"
     if do_hangeulize:
@@ -89,5 +89,5 @@ def load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=
 
 
 if __name__ == '__main__':
-    dataset = load_task_dataset(remain_lang="ko_en_punc", do_hangeulize=True, data_remove=True)
+    dataset = load_task_dataset(remain_lang="ko_punc", do_hangeulize=False, data_remove=False)
 

@@ -19,6 +19,11 @@ from KOMBO.nlu_tasks.data_configs.KorNLI.data_utils import load_task_dataset as 
 from KOMBO.nlu_tasks.data_configs.KorSTS.data_utils import load_task_dataset as KorSTS_dataset
 from KOMBO.nlu_tasks.data_configs.NSMC.data_utils import load_task_dataset as NSMC_dataset
 from KOMBO.nlu_tasks.data_configs.PAWS_X.data_utils import load_task_dataset as PAWS_X_dataset
+from KOMBO.nlu_tasks.data_configs.KB_BoolQ.data_utils import load_task_dataset as KB_BoolQ_dataset
+from KOMBO.nlu_tasks.data_configs.KB_COPA.data_utils import load_task_dataset as KB_COPA_dataset
+from KOMBO.nlu_tasks.data_configs.KB_WiC.data_utils import load_task_dataset as KB_WiC_dataset
+from KOMBO.nlu_tasks.data_configs.KB_HellaSwag.data_utils import load_task_dataset as KB_HellaSwag_dataset
+from KOMBO.nlu_tasks.data_configs.KB_SentiNeg.data_utils import load_task_dataset as KB_SentiNeg_dataset
 from KOMBO.nlu_tasks.srcs.nlu_utils import get_bert_tokenizer, get_task_model, get_optimizer, get_lr_scheduler, get_bert_sub2_tokenizer, get_config
 
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
@@ -144,9 +149,19 @@ class Trainer(nn.Module):
             dataset = NSMC_dataset(self.hparams.remain_lang, self.hparams.do_hangeulize, self.hparams.data_remove)
         elif self.hparams.task_name == 'PAWS_X':
             dataset = PAWS_X_dataset(self.hparams.remain_lang, self.hparams.do_hangeulize, self.hparams.data_remove)
+        elif self.hparams.task_name == 'KB_BoolQ':
+            dataset = KB_BoolQ_dataset()
+        elif self.hparams.task_name == 'KB_COPA':
+            dataset = KB_COPA_dataset()
+        elif self.hparams.task_name == 'KB_WiC':
+            dataset = KB_WiC_dataset()
+        elif self.hparams.task_name == 'KB_HellaSwag':
+            dataset = KB_HellaSwag_dataset()
+        elif self.hparams.task_name == 'KB_SentiNeg':
+            dataset = KB_SentiNeg_dataset()
         else:
             self.logger.info(
-                "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X]")
+                "It's a Wrong Task Name. Please enter the right task name among [KorNLI, KorSTS, NSMC, PAWS_X] + [KB_BoolQ, KB_COPA, KB_WiC, KB_HellaSwag, KB_SentiNeg]")
             raise ValueError
         return dataset
 
@@ -188,28 +203,66 @@ class Trainer(nn.Module):
 
         batched_dataset = self._batch_dataset(shuffled_dataset)
 
-        if self.hparams.task_name in ['KorNLI', 'KorSTS', 'PAWS_X']:
+        if self.hparams.task_name in ['KorNLI', 'KorSTS', 'PAWS_X'] + ['KB_BoolQ', 'KB_COPA', 'KB_WiC']:
             sentence1s = batched_dataset['sentence1']
             sentence2s = batched_dataset['sentence2']
             labels = batched_dataset['label']
-        elif self.hparams.task_name == 'NSMC':
+        elif self.hparams.task_name == 'KB_HellaSwag':
+            sentence1s = batched_dataset['sentence1']
+            sentence2s = batched_dataset['sentence2']
+            sentence3s = batched_dataset['sentence3']
+            sentence4s = batched_dataset['sentence4']
+            sentences = []
+            for i in range(len(sentence1s)):
+                batch_data = []
+                for j in range(len(sentence1s[i])):
+                    sentence_dump = [sentence1s[i][j], sentence2s[i][j], sentence3s[i][j], sentence4s[i][j]]
+                    batch_data.append(sentence_dump)
+                sentences.append(batch_data)
+            # sentence2s = []
+            # for i in range(len(sentence1s)):
+            #     ending_1_batch = batched_dataset['ending_1'][i]
+            #     ending_2_batch = batched_dataset['ending_2'][i]
+            #     ending_3_batch = batched_dataset['ending_3'][i]
+            #     ending_4_batch = batched_dataset['ending_4'][i]
+            #     batch_data = []
+            #     for j in range(len(ending_1_batch)):
+            #         sentence2 = f'{self.tokenizer.sep_token}'.join([ending_1_batch[j], ending_2_batch[j], ending_3_batch[j], ending_4_batch[j]])
+            #         batch_data.append(sentence2)
+            #     sentence2s.append(batch_data)
+            labels = batched_dataset['label']
+        elif self.hparams.task_name in ['NSMC', 'KB_SentiNeg']:
             sentence1s = batched_dataset['sentence']
             sentence2s = [None for _ in range(len(sentence1s))]
             labels = batched_dataset['label']
         else:
             raise NotImplementedError
 
-        inputs = []
-        for i in tqdm(range(len(labels)), desc="Getting inputs...", bar_format=BAR_FORMAT):
-            encoded_input = self.tokenizer(sentence1s[i], sentence2s[i], truncation=True, padding="max_length", max_length=self.hparams.max_seq_len, return_tensors="pt")
-            inputs.append(encoded_input)
+        if self.hparams.task_name == 'KB_HellaSwag':
+            inputs = []
+            for i in tqdm(range(len(labels)), desc="Getting inputs...", bar_format=BAR_FORMAT):
+                batch_inputs = []
+                for sentence in sentences[i]:
+                    encoded_input = self.tokenizer(sentence, truncation=True, padding="max_length", max_length=self.hparams.max_seq_len, return_tensors="pt")       # (4, N)
+                    batch_inputs.append(encoded_input)              # k: (4, N)
+                inputs.append({k: torch.stack([batch_inputs[j][k] for j in range(len(batch_inputs))], dim=0) for k in batch_inputs[0]})         # (B, 4, N)
+        else:
+            inputs = []
+            for i in tqdm(range(len(labels)), desc="Getting inputs...", bar_format=BAR_FORMAT):
+                encoded_input = self.tokenizer(sentence1s[i], sentence2s[i], truncation=True, padding="max_length", max_length=self.hparams.max_seq_len, return_tensors="pt")
+                inputs.append(encoded_input)
         return inputs, labels
 
     def _forward(self, inputs, labels):
         with amp.autocast():
-            outputs, logits = self.model.forward(inputs)
+            if self.hparams.task_name == 'KB_HellaSwag':
+                outputs = self.model(**inputs, labels=labels, output_hidden_states=True)
+                logits = outputs.logits
+                loss = self.criterion(outputs.logits, labels)
+            else:
+                outputs, logits = self.model.forward(inputs)
+                loss = self.criterion(logits, labels)  # MSELoss
             seq_len = outputs.hidden_states[-2].shape[1]
-            loss = self.criterion(logits, labels)           # MSELoss
         return logits, loss, seq_len
 
     def _train_step(self, inputs, labels):
@@ -373,6 +426,7 @@ class Trainer(nn.Module):
 
             test_targets, test_predictions = self._evaluation(test_dataset)
             test_acc = self.log_results('test', None, None, test_targets, test_predictions)
+            self.logger.info("")
 
             if ((dev_acc >= self.best_ckpt['best_dev_score']) and (test_acc >= self.best_ckpt['best_test_score'])) or \
                     ((dev_acc + test_acc) >= (self.best_ckpt['best_dev_score'] + self.best_ckpt['best_test_score'])):

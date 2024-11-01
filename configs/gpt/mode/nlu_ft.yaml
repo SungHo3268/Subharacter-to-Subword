@@ -7,9 +7,9 @@ data:
   tok_type: morphemeSubword
   vocab_size: 32k
   #preprocess
-  remain_lang: ko_en_punc
-  do_hangeulize: True
-  data_remove: True
+  remain_lang: ko_punc
+  do_hangeulize: False
+  data_remove: False
 
 optim:
   name: adamwscale

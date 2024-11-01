@@ -156,7 +156,7 @@ class SUB2_Combination_Layer(nn.Module):
                     Rearrange('b (n k) d -> b n k d', k=config.k),
                     Rearrange('b n k d -> b n (k d)'),
                     nn.Linear(config.k * config.hidden_dim, config.hidden_dim),
-                    nn.LayerNorm(config.hidden_dim)
+                    # nn.LayerNorm(config.hidden_dim)
                 )
             elif config.reducer == 'attention_pool':        # Funnel Transformer
                 self.sequence_reducer = nn.Sequential(
@@ -348,7 +348,11 @@ class SUB2_Combination_Layer(nn.Module):
             # print(f"11) sub2_embedding.shape: {sub2_embedding.shape}")
             # '''
         else:
+            if self.config.is_bert:
+                sub2_cls_embedding = sub2_embedding[:, :1, :]
+                sub2_embedding = sub2_embedding[:, 1:, :]       # Remove the [CLS] token
             sub2_embedding = self.sequence_reducer(sub2_embedding)        # (B, max_length, D)
+
         if self.config.is_bert:
             sub2_embedding = torch.cat([sub2_cls_embedding, sub2_embedding], dim=1)
         return sub2_embedding
@@ -398,6 +402,8 @@ class SUB2_LoRA_Layer(nn.Module):
             else:
                 self.dropout = lambda x: x  # pass
 
+        self.original_norm = nn.LayerNorm(config.hidden_dim)
+
     def make_sub2_input(self, x, device):
         """
         :param x: original input text which is the string type.
@@ -411,9 +417,6 @@ class SUB2_LoRA_Layer(nn.Module):
         device = x.device
 
         original_embedding = self.original_layer(x)
-        # if self.config.is_bert:
-        #     cls_embedding = original_embedding[:, :1, :]
-        #     original_embedding = original_embedding[:, 1:, :]
 
         if self.config.is_bert:
             text_input = self.tokenizer.batch_decode(x, skip_special_tokens=False)
@@ -440,13 +443,17 @@ class SUB2_LoRA_Layer(nn.Module):
         if original_embedding.shape[1] != sub2_embedding.shape[1]:
             sub2_embedding = sub2_embedding[:, :original_embedding.shape[1]]
 
+        if hasattr(self.sub2_combination, "sequence_reducer"):
+            original_embedding = self.original_norm(original_embedding)
+            sub2_embedding = self.original_norm(sub2_embedding)
+
         if self.config.is_bert:
             final_embedding = original_embedding + sub2_embedding
         else:
             final_embedding = self.sub2_injection([original_embedding, sub2_embedding.contiguous()])
 
-        # if self.config.is_bert:
-        #     final_embedding = torch.cat([cls_embedding, final_embedding], dim=1)
+        if hasattr(self.sub2_combination, "sequence_reducer"):
+            final_embedding = self.original_norm(final_embedding)
         return final_embedding
 
     def __repr__(self):

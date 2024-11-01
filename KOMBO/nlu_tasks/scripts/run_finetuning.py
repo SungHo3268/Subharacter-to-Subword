@@ -9,7 +9,7 @@ from KOMBO.pretraining.utils.base_parser import ArgsBase
 from KOMBO.pretraining.utils.logger import get_logger
 from KOMBO.nlu_tasks.srcs.nlu_trainer import Trainer as NLU_Trainer
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 parser = ArgsBase().add_nlu_task_args()
 temp_args = parser.parse_args()
@@ -22,7 +22,9 @@ for arg in config:
 if temp['tok_type'] in ['jamo', 'stroke', 'cji', 'bts']:
     temp['max_seq_len'] = 256
 elif temp['tok_type'] in ['jamo_distinct']:
-    temp['max_seq_len'] = 512
+    temp['max_seq_len'] = 1024
+    # if temp['task_name'] in ['KB_WiC']:
+    #     temp['learning_rate'] = 1e-05
 elif temp['tok_type'] in ['stroke_var', 'cji_var', 'bts_var']:
     temp['max_seq_len'] = 1024
 else:
@@ -64,6 +66,9 @@ if 'kombo' in args.model_name:
             prefix = prefix[:-1] + "-res_"
     if args.num_hidden_layers:
         prefix += f"trans{args.num_hidden_layers}_"
+
+if args.set_sub2:
+    prefix += 'sub2_'
 
 args.log_dir = f"KOMBO/logs/{args.model_name}/{args.tok_name}/nlu_tasks/{args.task_name}/{prefix}{args.max_seq_len}t_{args.batch_size}b_{args.gradient_accumulation_steps}s_{args.max_epochs}e_{args.learning_rate}lr_{args.random_seed}rs"
 
