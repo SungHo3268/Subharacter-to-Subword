@@ -16,8 +16,8 @@ transformer_logger = transformer_logging.get_logger(__name__)
 
 
 class CustomGPT2Attention(GPT2Attention):
-    def __init__(self, config, is_cross_attention=False, layer_idx=None):
-        super(CustomGPT2Attention, self).__init__(config, is_cross_attention, layer_idx)
+    def __init__(self, config, layer_idx=None):
+        super(CustomGPT2Attention, self).__init__(config, config.is_cross_attention, layer_idx)
         self.q_attn = Conv1D(self.embed_dim, self.embed_dim)
         self.cv_attn = Conv1D(2 * self.embed_dim, self.embed_dim)
         # self.k_attn = Conv1D(self.embed_dim, self.embed_dim)
@@ -68,11 +68,6 @@ class CustomGPT2Attention(GPT2Attention):
         if self.reorder_and_upcast_attn:
             attn_output, attn_weights = self._upcast_and_reordered_attn(query, before_key, before_value, attention_mask, head_mask)
         else:
-            # print("\n\n\n")
-            # print(f"query.shape: {query.shape}")
-            # print(f"before_key.shape: {before_key.shape}")
-            # print(f"before_value.shape: {before_value.shape}")
-            # print("\n\n\n")
             attn_output, attn_weights = self._attn(query, before_key, before_value, attention_mask, head_mask)
 
         attn_output = self._merge_heads(attn_output, self.num_heads, self.head_dim)
@@ -91,7 +86,7 @@ class CustomGPT2Block(GPT2Block):
         super(CustomGPT2Block, self).__init__(config, layer_idx)
         self.config = config
         attention_class = CustomGPT2Attention
-        self.attn = attention_class(config=config, layer_idx=layer_idx, is_cross_attention=False)
+        self.attn = attention_class(config=config, layer_idx=layer_idx)
 
     def forward(
         self,

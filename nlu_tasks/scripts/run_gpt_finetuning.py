@@ -169,7 +169,8 @@ def get_config_and_nlu_model(args, tokenizer, logger=None):
             raise NotImplementedError
 
         if args.model.set_sub2:
-            trans_config = config
+            trans_config = model.config
+            trans_config.update({"is_cross_attention": False})
             trans_config.update({"embedding_norm": args.model.sub2.embedding_norm})
         else:
             trans_config = None
