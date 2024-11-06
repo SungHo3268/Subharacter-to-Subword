@@ -3,8 +3,6 @@ base_lrs=$2
 
 
 model=skt/kogpt2-base-v2
-model=
-
 
 remain_lang=ko_punc
 data_remove=false

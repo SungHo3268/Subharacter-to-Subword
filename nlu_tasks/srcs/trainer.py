@@ -380,7 +380,7 @@ class GPTNLUTrainer(nn.Module):
 
                 # self.logger.info(f"\nSave new Best Model (Epoch: {self.current_epoch})")
                 # save_file(self.model.state_dict(), os.path.join(self.hparams.logging.save_dir, "model.safetensors"))
-                self.maybe_save_checkpoint()
+                # self.maybe_save_checkpoint()
 
         print("\n")
         self.logger.info("########################  BEST RESULT  ########################")
