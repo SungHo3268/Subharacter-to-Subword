@@ -42,6 +42,7 @@ model:
       intermediate_size: 3072
       num_attention_heads: 12
       num_trans_layers: 3
+    fusion: cross_attn
 
     add_lora: false
     lora:

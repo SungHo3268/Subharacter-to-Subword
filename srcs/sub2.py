@@ -16,6 +16,24 @@ from srcs.gptneox_attn_pool import CustomGPTNeoXLayer
 from srcs.lora import LoRA_Config, LoRA_Layer, apply_lora_to_model
 
 
+class LinearnAddnNorm(nn.Module):
+    def __init__(self, max_length, d_model):
+        super(LinearnAddnNorm, self).__init__()
+        self.sublayer = nn.Sequential(
+            Rearrange('b n d -> b d n'),
+            nn.Linear(max_length*2, max_length),
+            Rearrange('b d n -> b n d'),
+        )
+        self.norm = nn.LayerNorm(d_model)
+
+    def forward(self, x1, x2):
+        residual = x1
+        x = self.sublayer(torch.cat([x1, x2], dim=1))
+        # x = self.norm(x + residual)
+        x += residual
+        return x
+
+
 class Pooling(nn.Module):
     def __init__(self, pooling_module, pooling_size):
         super().__init__()
@@ -31,7 +49,7 @@ class Pooling(nn.Module):
 class SUB2_Config:
     def __init__(self, tok_type, reducer, hidden_dim, sub2_max_length, max_length,
                  do_combination, combination_type, trans_config, num_attention_heads, intermediate_size, num_trans_layers,
-                 add_lora=False, is_bert=False, lora_config: LoRA_Config=None):
+                 is_bert=False, fusion="cross_attn", lora_config: LoRA_Config=None):
         self.tok_type = tok_type
         self.reducer = reducer
         self.hidden_dim = hidden_dim
@@ -54,10 +72,8 @@ class SUB2_Config:
         self.intermediate_size = intermediate_size
         self.num_trans_layers = num_trans_layers
 
-        self.add_lora = add_lora
-        if add_lora:
-            assert lora_config is not None
         self.is_bert = is_bert
+        self.fusion = fusion
         self.lora_config = lora_config
 
 class SUB2_Combination_Layer(nn.Module):
@@ -380,36 +396,20 @@ class SUB2_LoRA_Layer(nn.Module):
 
         self.sub2_combination = SUB2_Combination_Layer(config, sub2_tokenizer, tokenizer)
 
-        if isinstance(config.trans_config, GPT2Config):
-            self.sub2_injection = CustomGPT2Block(config.trans_config, layer_idx=0)
-        elif isinstance(config.trans_config, GPTJConfig):
-            self.sub2_injection = CustomGPTJBlock(config.trans_config)
-        elif isinstance(config.trans_config, GPTNeoXConfig):
-            self.sub2_injection = CustomGPTNeoXLayer(config.trans_config)
-        elif isinstance(config.trans_config, BertConfig):
-            self.sub2_injection = CustomBertAttention(config.trans_config)
+        if config.fusion == 'cross_attn':
+            if isinstance(config.trans_config, GPT2Config):
+                self.sub2_injection = CustomGPT2Block(config.trans_config, layer_idx=0)
+            elif isinstance(config.trans_config, GPTJConfig):
+                self.sub2_injection = CustomGPTJBlock(config.trans_config)
+            elif isinstance(config.trans_config, GPTNeoXConfig):
+                self.sub2_injection = CustomGPTNeoXLayer(config.trans_config)
+            elif isinstance(config.trans_config, BertConfig):
+                self.sub2_injection = CustomBertAttention(config.trans_config)
+        elif config.fusion == 'concat':
+            self.sub2_concat = LinearnAddnNorm(config.max_length, config.hidden_dim)
 
         injection_config = config.trans_config
         injection_config.update({'is_cross_attention': False})
-
-        if config.add_lora:
-            input_dim = config.hidden_dim                   # input dim size of lora A
-            output_dim = original_layer.weight.shape[1]     # output dim size of lora B
-
-            # Initialization
-            lora_A_tensor = torch.empty(input_dim, config.lora_config.r)
-            torch.nn.init.kaiming_uniform_(lora_A_tensor)
-            self.sub2_lora_A = nn.Parameter(lora_A_tensor)
-
-            lora_B_tensor = torch.zeros(config.lora_config.r, output_dim)
-            self.sub2_lora_B = nn.Parameter(lora_B_tensor)
-
-            self.scaling = config.lora_config.lora_alpha // config.lora_config.r
-
-            if config.lora_config.lora_dropout > 0:
-                self.dropout = nn.Dropout(p=config.lora_config.lora_dropout)
-            else:
-                self.dropout = lambda x: x  # pass
 
     def make_sub2_input(self, x, device):
         """
@@ -437,53 +437,30 @@ class SUB2_LoRA_Layer(nn.Module):
 
         sub2_embedding = self.sub2_combination(sub2_x, text_input)       # (B, N(=max_length), D)
 
-        if self.config.add_lora:
-            # Apply dropout before the matrix multiplication
-            A_dropout = self.dropout(self.sub2_lora_A)
-            B_dropout = self.dropout(self.sub2_lora_B)
-            W = self.scaling * A_dropout @ B_dropout
-            sub2_embedding = F.linear(sub2_embedding, W.T)
-        else:
-            pass
-
-        # For NLU tasks, the output dimension of the original layer and the SUB2 layer may be different.
         if original_embedding.shape[1] != sub2_embedding.shape[1]:
             sub2_embedding = sub2_embedding[:, :original_embedding.shape[1]]
 
-
-        if self.config.is_bert:
+        if self.config.fusion == 'sum' or self.config.is_bert:
             final_embedding = original_embedding + sub2_embedding
-        else:
-            # print("\n\n\n")
-            # print(f"original: {torch.mean(torch.linalg.norm(original_embedding, dim=-1))}")
-            # print(f"sub2: {torch.mean(torch.linalg.norm(sub2_embedding, dim=-1))}")
+        elif self.config.fusion == 'concat':
+            final_embedding = self.sub2_concat(original_embedding, sub2_embedding)
+        elif self.config.fusion == 'cross_attn':
             final_embedding = self.sub2_injection([original_embedding, sub2_embedding.contiguous()])
-            # print(f"final: {torch.mean(torch.linalg.norm(final_embedding, dim=-1))}")
+        else:
+            raise NotImplementedError
 
         return final_embedding
 
     def __repr__(self):
         if self.config.do_combination:
-            if self.config.add_lora:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (sub2_embedding): Embedding({self.sub2_combination.sub2_embedding.weight.shape}),\n'
-                        f'  (sub2_combination): SUB2_Combination_Layer(\n'
-                        f'    (contextualization): {self.sub2_combination.contextualization},\n'
-                        f'  ),\n'
-                        f'  (sub2_lora_A): Parameter of size {self.sub2_lora_A.size()},\n'
-                        f'  (sub2_lora_B): Parameter of size {self.sub2_lora_B.size()}\n'
-                        f')'
-                        )
-            else:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (sub2_embedding): Embedding({self.sub2_combination.sub2_embedding.weight.shape}),\n'
-                        f'  (sub2_combination): SUB2_Combination_Layer('
-                        f'    (contextualization): {self.sub2_combination.contextualization},\n'
-                        f'  )\n'
-                        f')'
-                        )
+            return (f'{self.__class__.__name__}(\n'
+                    f'  (original_layer): {self.original_layer},\n'
+                    f'  (sub2_embedding): Embedding({self.sub2_combination.sub2_embedding.weight.shape}),\n'
+                    f'  (sub2_combination): SUB2_Combination_Layer('
+                    f'    (contextualization): {self.sub2_combination.contextualization},\n'
+                    f'  )\n'
+                    f')'
+                    )
         else:
             if self.config.reducer == 'linear':
                 reducer_msg = f"(sequence_reducer): {self.sub2_combination.sequence_reducer}"
@@ -494,24 +471,13 @@ class SUB2_LoRA_Layer(nn.Module):
             else:
                 raise NotImplementedError
 
-            if self.config.add_lora:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (sub2_embedding): Embedding({self.sub2_combination.sub2_embedding.weight.shape}),\n'
-                        f'  {reducer_msg}\n'
-                        f'  ),\n'
-                        f'  (sub2_lora_A): Parameter of size {self.sub2_lora_A.size()},\n'
-                        f'  (sub2_lora_B): Parameter of size {self.sub2_lora_B.size()}\n'
-                        f')'
-                        )
-            else:
-                return (f'{self.__class__.__name__}(\n'
-                        f'  (original_layer): {self.original_layer},\n'
-                        f'  (sub2_embedding): Parameter of size {self.sub2_combination.sub2_embedding.size()},\n'
-                        f'  {reducer_msg}\n'
-                        f'  )\n'
-                        f')'
-                        )
+            return (f'{self.__class__.__name__}(\n'
+                    f'  (original_layer): {self.original_layer},\n'
+                    f'  (sub2_embedding): Parameter of size {self.sub2_combination.sub2_embedding.size()},\n'
+                    f'  {reducer_msg}\n'
+                    f'  )\n'
+                    f')'
+                    )
 
 
 def apply_sub2_to_model(model, tokenizer, sub2_tokenizer, config: SUB2_Config, logger=None):
@@ -623,8 +589,8 @@ if __name__ == "__main__":
         num_attention_heads=3,
         intermediate_size=3072,
         num_trans_layers=3,
-        add_lora=True,
         is_bert=False,
+        fusion="cross_attn",
         lora_config=lora_config
     )
 

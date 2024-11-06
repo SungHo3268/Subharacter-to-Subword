@@ -165,7 +165,8 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
 
         # if ('trans' in args.model.sub2.combination.combination_type) or (args.model.sub2.do_combination is False and args.model.sub2.reducer == 'attention_pool'):
         if args.model.set_sub2:
-            trans_config = config
+            trans_config = model.config
+            trans_config.update({"is_cross_attention": False})
             trans_config.update({"embedding_norm": args.model.sub2.embedding_norm})
         else:
             trans_config = None
@@ -188,8 +189,8 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
             num_attention_heads=args.model.sub2.combination.num_attention_heads,
             intermediate_size=args.model.sub2.combination.intermediate_size,
             num_trans_layers=args.model.sub2.combination.num_trans_layers,
-            add_lora=args.model.sub2.add_lora,
             is_bert=False,
+            fusion=args.model.sub2.fusion,
             lora_config=lora_config
         )
         if args.model.sub2.tok_type == "same":
@@ -242,19 +243,17 @@ def main(args):
         try: assert args.model.sub2.max_length % args.data.max_length == 0
         except AssertionError: args.model.sub2.max_length = args.model.sub2.max_length - (args.model.sub2.max_length % args.data.max_length)
 
-
     if args.model.hf_model:
         specific_model_type = ""
         if args.model.set_lora:
             specific_model_type += "lora_"
         if args.model.set_sub2:
-            specific_model_type += "sub2_"
+            specific_model_type += f"sub2_{args.model.sub2.tok_type}_{args.model.sub2.max_length}t_"
             if args.model.sub2.do_combination:
                 specific_model_type += f"comb-{args.model.sub2.combination.combination_type}_"
-                if args.model.sub2.add_lora:
-                    specific_model_type += "k-lora_"
             else:
-                specific_model_type += f"{args.model.sub2.tok_type}_{args.model.sub2.max_length}_red-{args.model.sub2.reducer}_"
+                specific_model_type += f"red-{args.model.sub2.reducer}_"
+            specific_model_type += f"{args.model.sub2.fusion}_"
 
         args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{specific_model_type}{args.model.generation_config.max_length}+{args.model.generation_config.max_new_tokens}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
@@ -424,14 +423,8 @@ def main(args):
             logger.info(f"  ㄴ num_attn_heads     : {args.model.sub2.combination.num_attention_heads}")
             logger.info(f"  ㄴ intermediate_size  : {args.model.sub2.combination.intermediate_size}")
             logger.info(f"  ㄴ num_trans_layers   : {args.model.sub2.combination.num_trans_layers}")
-            logger.info(f"  ㄴ add_lora           : {args.model.sub2.add_lora}\n")
         else:
             logger.info(f"ㄴ reducer              : {args.model.sub2.reducer}\n")
-        if args.model.sub2.add_lora:
-            logger.info(f"LoRA in SUB2 Configuration")
-            logger.info(f"ㄴ r                : {args.model.sub2.lora.r}")
-            logger.info(f"ㄴ alpha            : {args.model.sub2.lora.alpha}")
-            logger.info(f"ㄴ dropout          : {args.model.sub2.lora.dropout}\n")
     logger.info('\n')
     if args.model.ckpt_dir:
         logger.info(f"ckpt dir        : {args.model.ckpt_dir}")

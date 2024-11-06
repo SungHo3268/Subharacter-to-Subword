@@ -72,6 +72,7 @@ class ArgsBase:
         parser.add_argument('--sub2_hidden_dim', type=int, default=768)
         parser.add_argument('--sub2_do_combination', type=_bool, default=True)
         parser.add_argument('--sub2_combination_type', type=str, default="gru")
+        parser.add_argument('--sub2_fusion', type=str, default="cross_attn", help="cross_attn  |  sum  |  concat")
         parser.add_argument('--embedding_norm', type=_bool, default=False)
         return parser
 

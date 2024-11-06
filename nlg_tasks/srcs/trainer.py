@@ -37,7 +37,8 @@ class GPTNLGTrainer(nn.Module):
         self.accelerator = accelerator
 
         self.model, self.optimizer, self.lr_scheduler, self.train_dataloader, self.dev_dataloader, self.test_dataloader = self.accelerator.prepare(
-            self.model, self.optimizer, self.lr_scheduler, self.train_dataloader, self.dev_dataloader, self.test_dataloader
+            self.model, self.optimizer, self.lr_scheduler, self.train_dataloader, self.dev_dataloader,
+            self.test_dataloader
         )
 
         self.tb_writer = SummaryWriter(self.hparams.logging.tb_dir)
@@ -161,7 +162,8 @@ class GPTNLGTrainer(nn.Module):
             from transformers import get_linear_schedule_with_warmup
 
             lr_scheduler = get_linear_schedule_with_warmup(
-                self.optimizer, num_warmup_steps=self.hparams.optim.warmup_steps, num_training_steps=self.hparams.optim.total_steps
+                self.optimizer, num_warmup_steps=self.hparams.optim.warmup_steps,
+                num_training_steps=self.hparams.optim.total_steps
             )
         else:
             raise NotImplementedError
@@ -169,11 +171,12 @@ class GPTNLGTrainer(nn.Module):
         return lr_scheduler
 
     def maybe_logging(self, averager, mode='train'):
-        if (mode == 'train') and (len(averager.total) != 0) and ((self.current_train_step % self.hparams.logging.log_steps == 0) or self.epoch_done):
+        if (mode == 'train') and (len(averager.total) != 0) and (
+                (self.current_train_step % self.hparams.logging.log_steps == 0) or self.epoch_done):
             stats = self.extra_stats(self.model, self.optimizer)
             averager.update(stats)
 
-            averaged_stats = averager.average()     # it includes the reset status function
+            averaged_stats = averager.average()  # it includes the reset status function
 
             messages = (f"Step: {self.current_train_step}/{self.hparams.optim.total_steps}  |  "
                         f"Loss: {averaged_stats['loss']:.4f}  |  "
@@ -188,20 +191,23 @@ class GPTNLGTrainer(nn.Module):
             self.tb_writer.add_scalar(f"{mode}_acc/step", averaged_stats['accuracy'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_seq_len/step", averaged_stats['seq_len'], self.current_train_step)
             self.tb_writer.add_scalar(f"{mode}_lr/step", averaged_stats['lr'], self.current_train_step)
-            self.tb_writer.add_scalar(f"{mode}_seconds_per_step/step", averaged_stats['seconds_per_step'], self.current_train_step)
+            self.tb_writer.add_scalar(f"{mode}_seconds_per_step/step", averaged_stats['seconds_per_step'],
+                                      self.current_train_step)
             if 'grad_l2' in averaged_stats:
                 self.tb_writer.add_scalar(f"{mode}_grad_l2/step", averaged_stats['grad_l2'], self.current_train_step)
             if 'weights_l2' in averaged_stats:
-                self.tb_writer.add_scalar(f"{mode}_weights_l2/step", averaged_stats['weights_l2'], self.current_train_step)
+                self.tb_writer.add_scalar(f"{mode}_weights_l2/step", averaged_stats['weights_l2'],
+                                          self.current_train_step)
             self.tb_writer.flush()
 
             if self.epoch_done: self.epoch_done = False
             return None
 
         elif mode in ['dev', 'test']:
-            averaged_stats = averager.average()     # it includes the reset status function
+            averaged_stats = averager.average()  # it includes the reset status function
 
-            self.logger.info(f"########################  {mode.upper()} REPORT #EP{self.current_epoch}  ########################")
+            self.logger.info(
+                f"########################  {mode.upper()} REPORT #EP{self.current_epoch}  ########################")
             messages = ""
             for key in averaged_stats:
                 if key == 'time':
@@ -272,6 +278,7 @@ class GPTNLGTrainer(nn.Module):
 
     def predict(self, eval_dataloader, mode):
         self.last_log = time.time()
+
         # metric = evaluate.load('rouge')
 
         def decode(preds):
@@ -309,7 +316,8 @@ class GPTNLGTrainer(nn.Module):
             for i in range(len(predictions)):
                 pred = predictions[i]
                 only_pred = pred[len(given_text[i]):].strip()
-                if self.hparams.data.task_name in ['KoCommonGen', 'XL_Sum'] or 'KoreanGEC' in self.hparams.data.task_name:
+                if self.hparams.data.task_name in ['KoCommonGen',
+                                                   'XL_Sum'] or 'KoreanGEC' in self.hparams.data.task_name:
                     if self.hparams.data.task_name == 'KoCommonGen':
                         end_of_text = only_pred.find('.')
                     elif self.hparams.data.task_name in ['XL_Sum']:
@@ -317,7 +325,8 @@ class GPTNLGTrainer(nn.Module):
                         if end_of_text == -1:
                             end_of_text = only_pred.find('.')
                     elif 'KoreanGEC' in self.hparams.data.task_name:
-                        end_of_text = [only_pred.find('.'), only_pred.find('?'), only_pred.find('!'), only_pred.find('\n'), only_pred.find('\t')]
+                        end_of_text = [only_pred.find('.'), only_pred.find('?'), only_pred.find('!'),
+                                       only_pred.find('\n'), only_pred.find('\t')]
                         end_of_text = [end for end in end_of_text if end != -1]
                         if len(end_of_text) == 0:
                             end_of_text = -1
@@ -339,7 +348,8 @@ class GPTNLGTrainer(nn.Module):
                 elif self.hparams.data.task_name == 'WikiLingua':
                     pass
                 else:
-                    raise NotImplementedError("This task is not supported. Please check the generation code in the predict function.")
+                    raise NotImplementedError(
+                        "This task is not supported. Please check the generation code in the predict function.")
 
                 only_predictions.append(only_pred)
             preds_list.extend(only_predictions)
@@ -378,14 +388,6 @@ class GPTNLGTrainer(nn.Module):
             if mode == 'dev':
                 mode = 'val'
 
-            json.dump({"preds": preds_list,
-                       "refs": refs_list,
-                       "srcs": given_text_list},
-                      open(os.path.join(self.hparams.logging.log_dir, f"{mode}_{self.current_epoch}.json"), "w"),
-                      ensure_ascii=True,
-                      indent=2
-                      )
-
             p, r, f1 = m2score_main(preds_list, f"datasets/nlg_tasks/{path_1}/{path_2}/{path_2}_{mode}.m2")
             # GLEU Score
             gleu_score = float(run_gleu(refs_list, given_text_list, preds_list))
@@ -394,7 +396,12 @@ class GPTNLGTrainer(nn.Module):
             results = eval_main(refs_list, preds_list, None)
             eval_stats = results['total_avg']
         eval_stats['time'] = time.time() - self.last_log
-        return eval_stats
+
+        generation_results = {"srcs": given_text_list,
+                              "preds": preds_list,
+                              "refs": refs_list
+                              }
+        return eval_stats, generation_results
 
     def evaluation(self, eval_dataloader, mode='dev'):
         self.model.eval()
@@ -402,11 +409,11 @@ class GPTNLGTrainer(nn.Module):
             self.last_log = time.time()
             eval_averager = Averager()
 
-            eval_stats = self.predict(eval_dataloader, mode)
+            eval_stats, generation_results = self.predict(eval_dataloader, mode)
             eval_averager.update(eval_stats)
 
             eval_score = self.maybe_logging(eval_averager, mode=mode)
-        return eval_score
+        return eval_score, generation_results
 
     def train(self, **kwargs):
         self.model.train()
@@ -420,7 +427,8 @@ class GPTNLGTrainer(nn.Module):
             self.current_epoch += 1
             print("\n")
             self.logger.info(f"\n[{self.current_epoch}/ {self.hparams.optim.epochs} Epoch]")
-            for batch in tqdm(self.train_dataloader, total=len(self.train_dataloader), desc=f"Fine-Tuning...", bar_format=BAR_FORMAT):
+            for batch in tqdm(self.train_dataloader, total=len(self.train_dataloader), desc=f"Fine-Tuning...",
+                              bar_format=BAR_FORMAT):
                 loss, stats = self.forward(batch, calc_acc=True)
 
                 self.accelerator.backward(loss / self.hparams.optim.grad_acc)
@@ -443,8 +451,8 @@ class GPTNLGTrainer(nn.Module):
             self.epoch_done = True
             self.maybe_logging(train_averager, mode='train')
 
-            # dev_score = self.evaluation(self.dev_dataloader, mode='dev')
-            test_score = self.evaluation(self.test_dataloader, mode='test')
+            # dev_score, dev_generations = self.evaluation(self.dev_dataloader, mode='dev')
+            test_score, test_generations = self.evaluation(self.test_dataloader, mode='test')
 
             # if (sum(list(dev_score.values())) + sum(list(test_score.values()))) >= (sum(list(self.best_score['best_dev_score'].values())) + sum(list(self.best_score['best_test_score'].values()))):
             if sum(list(test_score.values())) >= sum(list(self.best_score['best_test_score'].values())):
@@ -456,6 +464,11 @@ class GPTNLGTrainer(nn.Module):
                 self.stop_cnt = 0
                 self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
                 # self.maybe_save_checkpoint()
+                # json.dump(test_generations,
+                #           open(os.path.join(self.hparams.logging.log_dir, f"test_generations_best_ep.json"), "w"),
+                #           ensure_ascii=True,
+                #           indent=2
+                #           )
             else:
                 self.stop_cnt += 1
                 print("")

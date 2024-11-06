@@ -94,8 +94,8 @@ class Trainer(nn.Module):
                 num_attention_heads=None,
                 intermediate_size=None,
                 num_trans_layers=None,
-                add_lora=False,
                 is_bert=True,
+                fusion=hparams.sub2_fusion,
                 lora_config=lora_config
             )
             if (hasattr(self.sub2_tokenizer, "trunc_num") and
