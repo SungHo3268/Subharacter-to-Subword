@@ -27,14 +27,14 @@ model:
     r: 32
     alpha: 128
     dropout: 0.03
-  set_kombo: false
-  kombo:
+  set_sub2: false
+  sub2:
     tok_type: jamo_var
     lang: ko
 #    vocab_size: 200
     reducer: linear
     hidden_dim: 768
-    kombo_max_length: 2048
+    max_length: 2048
     do_combination: false
     embedding_norm: false
     combination:

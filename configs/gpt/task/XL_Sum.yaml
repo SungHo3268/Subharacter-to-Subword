@@ -13,9 +13,9 @@ model:
     do_sample: false
     num_beams: 4
 #    length_penalty: 0.6
-  kombo:
+  sub2:
     tok_type: jamo_var
-    kombo_max_length: 4096
+    max_length: 4096
 
 optim:
   epochs: 10

@@ -12,9 +12,9 @@ model:
 #    no_repeat_ngram_size: 3
     do_sample: false
     num_beams: 4
-  kombo:
+  sub2:
     tok_type: jamo_var
-    kombo_max_length: 1024
+    max_length: 1024
 
 optim:
   epochs: 10

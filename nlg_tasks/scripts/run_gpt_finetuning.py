@@ -14,9 +14,9 @@ sys.path.append(os.getcwd())
 from utils.gen_utils import setup_basics
 from nlg_tasks.srcs.trainer import GPTNLGTrainer
 from srcs.gpt_utils import text_tokenization_for_casuallm
-from pretraining.scripts.run_pretraining import set_logger, get_gpt2_tokenizer
+from pretraining.scripts.run_gpt_pretraining import set_logger, get_gpt2_tokenizer
 from srcs.lora import make_only_lora_as_trainable, print_trainable_parameters, apply_lora_to_model, LoRA_Config
-from srcs.kombo import make_only_kombo_and_lora_as_trainable, apply_kombo_to_model, KOMBO_Config
+from srcs.sub2 import make_only_sub2_and_lora_as_trainable, apply_sub2_to_model, SUB2_Config
 
 
 import transformers
@@ -144,61 +144,62 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
         model = apply_lora_to_model(model, lora_config, logger)
         make_only_lora_as_trainable(model, bias='lora_only')
         _ = print_trainable_parameters(model, logger)
-    if args.model.set_kombo:
+    if args.model.set_sub2:
         if 'skt/kogpt2' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
-            args.model.kombo.hidden_dim = 768
+            args.model.sub2.hidden_dim = 768
         elif 'skt/ko-gpt-trinity' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
-            args.model.kombo.hidden_dim = 1920
+            args.model.sub2.hidden_dim = 1920
         elif 'ai-forever/mGPT' in args.model.name:
             target_modules = ['c_attn', 'c_proj']
-            args.model.kombo.hidden_dim = 2048
+            args.model.sub2.hidden_dim = 2048
         elif 'EleutherAI/polyglot-ko' in args.model.name:
             target_modules = ['query_key_value', 'dense']
-            args.model.kombo.hidden_dim = 2048
+            args.model.sub2.hidden_dim = 2048
         elif 'kakaobrain/kogpt' in args.model.name:
             target_modules = ['k_proj', 'v_proj', 'q_proj', 'out_proj']
-            args.model.kombo.hidden_dim = 4096
+            args.model.sub2.hidden_dim = 4096
         else:
             raise NotImplementedError
 
-        # if ('trans' in args.model.kombo.combination.combination_type) or (args.model.kombo.do_combination is False and args.model.kombo.reducer == 'attention_pool'):
-        if args.model.set_kombo:
+        # if ('trans' in args.model.sub2.combination.combination_type) or (args.model.sub2.do_combination is False and args.model.sub2.reducer == 'attention_pool'):
+        if args.model.set_sub2:
             trans_config = config
-            trans_config.update({"embedding_norm": args.model.kombo.embedding_norm})
+            trans_config.update({"embedding_norm": args.model.sub2.embedding_norm})
         else:
             trans_config = None
 
         lora_config = LoRA_Config(
-            r=args.model.kombo.lora.r,
-            lora_alpha=args.model.kombo.lora.alpha,
-            lora_dropout=args.model.kombo.lora.dropout,
+            r=args.model.sub2.lora.r,
+            lora_alpha=args.model.sub2.lora.alpha,
+            lora_dropout=args.model.sub2.lora.dropout,
             target_modules=target_modules
         )
-        kombo_config = KOMBO_Config(
-            tok_type=args.model.kombo.tok_type,
-            reducer=args.model.kombo.reducer,
-            hidden_dim=args.model.kombo.hidden_dim,
-            kombo_max_length=args.model.kombo.kombo_max_length,
+        sub2_config = SUB2_Config(
+            tok_type=args.model.sub2.tok_type,
+            reducer=args.model.sub2.reducer,
+            hidden_dim=args.model.sub2.hidden_dim,
+            sub2_max_length=args.model.sub2.max_length,
             max_length=args.data.max_length,
-            do_combination=args.model.kombo.do_combination,
-            combination_type=args.model.kombo.combination.combination_type,
+            do_combination=args.model.sub2.do_combination,
+            combination_type=args.model.sub2.combination.combination_type,
             trans_config=trans_config,
-            num_attention_heads=args.model.kombo.combination.num_attention_heads,
-            intermediate_size=args.model.kombo.combination.intermediate_size,
-            num_trans_layers=args.model.kombo.combination.num_trans_layers,
-            add_lora=args.model.kombo.add_lora,
+            num_attention_heads=args.model.sub2.combination.num_attention_heads,
+            intermediate_size=args.model.sub2.combination.intermediate_size,
+            num_trans_layers=args.model.sub2.combination.num_trans_layers,
+            add_lora=args.model.sub2.add_lora,
+            is_bert=False,
             lora_config=lora_config
         )
-        if args.model.kombo.tok_type == "same":
-            kombo_tokenizer = tokenizer
-            args.model.kombo.kombo_max_length = args.data.max_length
+        if args.model.sub2.tok_type == "same":
+            sub2_tokenizer = tokenizer
+            args.model.sub2.max_length = args.data.max_length
         else:
-            kombo_tokenizer = get_gpt2_tokenizer(
-                tok_type=args.model.kombo.tok_type,
-                lang=args.model.kombo.lang,
-                max_length=args.model.kombo.kombo_max_length,
+            sub2_tokenizer = get_gpt2_tokenizer(
+                tok_type=args.model.sub2.tok_type,
+                lang=args.model.sub2.lang,
+                max_length=args.model.sub2.max_length,
                 lowercase=True,
                 clean_text=True,
                 add_bos_token=False,
@@ -208,16 +209,16 @@ def get_config_and_nlg_model(args, tokenizer, logger=None):
                 unk_token='<unk>',
                 pad_token='<|endoftext|>',
             )
-            if (hasattr(kombo_tokenizer, "trunc_num") and
-                    args.model.kombo.tok_type in ["jamo_var", "stroke_var", "cji_var", "bts_var"] and
-                    args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num != 0):
-                args.model.kombo.kombo_max_length = args.model.kombo.kombo_max_length - (args.model.kombo.kombo_max_length % kombo_tokenizer.trunc_num)
-                kombo_tokenizer.max_length = args.model.kombo.kombo_max_length
+            if (hasattr(sub2_tokenizer, "trunc_num") and
+                    args.model.sub2.tok_type in ["jamo_var", "stroke_var", "cji_var", "bts_var"] and
+                    args.model.sub2.max_length % sub2_tokenizer.trunc_num != 0):
+                args.model.sub2.max_length = args.model.sub2.max_length - (args.model.sub2.max_length % sub2_tokenizer.trunc_num)
+                sub2_tokenizer.max_length = args.model.sub2.max_length
 
-                logger.info(f"Change the max_length to {args.model.kombo.kombo_max_length} for the kombo_tokenizer's truncation.")
+                logger.info(f"Change the max_length to {args.model.sub2.max_length} for the sub2_tokenizer's truncation.")
 
-        model = apply_kombo_to_model(model, tokenizer, kombo_tokenizer, kombo_config, logger)
-        make_only_kombo_and_lora_as_trainable(model, weight='kombo_lora_only', bias='kombo_lora_only')
+        model = apply_sub2_to_model(model, tokenizer, sub2_tokenizer, sub2_config, logger)
+        make_only_sub2_and_lora_as_trainable(model, weight='sub2_lora_only', bias='sub2_lora_only')
         _, _ = print_trainable_parameters(model, logger)
     return config, model
 
@@ -237,23 +238,23 @@ def main(args):
     # add 5 extra tokens for the sep_id tokens (e.g., '. ' @ KoCommonGen/ ' 요약: ' @ XL_Sum/ ' 수정: ' @ KoreanGEC)
     args.data.max_length = args.model.generation_config.max_length + args.model.generation_config.max_new_tokens + 5
 
-    if args.model.set_kombo:
-        try: assert args.model.kombo.kombo_max_length % args.data.max_length == 0
-        except AssertionError: args.model.kombo.kombo_max_length = args.model.kombo.kombo_max_length - (args.model.kombo.kombo_max_length % args.data.max_length)
+    if args.model.set_sub2:
+        try: assert args.model.sub2.max_length % args.data.max_length == 0
+        except AssertionError: args.model.sub2.max_length = args.model.sub2.max_length - (args.model.sub2.max_length % args.data.max_length)
 
 
     if args.model.hf_model:
         specific_model_type = ""
         if args.model.set_lora:
             specific_model_type += "lora_"
-        if args.model.set_kombo:
-            specific_model_type += "kombo_"
-            if args.model.kombo.do_combination:
-                specific_model_type += f"comb-{args.model.kombo.combination.combination_type}_"
-                if args.model.kombo.add_lora:
+        if args.model.set_sub2:
+            specific_model_type += "sub2_"
+            if args.model.sub2.do_combination:
+                specific_model_type += f"comb-{args.model.sub2.combination.combination_type}_"
+                if args.model.sub2.add_lora:
                     specific_model_type += "k-lora_"
             else:
-                specific_model_type += f"{args.model.kombo.tok_type}_{args.model.kombo.kombo_max_length}_red-{args.model.kombo.reducer}_"
+                specific_model_type += f"{args.model.sub2.tok_type}_{args.model.sub2.max_length}_red-{args.model.sub2.reducer}_"
 
         args.logging.log_dir = os.path.join(f"logs/{args.model.name.replace('/', '_')}/nlg_tasks/{args.data.task_name}/{specific_model_type}{args.model.generation_config.max_length}+{args.model.generation_config.max_new_tokens}t_{args.optim.batch_size}b_{args.optim.grad_acc}s_{args.optim.base_lr}lr_{args.seed}rs")
         args.logging.save_dir = os.path.join(args.logging.log_dir, "ckpt")
@@ -412,25 +413,25 @@ def main(args):
         logger.info(f"ㄴ r                    : {args.model.lora.r}")
         logger.info(f"ㄴ alpha                : {args.model.lora.alpha}")
         logger.info(f"ㄴ dropout              : {args.model.lora.dropout}\n")
-    if args.model.set_kombo:
-        logger.info(f"KOMBO Configuration")
-        logger.info(f"ㄴ tok_type             : {args.model.kombo.tok_type}")
-        logger.info(f"ㄴ hidden_dim           : {args.model.kombo.hidden_dim}")
-        logger.info(f"ㄴ kombo_max_length     : {args.model.kombo.kombo_max_length}")
-        logger.info(f"ㄴ embedding_norm       : {args.model.kombo.embedding_norm}")
-        logger.info(f"ㄴ do_combination       : {args.model.kombo.do_combination}")
-        if args.model.kombo.do_combination:
-            logger.info(f"  ㄴ num_attn_heads     : {args.model.kombo.combination.num_attention_heads}")
-            logger.info(f"  ㄴ intermediate_size  : {args.model.kombo.combination.intermediate_size}")
-            logger.info(f"  ㄴ num_trans_layers   : {args.model.kombo.combination.num_trans_layers}")
-            logger.info(f"  ㄴ add_lora           : {args.model.kombo.add_lora}\n")
+    if args.model.set_sub2:
+        logger.info(f"SUB2 Configuration")
+        logger.info(f"ㄴ tok_type             : {args.model.sub2.tok_type}")
+        logger.info(f"ㄴ hidden_dim           : {args.model.sub2.hidden_dim}")
+        logger.info(f"ㄴ sub2_max_length     : {args.model.sub2.max_length}")
+        logger.info(f"ㄴ embedding_norm       : {args.model.sub2.embedding_norm}")
+        logger.info(f"ㄴ do_combination       : {args.model.sub2.do_combination}")
+        if args.model.sub2.do_combination:
+            logger.info(f"  ㄴ num_attn_heads     : {args.model.sub2.combination.num_attention_heads}")
+            logger.info(f"  ㄴ intermediate_size  : {args.model.sub2.combination.intermediate_size}")
+            logger.info(f"  ㄴ num_trans_layers   : {args.model.sub2.combination.num_trans_layers}")
+            logger.info(f"  ㄴ add_lora           : {args.model.sub2.add_lora}\n")
         else:
-            logger.info(f"ㄴ reducer              : {args.model.kombo.reducer}\n")
-        if args.model.kombo.add_lora:
-            logger.info(f"LoRA in KOMBO Configuration")
-            logger.info(f"ㄴ r                : {args.model.kombo.lora.r}")
-            logger.info(f"ㄴ alpha            : {args.model.kombo.lora.alpha}")
-            logger.info(f"ㄴ dropout          : {args.model.kombo.lora.dropout}\n")
+            logger.info(f"ㄴ reducer              : {args.model.sub2.reducer}\n")
+        if args.model.sub2.add_lora:
+            logger.info(f"LoRA in SUB2 Configuration")
+            logger.info(f"ㄴ r                : {args.model.sub2.lora.r}")
+            logger.info(f"ㄴ alpha            : {args.model.sub2.lora.alpha}")
+            logger.info(f"ㄴ dropout          : {args.model.sub2.lora.dropout}\n")
     logger.info('\n')
     if args.model.ckpt_dir:
         logger.info(f"ckpt dir        : {args.model.ckpt_dir}")

@@ -2,15 +2,10 @@ import os
 import sys
 import time
 import json
-import shutil
 from omegaconf import OmegaConf
-import evaluate
 import torch
 import torch.nn as nn
-from numpy.ma.extras import average
-from sympy.testing.tests.test_code_quality import message_eof
 from tqdm import tqdm
-from safetensors.torch import save_file
 from torch.utils.tensorboard import SummaryWriter
 
 sys.path.append(os.getcwd())
@@ -460,7 +455,7 @@ class GPTNLGTrainer(nn.Module):
                 self.best_score['best_test_score'] = test_score
                 self.stop_cnt = 0
                 self.logger.info(f"The Best score is renewed. Stop Count Reset to 0")
-                self.maybe_save_checkpoint()
+                # self.maybe_save_checkpoint()
             else:
                 self.stop_cnt += 1
                 print("")
